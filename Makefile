@@ -6,7 +6,7 @@
 #    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/10/14 15:10:43 by gcollet          ###   ########.fr        #
+#    Updated: 2021/10/14 15:17:39 by gcollet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ CC 		= gcc
 CFLAGS 	= -Wall -Wextra -Werror -g
 
 ${OBJPATH}/%.o: ${SRCPATH}/%.c	
-					gcc ${CFLAGS} ${HEADER} -c $< -o $@
+					@gcc ${CFLAGS} ${HEADER} -c $< -o $@
 
 all:	${PROG}
 
@@ -43,6 +43,6 @@ fclean: 	clean
 re:			fclean all
 
 build-repo:
-			mkdir -p $(OBJPATH);
+			@mkdir -p $(OBJPATH);
 
 .PHONY: all clean fclean re bonus
