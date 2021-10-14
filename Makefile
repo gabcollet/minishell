@@ -6,7 +6,7 @@
 #    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/10/14 15:17:39 by gcollet          ###   ########.fr        #
+#    Updated: 2021/10/14 15:55:07 by gcollet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,12 +22,12 @@ HEADER	= -Iincludes -Ilibft
 CC 		= gcc
 CFLAGS 	= -Wall -Wextra -Werror -g
 
-${OBJPATH}/%.o: ${SRCPATH}/%.c	
+${OBJPATH}/%.o: ${SRCPATH}/%.c
 					@gcc ${CFLAGS} ${HEADER} -c $< -o $@
 
-all:	${PROG}
+all:	build-repo ${PROG}
 
-${PROG}:	build-repo ${OBJS}
+${PROG}:	${OBJS}
 					@make re -C ./libft
 					@$(CC) ${OBJS} -L libft -l ft -o ${PROG} -lreadline 
 					@echo "\n\033[32m\033[1mMinishell ALPHA v-1.0 Compiled!\n\033[0m"
