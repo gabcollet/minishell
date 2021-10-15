@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/15 11:48:27 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/15 18:20:33 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 void init_shell()
 {
-    printf("\n******************"
-        "************************");
+    printf("\n******************************************");
     printf("\n\n\n\t    ****MINISHELL****");
     printf("\n\n-CRÉE PAR GABRIEL COLLET ET JUSTINE BADIA-");
-    printf("\n\n\n*******************"
-        "***********************");
+    printf("\n\n\n******************************************");
     char* username = getenv("USER");
     printf("\n\nUSER is: @%s\n\n", username);
 }
@@ -47,6 +45,15 @@ void	print_tab(char **tab)
 	}
 }
 
+void	free_all(char *line, char **path)
+{
+	int i = 0;
+	
+	while (path[i])
+		free (path[i++]);
+	free (path);
+	free(line);
+}
 
 int	main(int argc, char *argv[], char **env)
 {
@@ -54,20 +61,21 @@ int	main(int argc, char *argv[], char **env)
 	char	*line;
 	char	*p_path;
 	char 	**path;
-	char	**parsing;
+	char	**tab_env;
 
 	(void)argc;
 	(void)argv;
 	(void)env;
 	init_shell();
 	p_path = get_path();
+	tab_env = env; //mettre la variable env dans une autres pour pouvoir la modifier plus tard
 	path = ft_split(p_path, ':');
-	
-
+	line = NULL;
 	while (true)
 	{
+		if (line != NULL)
+			free(line);
 		line = readline("minishell 1.0: ");
-		parsing = ft_split(line, ' ');
 		add_history(line);
 		if (ft_strcmp(line, "pwd") == 0)
 		{
@@ -78,12 +86,12 @@ int	main(int argc, char *argv[], char **env)
 		else if (ft_strncmp(line, "echo", 4) == 0)
 			printf("%s\n", line + 5); 
 		else if (ft_strncmp(line, "env", 3) == 0)
-			print_tab(path);
+			print_tab(tab_env);
 		else if (ft_strcmp(line, "exit") == 0)
 		{
-			free(line);
 			printf("exit\n");
 			break ;
 		}
 	}
+	free_all(line, path);
 }
