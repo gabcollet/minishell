@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
+#    By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/10/14 15:55:07 by gcollet          ###   ########.fr        #
+#    Updated: 2021/10/18 17:02:37 by jbadia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 PROG	= minishell
 
-SRCS 	= srcs/main.c
+SRCS 	= srcs/main.c srcs/env.c srcs/free_func.c
 OBJS 	= $(patsubst $(SRCPATH)/%.c,$(OBJPATH)/%.o,$(SRCS))
 SRCPATH = srcs
 OBJPATH = obj
@@ -20,7 +20,7 @@ OBJPATH = obj
 HEADER	= -Iincludes -Ilibft
 
 CC 		= gcc
-CFLAGS 	= -Wall -Wextra -Werror -g
+CFLAGS 	= -g -Wall -Wextra -Werror -g
 
 ${OBJPATH}/%.o: ${SRCPATH}/%.c
 					@gcc ${CFLAGS} ${HEADER} -c $< -o $@

@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/15 18:20:33 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/18 17:11:21 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//struct variabl globale
+t_msh g_msh;
 
 void init_shell()
 {
@@ -22,25 +25,14 @@ void init_shell()
     printf("\n\nUSER is: @%s\n\n", username);
 }
 
-char *get_path(void)
-{
-	char *path;
-	
-	if (!(path = getenv("PATH")))
-		return (NULL);
-	return(path);
-}
-
 void	print_tab(char **tab)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
 	while (tab[i] != 0)
 	{
-		printf("%s\n", tab[i]);
+		printf("tab[%i] = %s\n",i,  tab[i]);
 		i++;
 	}
 }
@@ -59,18 +51,14 @@ int	main(int argc, char *argv[], char **env)
 {
 	char	c[PATH_MAX];
 	char	*line;
-	char	*p_path;
-	char 	**path;
-	char	**tab_env;
+
 
 	(void)argc;
 	(void)argv;
-	(void)env;
 	init_shell();
-	p_path = get_path();
-	tab_env = env; //mettre la variable env dans une autres pour pouvoir la modifier plus tard
-	path = ft_split(p_path, ':');
 	line = NULL;
+
+	ms_get_env(env);
 	while (true)
 	{
 		if (line != NULL)
@@ -85,13 +73,12 @@ int	main(int argc, char *argv[], char **env)
 		//il faudrait passé un ft_split sur les args et juste checker le 1er au lieu de strncmp
 		else if (ft_strncmp(line, "echo", 4) == 0)
 			printf("%s\n", line + 5); 
-		else if (ft_strncmp(line, "env", 3) == 0)
-			print_tab(tab_env);
 		else if (ft_strcmp(line, "exit") == 0)
 		{
 			printf("exit\n");
 			break ;
 		}
 	}
-	free_all(line, path);
+	free(line);
+	ft_free_struct(&g_msh);
 }
