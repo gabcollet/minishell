@@ -6,13 +6,13 @@
 #    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/10/14 15:55:07 by gcollet          ###   ########.fr        #
+#    Updated: 2021/10/18 17:08:13 by gcollet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 PROG	= minishell
 
-SRCS 	= srcs/main.c
+SRCS 	= srcs/main.c srcs/ms_echo.c
 OBJS 	= $(patsubst $(SRCPATH)/%.c,$(OBJPATH)/%.o,$(SRCS))
 SRCPATH = srcs
 OBJPATH = obj
