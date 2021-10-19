@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/18 17:11:21 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/19 10:17:43 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	free_all(char *line, char **path)
 	free(line);
 }
 
+//coucou
 int	main(int argc, char *argv[], char **env)
 {
 	char	c[PATH_MAX];
