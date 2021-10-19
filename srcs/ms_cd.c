@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:34:34 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/19 17:28:10 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/19 19:13:33 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ms_get_env(char *arg)
 
 	i = 0;
 	len = ft_strlen(arg);
-	while (ft_strnstr(g_env[i], arg, len) == 0 && g_env[i])
+	while (g_env[i] && ft_strnstr(g_env[i], arg, len) == 0)
 			i++;
 	if (g_env[i] == NULL)
 		return (NULL);
@@ -46,7 +46,13 @@ int ms_cd(char *arg)
 	
 	//si on fait seulement cd sans arg, ca retourne au home
 	if (arg == NULL)
-		arg = ms_get_env("HOME=") + 5;
+	{
+		if ((arg = ms_get_env("HOME=") + 5) - 5 == NULL)
+		{
+			printf("cd: HOME not set\n");
+			return (-1);
+		}
+	}
 	getcwd(c, sizeof(c));
 	if (chdir(arg) == -1)
 		return (-1);
@@ -63,27 +69,27 @@ int ms_cd(char *arg)
 	return (0);
 }
 
-int main(int ac, char **av, char **env)
-{
-	char	c[PATH_MAX];
-	int i = 0;
+// int main(int ac, char **av, char **env)
+// {
+// 	char	c[PATH_MAX];
+// 	int i = 0;
 	
-	g_env = env;
-	/* while (g_env[i])
-	{
-		printf("%s\n", g_env[i]);
-		i++;
-	}
-	i = 0;
-	printf("----------------------------------------\n"); */
-	i = ms_cd(av[1]);
+// 	g_env = env;
+// 	/* while (g_env[i])
+// 	{
+// 		printf("%s\n", g_env[i]);
+// 		i++;
+// 	}
+// 	i = 0;
+// 	printf("----------------------------------------\n"); */
+// 	i = ms_cd(av[1]);
 	
-	getcwd(c, sizeof(c));
-	printf("%d\n", i);
-	printf("%s\n", c);
-	/* while (g_env[i])
-	{
-		printf("%s\n", g_env[i]);
-		i++;
-	} */
-}
+// 	getcwd(c, sizeof(c));
+// 	printf("%d\n", i);
+// 	printf("%s\n", c);
+// 	/* while (g_env[i])
+// 	{
+// 		printf("%s\n", g_env[i]);
+// 		i++;
+// 	} */
+// }
