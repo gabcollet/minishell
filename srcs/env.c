@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/10/19 11:02:25 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/19 17:08:43 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,6 @@ char *ms_get_path(void)
 	if (!(path = getenv("PATH")))
 		return (NULL);
 	return (path);
-}
-
-void	ms_get_env(char **env)
-{
-	char	*p_path;
-
-	p_path = ms_get_path();
-	g_msh.env = ms_dup_arr(env);
-	g_msh.path = ft_split(p_path, ':');
 }
 
 // quand on imprime env, il faudra partir en index 1 !!!!
