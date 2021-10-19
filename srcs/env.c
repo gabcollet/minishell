@@ -6,12 +6,12 @@
 /*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/10/18 17:15:21 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/19 10:43:37 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+//coucou/
 char *ms_get_path(void)
 {
 	char *path;
