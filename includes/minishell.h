@@ -13,14 +13,16 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
-#include <stdbool.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "libft.h"
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <limits.h>
+# include <stdbool.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+/* # include "libft.h" */
+
+int ms_echo(char **arg);
 
 typedef struct s_msh
 {

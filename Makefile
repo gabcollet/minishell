@@ -12,7 +12,8 @@
 
 PROG	= minishell
 
-SRCS 	= srcs/main.c srcs/env.c srcs/free_func.c
+SRCS 	= srcs/main.c srcs/env.c srcs/free_func.c srcs/ms_echo.c
+
 OBJS 	= $(patsubst $(SRCPATH)/%.c,$(OBJPATH)/%.o,$(SRCS))
 SRCPATH = srcs
 OBJPATH = obj
