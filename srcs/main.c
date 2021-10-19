@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/18 17:11:21 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/19 19:07:31 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,33 @@ int	main(int argc, char *argv[], char **env)
 	char	c[PATH_MAX];
 	char	*line;
 
-
 	(void)argc;
 	(void)argv;
 	init_shell();
+	//fonction qui malloc toutes les structs
 	line = NULL;
-
-	ms_get_env(env);
+	g_msh.env = ms_dup_arr(env);
 	while (true)
 	{
 		if (line != NULL)
 			free(line);
 		line = readline("minishell 1.0: ");
-		add_history(line);
+		if (!line)
+		{
+			free(line);
+			exit();
+		}
+		ft_strtrim(line, WHITESPACE);
+		if (*line)
+			add_history(line);
+		else
+			continue ;
+
+		// ms_parsing
+
+
+
+
 		if (ft_strcmp(line, "pwd") == 0)
 		{
 			getcwd(c, sizeof(c));
@@ -79,6 +93,5 @@ int	main(int argc, char *argv[], char **env)
 			break ;
 		}
 	}
-	free(line);
-	ft_free_struct(&g_msh);
+	free_all(line, g_msh.env);
 }

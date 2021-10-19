@@ -24,10 +24,3 @@ void	ft_free_tab(char **tab)
 	}
 	free(tab);
 }
-
-void	ft_free_struct(t_msh *g_msh)
-{
-	if (g_msh)
-		free(g_msh->env);
-	free(g_msh);
-}
