@@ -6,45 +6,19 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:34:34 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/19 19:13:33 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/20 17:03:04 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char **g_env;
+t_msh g_msh;
 
-char	*ms_get_env(char *arg)
-{
-	int	i;
-	int len;
-
-	i = 0;
-	len = ft_strlen(arg);
-	while (g_env[i] && ft_strnstr(g_env[i], arg, len) == 0)
-			i++;
-	if (g_env[i] == NULL)
-		return (NULL);
-	return (g_env[i]);
-}
-
-/* void set_env(const char* arg, const char* value)
-{
-	-fouiller dans env pour trouver arg=
-	-si tu trouve tu free la ligne dans env
-	-strdup la new value dedant
-	-si cest une new value pas trouver
-	-copie tout le env dans un nouveau tab avec un espace de plus
-	-ajopute la new valeur a la fin de la new tab
-	-free lancienne tab
-} */
-
-int ms_cd(char *arg)
+/* Effectue le builtin-cd */
+int	ms_cd(char *arg)
 {
 	char	c[PATH_MAX];
-	int		i;
 	
-	//si on fait seulement cd sans arg, ca retourne au home
 	if (arg == NULL)
 	{
 		if ((arg = ms_get_env("HOME=") + 5) - 5 == NULL)
@@ -55,41 +29,44 @@ int ms_cd(char *arg)
 	}
 	getcwd(c, sizeof(c));
 	if (chdir(arg) == -1)
+	{
+		printf("cd: %s: No such file or directory\n", arg);
 		return (-1);
-	i = 0;
-	//pour les deux whiles ca va devoir passer par set_env pour pas leaks
-	while (ft_strnstr(g_env[i], "OLDPWD=", 7) == 0)
-		i++;
-	g_env[i] = ft_strjoin("OLDPWD=", c);
-	i = 0;
-	while (ft_strnstr(g_env[i], "PWD=", 4) == 0)
-		i++;
+	}
+	ms_set_env("OLDPWD=", c);
 	getcwd(c, sizeof(c));
-	g_env[i] = ft_strjoin("PWD=", c);
+	ms_set_env("PWD=", c);
 	return (0);
 }
 
-// int main(int ac, char **av, char **env)
-// {
-// 	char	c[PATH_MAX];
-// 	int i = 0;
+int main(int ac, char **av, char **env)
+{
+	char	c[PATH_MAX];
+	int i = 0;
+	ac = 0;
 	
-// 	g_env = env;
-// 	/* while (g_env[i])
-// 	{
-// 		printf("%s\n", g_env[i]);
-// 		i++;
-// 	}
-// 	i = 0;
-// 	printf("----------------------------------------\n"); */
-// 	i = ms_cd(av[1]);
-	
-// 	getcwd(c, sizeof(c));
-// 	printf("%d\n", i);
-// 	printf("%s\n", c);
-// 	/* while (g_env[i])
-// 	{
-// 		printf("%s\n", g_env[i]);
-// 		i++;
-// 	} */
-// }
+	/* -----------malloc la global */
+	while (env[i])
+		i++;
+	g_msh.env = malloc(sizeof(char *) * (i + 1));
+	i = -1;
+	while(env[++i])
+		g_msh.env[i] = ft_strdup(env[i]);
+	g_msh.env[i] = NULL;
+	/* -----------print l'env avant d'etre modifier */
+	// i = 0;
+	// while (g_msh.env[i])
+	// 	printf("%s\n", g_msh.env[i++]);
+	// printf("----------------------------------------\n");
+	i = ms_cd(av[1]);
+	/* -----------check le retour et le pwd */
+	getcwd(c, sizeof(c));
+	printf("%d\n", i);
+	printf("%s\n", c);
+	/* -----------print l'env apres la modif */
+	// i = 0;
+	// while (g_msh.env[i])
+	// 	printf("%s\n", g_msh.env[i++]);
+	/* -----------free l'env */
+	ft_free_tab(g_msh.env);
+}

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+         #
+#    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/10/18 17:02:37 by jbadia           ###   ########.fr        #
+#    Updated: 2021/10/20 10:11:45 by gcollet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ OBJPATH = obj
 HEADER	= -Iincludes -Ilibft
 
 CC 		= gcc
-CFLAGS 	= -g -Wall -Wextra -Werror -g
+CFLAGS 	= -g -Wall -Wextra -Werror
 
 ${OBJPATH}/%.o: ${SRCPATH}/%.c
 					@gcc ${CFLAGS} ${HEADER} -c $< -o $@

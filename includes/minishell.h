@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/19 17:18:18 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/20 15:14:52 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,6 @@
 # include <readline/history.h>
 # include "libft.h"
 
-int		ms_echo(char **arg);
-char	*ms_get_env(char *arg);
-int		ms_cd(char *arg);
-
 typedef struct s_msh
 {
 	char **env;
@@ -34,14 +30,30 @@ typedef struct s_msh
 
 t_msh g_msh;
 
-void	print_tab(char **tab);
+//ms_cd.c
+int		ms_cd(char *arg);
 
-//env
+//ms_echo.c
+int		ms_newline(char *arg);
+int		ms_echo(char **arg);
+
+//utils.c
+char	**ms_matrix_add_line(char **matrix);
+
+//env.c
 char 	*ms_get_path(void);
 char 	**ms_dup_arr(char **arr);
+char	*ms_get_env(char *arg);
+void	set_env(const char *arg, const char *new_content);
 size_t	ms_line_counter(char **env);
 
-//free_func
+//free_func.c
 void	ft_free_tab(char **tab);
 void	ft_free_struct(t_msh *g_msh);
+
+//main.c
+void	init_shell();
+void	print_tab(char **tab);
+int		main(int argc, char *argv[], char **env);
+
 #endif

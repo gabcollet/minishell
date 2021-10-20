@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/19 16:12:53 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/20 15:12:33 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //struct variabl globale
 t_msh g_msh;
 
-void init_shell()
+void	init_shell()
 {
     printf("\n******************************************");
     printf("\n\n\n\t    ****MINISHELL****");
@@ -35,16 +35,6 @@ void	print_tab(char **tab)
 		printf("tab[%i] = %s\n",i,  tab[i]);
 		i++;
 	}
-}
-
-void	free_all(char *line, char **path)
-{
-	int i = 0;
-	
-	while (path[i])
-		free (path[i++]);
-	free (path);
-	free(line);
 }
 
 //coucou
