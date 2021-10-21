@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/20 15:14:52 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/21 10:17:27 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ char	**ms_matrix_add_line(char **matrix);
 
 //env.c
 char 	*ms_get_path(void);
-char 	**ms_dup_arr(char **arr);
+void	ms_dup_env(char **env);
 char	*ms_get_env(char *arg);
-void	set_env(const char *arg, const char *new_content);
+void	ms_set_env(const char *arg, const char *new_content);
 size_t	ms_line_counter(char **env);
 
 //free_func.c

@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/10/20 17:02:47 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/21 10:19:47 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,20 @@ char *ms_get_path(void)
 	return (path);
 }
 
-// quand on imprime env, il faudra partir en index 1 !!!! 
-/* Pourquoi?? env[0] peux contenir du stock important ! */
-char **ms_dup_arr(char **arr)
+/* Duplique l'env dans la variable global */
+void	ms_dup_env(char **env)
 {
-	char	**str;
-	size_t		i;
-	size_t			j;
+	int i;
 
-	i = ms_line_counter(arr);
-	j = 0;
-	str = ft_calloc(i + 1, sizeof(char *));
-	if (!str)
-		return (NULL);
-	while (arr[j] && j < i)
-	{
-		str[j] = ft_strdup(arr[j]);
-		if (!str[j])
-			ft_free_tab(&str[j]);
-		j++;
-	}
-	return (str);
+	i = 0;
+	while (env[i])
+		i++;
+	g_msh.env = malloc(sizeof(char *) * (i + 1));
+	i = -1;
+	while(env[++i])
+		g_msh.env[i] = ft_strdup(env[i]);
+	g_msh.env[i] = NULL;
+	return ;
 }
 
 /* Trouve la ligne recherché par arg dans env et la retourne */

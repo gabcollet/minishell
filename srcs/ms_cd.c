@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:34:34 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/20 17:03:04 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/21 10:19:09 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,21 @@ int main(int ac, char **av, char **env)
 	ac = 0;
 	
 	/* -----------malloc la global */
-	while (env[i])
-		i++;
-	g_msh.env = malloc(sizeof(char *) * (i + 1));
-	i = -1;
-	while(env[++i])
-		g_msh.env[i] = ft_strdup(env[i]);
-	g_msh.env[i] = NULL;
+	ms_dup_env(env);
 	/* -----------print l'env avant d'etre modifier */
-	// i = 0;
-	// while (g_msh.env[i])
-	// 	printf("%s\n", g_msh.env[i++]);
-	// printf("----------------------------------------\n");
+	i = 0;
+	while (g_msh.env[i])
+		printf("%s\n", g_msh.env[i++]);
+	printf("----------------------------------------\n");
 	i = ms_cd(av[1]);
 	/* -----------check le retour et le pwd */
 	getcwd(c, sizeof(c));
 	printf("%d\n", i);
 	printf("%s\n", c);
 	/* -----------print l'env apres la modif */
-	// i = 0;
-	// while (g_msh.env[i])
-	// 	printf("%s\n", g_msh.env[i++]);
+	i = 0;
+	while (g_msh.env[i])
+		printf("%s\n", g_msh.env[i++]);
 	/* -----------free l'env */
 	ft_free_tab(g_msh.env);
 }
