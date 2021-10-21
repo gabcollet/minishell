@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/10/21 10:19:47 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/21 17:25:23 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ char *ms_get_path(void)
 }
 
 /* Duplique l'env dans la variable global */
+/* a mettre plus general et mettre dans la libft */
 void	ms_dup_env(char **env)
 {
 	int i;

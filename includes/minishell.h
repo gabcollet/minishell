@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/21 10:17:27 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/21 11:43:08 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ void	ft_free_struct(t_msh *g_msh);
 //main.c
 void	init_shell();
 void	print_tab(char **tab);
-int		main(int argc, char *argv[], char **env);
+/* int		main(int argc, char *argv[], char **env); */
 
 #endif

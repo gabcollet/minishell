@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/20 15:12:33 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/21 11:52:39 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,7 @@ int	main(int argc, char *argv[], char **env)
 			free(line);
 		line = readline("minishell 1.0: ");
 		add_history(line);
-		if (ft_strcmp(line, "pwd") == 0)
-		{
-			getcwd(c, sizeof(c));
-			printf("%s\n", c);
-		}
-		else if (ft_strcmp(line, "exit") == 0)
+		if (ft_strcmp(line, "exit") == 0)
 		{
 			printf("exit\n");
 			break ;
