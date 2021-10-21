@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/19 10:17:43 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/20 15:12:33 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //struct variabl globale
 t_msh g_msh;
 
-void init_shell()
+void	init_shell()
 {
     printf("\n******************************************");
     printf("\n\n\n\t    ****MINISHELL****");
@@ -37,16 +37,6 @@ void	print_tab(char **tab)
 	}
 }
 
-void	free_all(char *line, char **path)
-{
-	int i = 0;
-	
-	while (path[i])
-		free (path[i++]);
-	free (path);
-	free(line);
-}
-
 //coucou
 int	main(int argc, char *argv[], char **env)
 {
@@ -59,7 +49,7 @@ int	main(int argc, char *argv[], char **env)
 	init_shell();
 	line = NULL;
 
-	ms_get_env(env);
+	g_msh.env = ms_dup_arr(env);
 	while (true)
 	{
 		if (line != NULL)
@@ -71,9 +61,6 @@ int	main(int argc, char *argv[], char **env)
 			getcwd(c, sizeof(c));
 			printf("%s\n", c);
 		}
-		//il faudrait passé un ft_split sur les args et juste checker le 1er au lieu de strncmp
-		else if (ft_strncmp(line, "echo", 4) == 0)
-			printf("%s\n", line + 5); 
 		else if (ft_strcmp(line, "exit") == 0)
 		{
 			printf("exit\n");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/10/19 11:02:25 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/21 10:19:47 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,56 @@ char *ms_get_path(void)
 	return (path);
 }
 
-void	ms_get_env(char **env)
+/* Duplique l'env dans la variable global */
+void	ms_dup_env(char **env)
 {
-	char	*p_path;
+	int i;
 
-	p_path = ms_get_path();
-	g_msh.env = ms_dup_arr(env);
-	g_msh.path = ft_split(p_path, ':');
+	i = 0;
+	while (env[i])
+		i++;
+	g_msh.env = malloc(sizeof(char *) * (i + 1));
+	i = -1;
+	while(env[++i])
+		g_msh.env[i] = ft_strdup(env[i]);
+	g_msh.env[i] = NULL;
+	return ;
 }
 
-// quand on imprime env, il faudra partir en index 1 !!!!
-char **ms_dup_arr(char **arr)
+/* Trouve la ligne recherché par arg dans env et la retourne */
+char	*ms_get_env(char *arg)
 {
-	char	**str;
-	size_t		i;
-	size_t			j;
+	int	i;
+	int len;
 
-	i = ms_line_counter(arr);
-	j = 0;
-	str = ft_calloc(i + 1, sizeof(char *));
-	if (!str)
+	i = 0;
+	len = ft_strlen(arg);
+	while (g_msh.env[i] && ft_strnstr(g_msh.env[i], arg, len) == 0)
+			i++;
+	if (g_msh.env[i] == NULL)
 		return (NULL);
-	while (arr[j] && j < i)
+	return (g_msh.env[i]);
+}
+
+/* Remplace une ligne dans env par le nouveau contenue. Si la ligne n'existe pas en cree une nouvelle.
+Arg devrait etre ex: HOME= et new content devrait etre ce qui va etre remplacer dedant. */
+void	ms_set_env(const char *arg, const char *new_content)
+{
+	int	i;
+	int len;
+
+	i = 0;
+	len = ft_strlen(arg);
+	while (arg && g_msh.env[i] && ft_strnstr(g_msh.env[i], arg, len) == 0)
+		i++;
+	if (g_msh.env[i] == NULL)
 	{
-		str[j] = ft_strdup(arr[j]);
-		if (!str[j])
-			ft_free_tab(&str[j]);
-		j++;
+		g_msh.env = ms_matrix_add_line(g_msh.env);
+		g_msh.env[++i] = ft_strjoin(arg, new_content);
 	}
-	return (str);
+	free(g_msh.env[i]);
+	g_msh.env[i] = ft_strjoin(arg, new_content);
+	return ;
 }
 
 size_t	ms_line_counter(char **env)

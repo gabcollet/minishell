@@ -6,14 +6,13 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 14:40:30 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/19 10:36:47 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/20 15:14:31 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Echo the STRING(s) to standard output.
--n option doesn't output the trailing newline  */
+/* Fonction qui valide le flag -n */
 int ms_newline(char *arg)
 {
 	int i;
@@ -33,7 +32,9 @@ int ms_newline(char *arg)
 	return (false);
 }
 
-int ms_echo(char **arg)
+/* Echo the STRING(s) to standard output.
+-n option doesn't output the trailing newline  */
+int	ms_echo(char **arg)
 {
 	int	n;
 	int	i;
