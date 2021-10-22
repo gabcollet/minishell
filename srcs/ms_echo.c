@@ -6,16 +6,16 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 14:40:30 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/20 15:14:31 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/22 12:02:40 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* Fonction qui valide le flag -n */
-int ms_newline(char *arg)
+int	ms_newline(char *arg)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (arg[i++] == '-')

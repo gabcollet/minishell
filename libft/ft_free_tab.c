@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_func.c                                        :+:      :+:    :+:   */
+/*   ft_free_tab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/10/22 11:55:20 by gcollet          ###   ########.fr       */
+/*   Created: 2021/10/22 11:22:06 by gcollet           #+#    #+#             */
+/*   Updated: 2021/10/22 11:22:43 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+/* free a 2D matrix */
 
-void	ft_free_struct(t_msh *g_msh)
+#include "libft.h"
+
+void	ft_free_tab(char **tab)
 {
-	if (g_msh)
-		free(g_msh->env);
-	free(g_msh);
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
 }

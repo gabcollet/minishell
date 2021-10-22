@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/21 11:43:08 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/22 15:01:00 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@
 
 typedef struct s_msh
 {
-	char **env;
-	int	ret_exit;
+	char	**env;
+	char	**env_export;
+	int		ret_exit;
 }				t_msh;
 
 t_msh g_msh;
@@ -38,7 +39,12 @@ int		ms_newline(char *arg);
 int		ms_echo(char **arg);
 
 //utils.c
-char	**ms_matrix_add_line(char **matrix);
+char	**ms_matrix_add_line(char **matrix, char *new_line);
+
+//ms_export.c
+int		ms_export(char **arg);
+void	ms_export_sort(void);
+void	ms_init_export(void); /* a mettre dans le init */
 
 //env.c
 char 	*ms_get_path(void);

@@ -6,17 +6,18 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/10/21 17:25:23 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/22 14:58:31 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *ms_get_path(void)
+char	*ms_get_path(void)
 {
-	char *path;
-	
-	if (!(path = getenv("PATH")))
+	char	*path;
+
+	path = getenv("PATH");
+	if (!path)
 		return (NULL);
 	return (path);
 }
@@ -25,14 +26,14 @@ char *ms_get_path(void)
 /* a mettre plus general et mettre dans la libft */
 void	ms_dup_env(char **env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (env[i])
 		i++;
 	g_msh.env = malloc(sizeof(char *) * (i + 1));
 	i = -1;
-	while(env[++i])
+	while (env[++i])
 		g_msh.env[i] = ft_strdup(env[i]);
 	g_msh.env[i] = NULL;
 	return ;
@@ -42,23 +43,25 @@ void	ms_dup_env(char **env)
 char	*ms_get_env(char *arg)
 {
 	int	i;
-	int len;
+	int	len;
 
 	i = 0;
 	len = ft_strlen(arg);
 	while (g_msh.env[i] && ft_strnstr(g_msh.env[i], arg, len) == 0)
-			i++;
+		i++;
 	if (g_msh.env[i] == NULL)
 		return (NULL);
 	return (g_msh.env[i]);
 }
 
-/* Remplace une ligne dans env par le nouveau contenue. Si la ligne n'existe pas en cree une nouvelle.
-Arg devrait etre ex: HOME= et new content devrait etre ce qui va etre remplacer dedant. */
+/* Remplace une ligne dans env par le nouveau contenue. Si la ligne n'existe
+pas en cree une nouvelle. Arg devrait etre ex: HOME= et new content devrait 
+etre ce qui va etre remplacer dedant. */
 void	ms_set_env(const char *arg, const char *new_content)
 {
-	int	i;
-	int len;
+	int		i;
+	int		len;
+	char	*new_line;
 
 	i = 0;
 	len = ft_strlen(arg);
@@ -66,8 +69,8 @@ void	ms_set_env(const char *arg, const char *new_content)
 		i++;
 	if (g_msh.env[i] == NULL)
 	{
-		g_msh.env = ms_matrix_add_line(g_msh.env);
-		g_msh.env[++i] = ft_strjoin(arg, new_content);
+		new_line = ft_strjoin(arg, new_content);
+		g_msh.env = ms_matrix_add_line(g_msh.env, new_line);
 	}
 	free(g_msh.env[i]);
 	g_msh.env[i] = ft_strjoin(arg, new_content);
@@ -81,7 +84,7 @@ size_t	ms_line_counter(char **env)
 	count = 0;
 	if (!env)
 		return (0);
-	while(env[count])
+	while (env[count])
 		count++;
 	return (count);
 }

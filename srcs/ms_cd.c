@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:34:34 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/21 11:30:47 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/22 12:02:17 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@
 int	ms_cd(char *arg)
 {
 	char	c[PATH_MAX];
-	
+
 	if (arg == NULL)
 	{
-		if ((arg = ms_get_env("HOME=") + 5) - 5 == NULL)
+		arg = ms_get_env("HOME=") + 5;
+		if ((arg - 5) == NULL)
 		{
 			printf("cd: HOME not set\n");
 			return (-1);
@@ -44,7 +45,7 @@ int	ms_cd(char *arg)
 // 	char	c[PATH_MAX];
 // 	int i = 0;
 // 	ac = 0;
-	
+//	
 // 	/* -----------malloc la global */
 // 	ms_dup_env(env);
 // 	/* -----------print l'env avant d'etre modifier */
