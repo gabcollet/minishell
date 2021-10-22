@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/19 19:07:31 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/21 13:15:44 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,15 @@ int	main(int argc, char *argv[], char **env)
 {
 	char	c[PATH_MAX];
 	char	*line;
+	t_token	*token;
+	t_parser *parser;
 
 	(void)argc;
 	(void)argv;
+	parser = NULL;
+	token = NULL;
+	parser = ft_calloc(1, sizeof(t_parser));
+	
 	init_shell();
 	//fonction qui malloc toutes les structs
 	line = NULL;
@@ -66,7 +72,7 @@ int	main(int argc, char *argv[], char **env)
 		if (!line)
 		{
 			free(line);
-			exit();
+			exit(0);
 		}
 		ft_strtrim(line, WHITESPACE);
 		if (*line)
@@ -74,7 +80,7 @@ int	main(int argc, char *argv[], char **env)
 		else
 			continue ;
 
-		// ms_parsing
+		ms_parsing(line, parser, token);
 
 
 
