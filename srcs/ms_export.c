@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 11:56:37 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/22 16:45:29 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/23 22:13:50 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,27 @@
 	une est pas bonne tu arrete 
 */
 
+t_msh g_msh;
+
 char	*ms_make_string(char *arg)
 {
 	char	**strings;
 	char	*string;
-	char	*temp;
+	int		i;
 	
+	i = 1;
 	strings = ft_split(arg, '=');
-	temp = ft_strjoin(strings[0], "=\"");
-	if (strings[1])
-		string = ft_strjoin(temp, strings[1]);
-	else
-		string = ft_strdup(temp);
-	free(temp);
-	temp = ft_strjoin(string, "\"");
-	free(string);
+	string = ft_strjoin(strings[0], "=\"");
+	while (strings[i] && strings[i + 1])
+	{
+		string = ft_strjoin_free_s1(string, strings[i++]);
+		string = ft_strjoin_free_s1(string, "=");
+	}
+	if (strings[i])
+		string = ft_strjoin_free_s1(string, strings[i]);
+	string = ft_strjoin_free_s1(string, "\"");
 	ft_free_tab(strings);
-	return (temp);
+	return (string);
 }
 
 void	ms_export_sort(void)
@@ -54,27 +58,38 @@ void	ms_export_sort(void)
 
 int	ms_export(char **arg)
 {
-	int	i;
-	char *string;
+	char	**strings;
+	char	*string;
+	int		i;
 
 	i = 1;
 	while (arg[i])
-	{
+	{	
 		/* chek si l'arg est valide */
+		strings = ft_split(arg[i], '=');
 		if (ft_strchr(arg[i], '=') == NULL)
-			g_msh.env_export = ms_matrix_add_line(g_msh.env_export, arg[i]);
+		{
+			if (ms_get_env(g_msh.env_export, strings[0]) == NULL)
+				g_msh.env_export = ms_matrix_add_line(g_msh.env_export, arg[i]);
+		}
 		else
 		{
-			if (/* trouve une ligne avec le meme arg dans env_export */)
-				/* remplace par l'arg soit dans env ou/et dans env_export*/
+			string = ms_make_string(arg[i]);
+			if (ms_get_env(g_msh.env_export, strings[0]) != NULL)
+			{
+				arg[i] = ft_strdup(arg[i]);
+				ms_set_env(g_msh.env, arg[i]);
+				ms_set_env(g_msh.env_export, string);
+				free(arg[i]);
+			}
 			else
 			{	
 				g_msh.env = ms_matrix_add_line(g_msh.env, arg[i]);
-				string = ms_make_string(arg[i]);
 				g_msh.env_export = ms_matrix_add_line(g_msh.env_export, string);
-				free(string);
 			}
+			free(string);
 		}
+		ft_free_tab(strings);
 		i++;
 	}
 	if (arg[1] == NULL)
@@ -85,34 +100,37 @@ int	ms_export(char **arg)
 void	ms_init_export(void)
 {
 	int		i;
+	char	*string;
 
 	i = 0;
 	while (g_msh.env[++i])
 		;
-	/* je malloc un de moins car la derniere ligne est pas prise en compte */
 	g_msh.env_export = malloc(sizeof(char *) * (i));
 	i = 0;
-	while (g_msh.env[i + 1])
+	while (g_msh.env[i + 2])
 	{
-		g_msh.env_export[i] = ft_strdup(g_msh.env[i]);
+		string = ms_make_string(g_msh.env[i]);
+		g_msh.env_export[i] = ft_strdup(string);
+		free(string);
 		i++;
 	}
 	g_msh.env_export[i] = NULL;
-	i = 0;
-	/* while (g_msh.env_export[i])
+	/* i = 0;
+	while (g_msh.env_export[i])
 		printf("declare -x %s\n", g_msh.env_export[i++]);
 	printf("-----------------------\n"); */
 }
 
-t_msh g_msh;
-
 int main(int ac, char** av, char **env)
 {
-	ac = 0;
+	(void)ac;
+	(void)av;
 	ms_dup_env(env);
 	ms_init_export();
 	ms_export(av);
 	int	i = 0;
-	while (g_msh.env_export[i])
-		printf("declare -x %s\n", g_msh.env_export[i++]);
+	while (g_msh.env[i])
+		printf("declare -x %s\n", g_msh.env[i++]);
+	ft_free_tab(g_msh.env);
+	ft_free_tab(g_msh.env_export);
 }
