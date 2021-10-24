@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/22 09:42:22 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/24 10:44:43 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,18 +79,23 @@ size_t	ms_line_counter(char **env);
 
 //free_func
 void	ft_free_tab(char **tab);
+t_token *free_token_lst(t_token *tok);
 
-//token/parse
-void	ms_init_s_token(t_token *token);
-void	ms_init_s_parser(t_parser *parser);
-void	ms_parsing(char *line, t_parser *parser, t_token *token);
-
-//token_lst_utils
-t_token *ms_addnew_token(t_token *tok, char *temp);
-void	ms_token_addback(t_token **token, t_token *new_tok);
-t_token	*ms_token_last(t_token	*token);
-t_token	*ms_token_new(void	*token);
-void	ms_add_tok_to_list(t_token *tok, char *temp);
+//parser
+char	*ms_init_s_parser(t_parser *parser, char *line);
+void	ms_parsing(char *line);
 bool empty_str(char *str);
 void printList(t_token *tok);
+
+//token_lst_utils
+t_token	*ms_token_last(t_token	*token);
+t_token	*ms_token_newlst(void	*token);
+void	ms_token_addback(t_token **token, t_token *new_tok);
+
+
+//token_utils
+bool ms_get_token(t_parser *parser);
+char *ms_get_next_tok(t_parser *parser, char *temp);
+t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token);
+
 #endif

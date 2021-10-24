@@ -1,28 +1,5 @@
 #include "minishell.h"
 
-
-
-t_token *ms_addnew_token(t_token *tok, char *temp)
-{
-	tok = malloc(sizeof(*tok));
-	if (!tok)
-		return (NULL);
-	tok->str_tok = ft_strdup(temp);
-	tok->next = NULL;
-	tok->type = STRING; //fonction qui renvoit le bon type
-	ms_token_addback(&tok, ms_token_new(NULL));
-	free(temp);
-	return (tok);
-}
-
-void	ms_add_tok_to_list(t_token *tok, char *temp)
-{
-	tok->str_tok = ft_strdup(temp);
-	ms_token_addback(&tok, ms_token_new(NULL));
-
-}
-
-
 void	ms_token_addback(t_token **token, t_token *new_tok)
 {
 	t_token *last_tok;
@@ -31,23 +8,24 @@ void	ms_token_addback(t_token **token, t_token *new_tok)
 		*token = new_tok;
 	else
 	{
-		last_tok = ms_token_last(*(token));
+		last_tok = ms_token_last(*token);
 		last_tok->next = new_tok;
-		last_tok->previous = last_tok;
+		new_tok->previous = last_tok;
 	}
 }
 
 t_token	*ms_token_last(t_token	*token)
 {
-	if (token)
+	while (token)
 	{
-		while (token->next)
-			token = token->next;
+		if (token->next == NULL)
+			return (token);
+		token = token->next;
 	}
 	return (token);
 }
 
-t_token	*ms_token_new(void	*token)
+t_token	*ms_token_newlst(void *token)
 {
 	t_token	*new;
 

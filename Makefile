@@ -6,13 +6,15 @@
 #    By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/10/21 13:54:32 by jbadia           ###   ########.fr        #
+#    Updated: 2021/10/24 10:39:58 by jbadia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 PROG	= minishell
 
-SRCS 	= srcs/test_main.c srcs/env.c srcs/free_func.c srcs/token.c srcs/token_list_utils.c
+SRCS 	= srcs/main.c srcs/env.c srcs/free_func.c srcs/token_utils.c \
+			srcs/token_list_utils.c srcs/parser.c
+			
 OBJS 	= $(patsubst $(SRCPATH)/%.c,$(OBJPATH)/%.o,$(SRCS))
 SRCPATH = srcs
 OBJPATH = obj

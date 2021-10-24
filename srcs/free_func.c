@@ -24,3 +24,17 @@ void	ft_free_tab(char **tab)
 	}
 	free(tab);
 }
+
+t_token *free_token_lst(t_token *tok)
+{
+	t_token *temp;
+
+	temp = NULL;
+	while (tok)
+	{
+		temp = tok->next;
+		free(tok);
+		tok = temp;
+	}
+	return (tok);
+}

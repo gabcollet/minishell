@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/21 13:15:44 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/24 10:47:58 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,11 @@ int	main(int argc, char *argv[], char **env)
 {
 	char	c[PATH_MAX];
 	char	*line;
-	t_token	*token;
-	t_parser *parser;
-
+	
+	t_token *token = NULL;
 	(void)argc;
 	(void)argv;
-	parser = NULL;
-	token = NULL;
-	parser = ft_calloc(1, sizeof(t_parser));
-	
 	init_shell();
-	//fonction qui malloc toutes les structs
 	line = NULL;
 	g_msh.env = ms_dup_arr(env);
 	while (true)
@@ -79,8 +73,7 @@ int	main(int argc, char *argv[], char **env)
 			add_history(line);
 		else
 			continue ;
-
-		ms_parsing(line, parser, token);
+		ms_parsing(line);
 
 
 
