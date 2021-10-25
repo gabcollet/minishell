@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/25 12:06:20 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/25 14:11:14 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	main(int argc, char *argv[], char **env)
 	init_shell();
 	line = NULL;
 	token = NULL;
-	g_msh.env = ms_dup_arr(env);
+	ms_dup_env(env);
 	while (true)
 	{
 		if (line != NULL)
@@ -62,7 +62,6 @@ int	main(int argc, char *argv[], char **env)
 			free(line);
 			exit(0);
 		}
-		//ft_strtrim(line, WHITESPACE);
 		if (*line)
 			add_history(line);
 		else

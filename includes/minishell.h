@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/25 12:03:23 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/25 14:53:26 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 
 #define WHITESPACE "\t\n\v\f\r "
 #define REDIRECTION "|<>"
+#define QUOTE_S "''"
+#define QUOTE_D """"
 
 typedef struct s_msh
 {

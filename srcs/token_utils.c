@@ -2,6 +2,11 @@
 
 bool ms_get_token(t_parser *parser)
 {
+	if (ft_strchr(REDIRECTION, parser->str_line[parser->index]))
+	{
+		parser->index++;
+		return (true);
+	}
 	while ((!ft_strchr(REDIRECTION, parser->str_line[parser->index])) 
 		&& (!ft_strchr(WHITESPACE, parser->str_line[parser->index])))
 				parser->index++;

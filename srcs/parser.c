@@ -35,6 +35,10 @@ void	ms_parsing(char *line)
 	while (!empty_str(temp))
 	{
 		temp = ms_init_s_parser(parser, temp);
+
+	/*si je recontre des caractères alpha num
+	  sinon si je rencontre un pipe
+	  sinon si je rencontre une redir*/
 		if (ms_get_token(parser))
 		{
 			ms_add_tok_to_lst(parser, token);
