@@ -6,41 +6,79 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/10/19 19:07:29 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/25 12:04:04 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *ms_get_path(void)
+char	*ms_get_path(void)
 {
-	char *path;
-	
-	if (!(path = getenv("PATH")))
+	char	*path;
+
+	path = getenv("PATH");
+	if (!path)
 		return (NULL);
 	return (path);
 }
 
-// quand on imprime env, il faudra partir en index 1 !!!!
-char **ms_dup_arr(char **arr)
+/* Duplique l'env dans la variable global */
+/* a mettre plus general et mettre dans la libft */
+void	ms_dup_env(char **env)
 {
-	char	**str;
-	size_t		i;
-	size_t			j;
+	int	i;
 
-	i = ms_line_counter(arr);
-	j = 0;
-	str = ft_calloc(i + 1, sizeof(char *));
-	if (!str)
+	i = 0;
+	while (env[i])
+		i++;
+	g_msh.env = malloc(sizeof(char *) * (i + 1));
+	i = -1;
+	while (env[++i])
+		g_msh.env[i] = ft_strdup(env[i]);
+	g_msh.env[i] = NULL;
+	return ;
+}
+
+/* Trouve la ligne recherché par arg dans env et la retourne */
+char	*ms_get_env(char **env, char *arg)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = ft_strlen(arg);
+	while (env[i] && ft_strnstr(env[i], arg, len) == 0)
+		i++;
+	if (env[i] == NULL)
 		return (NULL);
-	while (arr[j] && j < i)
+	return (env[i]);
+}
+
+/* Remplace une ligne dans env par le nouveau contenue. Si la ligne n'existe
+pas en cree une nouvelle. Arg devrait etre ex: HOME= et new content devrait 
+etre ce qui va etre remplacer dedant. */
+void	ms_set_env(char **env, char *value)
+{
+	int		i;
+	int		len;
+	char	**arg;
+
+	i = 0;
+	arg = ft_split(value, '=');
+	len = ft_strlen(arg[0]);
+	while (env[i] && ft_strnstr(env[i], arg[0], len) == 0)
+		i++;
+	if (env[i] == NULL)
 	{
-		str[j] = ft_strdup(arr[j]);
-		if (!str[j])
-			ft_free_tab(&str[j]);
-		j++;
+		g_msh.env = ms_matrix_add_line(env, value);
+		ft_free_tab(arg);
+		return ;
 	}
-	return (str);
+	free(env[i]);
+	value = ft_strdup(value);
+	env[i] = value;
+	ft_free_tab(arg);
+	return ;
 }
 
 size_t	ms_line_counter(char **env)
@@ -50,7 +88,7 @@ size_t	ms_line_counter(char **env)
 	count = 0;
 	if (!env)
 		return (0);
-	while(env[count])
+	while (env[count])
 		count++;
 	return (count);
 }

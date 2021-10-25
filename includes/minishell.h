@@ -6,21 +6,24 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/25 11:48:15 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/25 12:03:23 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
-#include <stdbool.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "libft.h"
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <limits.h>
+# include <stdbool.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include "libft.h"
+/* include pour linux */
+/* # include <linux/limits.h> */
+
 
 #define WHITESPACE "\t\n\v\f\r "
 #define REDIRECTION "|<>"
@@ -28,8 +31,8 @@
 typedef struct s_msh
 {
 	char	**env;
+	char	**env_export;
 	int		ret_exit;
-	
 }				t_msh;
 
 typedef enum	e_type
@@ -69,15 +72,32 @@ typedef	struct s_parser
 
 t_msh g_msh;
 
-void	print_tab(char **tab);
+//ms_cd.c
+int		ms_cd(char *arg);
 
-//env
+//ms_echo.c
+int		ms_newline(char *arg);
+int		ms_echo(char **arg);
+
+//utils.c
+char	**ms_matrix_add_line(char **matrix, char *new_line);
+
+//ms_export.c
+int		ms_export(char **arg);
+int		ms_check_export_arg(char *arg);
+char	*ms_make_string(char *arg);
+void	ms_export_valid_arg(char *arg, char *strings);
+void	ms_export_sort(void);
+void	ms_init_export(void); /* a mettre dans le init */
+
+//env.c
 char 	*ms_get_path(void);
-void	ms_get_env(char **env);
-char 	**ms_dup_arr(char **arr);
+void	ms_dup_env(char **env);
+char	*ms_get_env(char **env, char *arg);
+void	ms_set_env(char **env, char *value);
 size_t	ms_line_counter(char **env);
 
-//free_func
+//free_func.c
 void	ft_free_tab(char **tab);
 void	free_token_lst(t_token *tok);
 void	free_struct(t_parser *parser);
@@ -100,5 +120,11 @@ void	ms_token_addback(t_token **token, t_token *new_tok);
 bool ms_get_token(t_parser *parser);
 char *ms_get_next_tok(t_parser *parser, char *temp);
 t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token);
+void	ft_free_struct(t_msh *g_msh);
+
+//main.c
+void	init_shell();
+void	print_tab(char **tab);
+/* int		main(int argc, char *argv[], char **env); */
 
 #endif

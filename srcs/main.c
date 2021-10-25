@@ -6,23 +6,25 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/25 11:47:54 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/25 12:06:20 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //struct variabl globale
-t_msh g_msh;
+t_msh	g_msh;
 
-void init_shell()
+void	init_shell(void)
 {
-    printf("\n******************************************");
-    printf("\n\n\n\t    ****MINISHELL****");
-    printf("\n\n-CRÉE PAR GABRIEL COLLET ET JUSTINE BADIA-");
-    printf("\n\n\n******************************************");
-    char* username = getenv("USER");
-    printf("\n\nUSER is: @%s\n\n", username);
+	char	*username;
+
+	username = getenv("USER");
+	printf("\n******************************************");
+	printf("\n\n\n\t    ****MINISHELL****");
+	printf("\n\n-CRÉE PAR GABRIEL COLLET ET JUSTINE BADIA-");
+	printf("\n\n\n******************************************");
+	printf("\n\nUSER is: @%s\n\n", username);
 }
 
 void	print_tab(char **tab)
@@ -32,11 +34,10 @@ void	print_tab(char **tab)
 	i = 0;
 	while (tab[i] != 0)
 	{
-		printf("tab[%i] = %s\n",i,  tab[i]);
+		printf("tab[%i] = %s\n", i, tab[i]);
 		i++;
 	}
 }
-
 
 int	main(int argc, char *argv[], char **env)
 {
@@ -44,6 +45,7 @@ int	main(int argc, char *argv[], char **env)
 	char	*line;
 	t_token	*token;
 	
+
 	(void)argc;
 	(void)argv;
 	init_shell();
