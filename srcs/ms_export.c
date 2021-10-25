@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 11:56:37 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/23 22:13:50 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/25 11:33:35 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,33 @@
 /* 
 -	juste "export" affiche l'env en ordre ascii avec "declare -x " avant
 -	sans = (export test1) | declare -x test1
--	avec un = (export test2=) (export test3=coucou) | declare -x test2="" declare -x test3="coucou"
+-	avec un = (export test2=) (export test3=coucou) | declare -x test2="" 
+	declare -x test3="coucou"
 -	plusieurs arguments (export test= o) | declare -x o declare -x test=""
 -	peux pas commencer par un chiffre, ou signe qui n'est pas _
 -	tu peux faire export de plusieurs variables sur une seule ligne et si 
 	une est pas bonne tu arrete 
 */
 
-t_msh g_msh;
+// t_msh g_msh;
+
+int	ms_check_export_arg(char *arg)
+{
+	if (ft_isalpha(arg[0]) == 0 && arg[0] != 95)
+	{
+		printf("export: '%s': not a valid identifier\n", arg);
+		return (-1);
+	}
+	else
+		return (0);
+}
 
 char	*ms_make_string(char *arg)
 {
 	char	**strings;
 	char	*string;
 	int		i;
-	
+
 	i = 1;
 	strings = ft_split(arg, '=');
 	string = ft_strjoin(strings[0], "=\"");
@@ -48,47 +60,51 @@ char	*ms_make_string(char *arg)
 void	ms_export_sort(void)
 {
 	int	i;
-	
+
 	i = 0;
 	ft_sort_tab(g_msh.env_export);
 	while (g_msh.env_export[i])
 		printf("declare -x %s\n", g_msh.env_export[i++]);
-	return ;
+}
+
+void	ms_export_valid_arg(char *arg, char *strings)
+{
+	char	*string;
+
+	if (ft_strchr(arg, '=') == NULL)
+	{
+		if (ms_get_env(g_msh.env_export, strings) == NULL)
+			g_msh.env_export = ms_matrix_add_line(g_msh.env_export, arg);
+	}
+	else
+	{
+		string = ms_make_string(arg);
+		if (ms_get_env(g_msh.env_export, strings) != NULL)
+		{
+			arg = ft_strdup(arg);
+			ms_set_env(g_msh.env, arg);
+			ms_set_env(g_msh.env_export, string);
+			free(arg);
+		}
+		else
+		{	
+			g_msh.env = ms_matrix_add_line(g_msh.env, arg);
+			g_msh.env_export = ms_matrix_add_line(g_msh.env_export, string);
+		}
+		free(string);
+	}
 }
 
 int	ms_export(char **arg)
 {
 	char	**strings;
-	char	*string;
 	int		i;
 
 	i = 1;
-	while (arg[i])
+	while (arg[i] && ms_check_export_arg(arg[i]) == 0)
 	{	
-		/* chek si l'arg est valide */
 		strings = ft_split(arg[i], '=');
-		if (ft_strchr(arg[i], '=') == NULL)
-		{
-			if (ms_get_env(g_msh.env_export, strings[0]) == NULL)
-				g_msh.env_export = ms_matrix_add_line(g_msh.env_export, arg[i]);
-		}
-		else
-		{
-			string = ms_make_string(arg[i]);
-			if (ms_get_env(g_msh.env_export, strings[0]) != NULL)
-			{
-				arg[i] = ft_strdup(arg[i]);
-				ms_set_env(g_msh.env, arg[i]);
-				ms_set_env(g_msh.env_export, string);
-				free(arg[i]);
-			}
-			else
-			{	
-				g_msh.env = ms_matrix_add_line(g_msh.env, arg[i]);
-				g_msh.env_export = ms_matrix_add_line(g_msh.env_export, string);
-			}
-			free(string);
-		}
+		ms_export_valid_arg(arg[i], strings[0]);
 		ft_free_tab(strings);
 		i++;
 	}
@@ -115,22 +131,18 @@ void	ms_init_export(void)
 		i++;
 	}
 	g_msh.env_export[i] = NULL;
-	/* i = 0;
-	while (g_msh.env_export[i])
-		printf("declare -x %s\n", g_msh.env_export[i++]);
-	printf("-----------------------\n"); */
 }
 
-int main(int ac, char** av, char **env)
-{
-	(void)ac;
-	(void)av;
-	ms_dup_env(env);
-	ms_init_export();
-	ms_export(av);
-	int	i = 0;
-	while (g_msh.env[i])
-		printf("declare -x %s\n", g_msh.env[i++]);
-	ft_free_tab(g_msh.env);
-	ft_free_tab(g_msh.env_export);
-}
+// int main(int ac, char** av, char **env)
+// {
+// 	(void)ac;
+// 	(void)av;
+// 	ms_dup_env(env);
+// 	ms_init_export();
+// 	ms_export(av);
+// 	/* int	i = 0;
+// 	while (g_msh.env[i])
+// 		printf("declare -x %s\n", g_msh.env[i++]); */
+// 	ft_free_tab(g_msh.env);
+// 	ft_free_tab(g_msh.env_export);
+// }

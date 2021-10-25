@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/23 21:06:27 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/25 11:33:01 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <readline/history.h>
 # include "libft.h"
 /* include pour linux */
-# include <linux/limits.h>
+/* # include <linux/limits.h> */
 
 
 typedef struct s_msh
@@ -46,6 +46,9 @@ char	**ms_matrix_add_line(char **matrix, char *new_line);
 
 //ms_export.c
 int		ms_export(char **arg);
+int		ms_check_export_arg(char *arg);
+char	*ms_make_string(char *arg);
+void	ms_export_valid_arg(char *arg, char *strings);
 void	ms_export_sort(void);
 void	ms_init_export(void); /* a mettre dans le init */
 
