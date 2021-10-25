@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/24 10:44:43 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/25 11:48:15 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,16 @@ size_t	ms_line_counter(char **env);
 
 //free_func
 void	ft_free_tab(char **tab);
-t_token *free_token_lst(t_token *tok);
+void	free_token_lst(t_token *tok);
+void	free_struct(t_parser *parser);
+void	free_all(char *line, char **path);
 
 //parser
 char	*ms_init_s_parser(t_parser *parser, char *line);
-void	ms_parsing(char *line);
+void ms_parsing(char *line);
 bool empty_str(char *str);
 void printList(t_token *tok);
+char *ms_trim_space(char *str);
 
 //token_lst_utils
 t_token	*ms_token_last(t_token	*token);

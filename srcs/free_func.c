@@ -25,7 +25,7 @@ void	ft_free_tab(char **tab)
 	free(tab);
 }
 
-t_token *free_token_lst(t_token *tok)
+void	free_token_lst(t_token *tok)
 {
 	t_token *temp;
 
@@ -33,8 +33,27 @@ t_token *free_token_lst(t_token *tok)
 	while (tok)
 	{
 		temp = tok->next;
+		free(tok->str_tok);
 		free(tok);
 		tok = temp;
 	}
-	return (tok);
+	free(tok);
+}
+
+
+void	free_all(char *line, char **path)
+{
+	int i = 0;
+	
+	while (path[i])
+		free (path[i++]);
+	free (path);
+	free(line);
+}
+
+void	free_struct(t_parser *parser)
+{
+	if (parser)
+		free(parser->str_line);
+	free(parser);
 }

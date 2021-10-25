@@ -25,25 +25,27 @@ void	ms_parsing(char *line)
 {
 	char	*temp;
 	t_parser *parser;
-	t_token	*token;
 	t_token *first;
+	t_token *token;
 
 	token = ms_token_newlst(NULL);
 	parser = ft_calloc(1, sizeof(t_parser));
 	first = token;
-	temp = ft_strtrim(line, WHITESPACE);
+	temp = ms_trim_space(line);
 	while (!empty_str(temp))
 	{
 		temp = ms_init_s_parser(parser, temp);
 		if (ms_get_token(parser))
 		{
-			token = ms_add_tok_to_lst(parser, token);
+			ms_add_tok_to_lst(parser, token);
 			token = token->next;
 			temp = ms_get_next_tok(parser, temp);
 		}
 	}
 	printList(first);
 	free(temp);
+	free(parser);
+	free_token_lst(first);
 }
 
 char	*ms_init_s_parser(t_parser *parser, char *line)
@@ -55,7 +57,7 @@ char	*ms_init_s_parser(t_parser *parser, char *line)
 	parser->state = TEXT;
 	temp = ft_strdup(line);
 	str = temp;
-	str = ft_strtrim(temp, WHITESPACE);
+	str = ms_trim_space(temp);
 	free(temp);
 	parser->str_line = str;
 	free(line);
@@ -73,4 +75,16 @@ bool empty_str(char *str)
 	if (i > 0)
 		return (false);
 	return (true);
+}
+
+char *ms_trim_space(char *str)
+{
+	char *temp;
+	char *temp1;
+
+	temp = ft_strdup(str);
+	temp1 = temp;
+	temp1 = ft_strtrim(temp, WHITESPACE);
+	free(temp);
+	return (temp1);
 }
