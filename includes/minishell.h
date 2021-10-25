@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/25 11:33:01 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/25 12:03:23 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,50 @@
 /* # include <linux/limits.h> */
 
 
+#define WHITESPACE "\t\n\v\f\r "
+#define REDIRECTION "|<>"
+
 typedef struct s_msh
 {
 	char	**env;
 	char	**env_export;
 	int		ret_exit;
 }				t_msh;
+
+typedef enum	e_type
+{
+	VOID,
+	PIPE,
+	STRING,
+	SPACE,
+	REDIR_L,
+	REDIR_R,
+	HERE_DOC_L,
+	HERE_DOC_R, 
+}				t_type;
+
+typedef enum	e_state
+{
+	TEXT,
+	S_QUOTE,
+	D_QUOTE,
+}				t_state;
+
+typedef struct s_token
+{
+	struct	s_token	*previous;
+	t_type	type;
+	char	*str_tok;
+	struct s_token *next;
+}				t_token;
+
+typedef	struct s_parser
+{
+	char	*str_line;
+	size_t		index;
+	t_state state;
+}				t_parser;
+
 
 t_msh g_msh;
 
@@ -61,6 +99,27 @@ size_t	ms_line_counter(char **env);
 
 //free_func.c
 void	ft_free_tab(char **tab);
+void	free_token_lst(t_token *tok);
+void	free_struct(t_parser *parser);
+void	free_all(char *line, char **path);
+
+//parser
+char	*ms_init_s_parser(t_parser *parser, char *line);
+void ms_parsing(char *line);
+bool empty_str(char *str);
+void printList(t_token *tok);
+char *ms_trim_space(char *str);
+
+//token_lst_utils
+t_token	*ms_token_last(t_token	*token);
+t_token	*ms_token_newlst(void	*token);
+void	ms_token_addback(t_token **token, t_token *new_tok);
+
+
+//token_utils
+bool ms_get_token(t_parser *parser);
+char *ms_get_next_tok(t_parser *parser, char *temp);
+t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token);
 void	ft_free_struct(t_msh *g_msh);
 
 //main.c
