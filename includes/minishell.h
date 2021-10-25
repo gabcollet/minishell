@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/25 12:03:23 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/25 16:47:50 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,12 @@ t_msh g_msh;
 //ms_cd.c
 int		ms_cd(char *arg);
 
+//ms_env.c
+void	ms_env(void);
+
 //ms_echo.c
 int		ms_newline(char *arg);
 int		ms_echo(char **arg);
-
-//utils.c
-char	**ms_matrix_add_line(char **matrix, char *new_line);
 
 //ms_export.c
 int		ms_export(char **arg);
@@ -89,6 +89,14 @@ char	*ms_make_string(char *arg);
 void	ms_export_valid_arg(char *arg, char *strings);
 void	ms_export_sort(void);
 void	ms_init_export(void); /* a mettre dans le init */
+
+//ms_unset.c
+int		ms_unset(char **arg);
+char	**ms_unset_remove(char **env, char *arg);
+
+//utils.c
+char	**ms_matrix_add_line(char **matrix, char *new_line);
+char	**ms_matrix_remove_line(char **matrix, char *line);
 
 //env.c
 char 	*ms_get_path(void);
