@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/10/25 12:04:04 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/25 16:41:33 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	ms_dup_env(char **env)
 	return ;
 }
 
-/* Trouve la ligne recherché par arg dans env et la retourne */
+/* Trouve la ligne recherché par arg dans env et la retourne 
+sinon retourne NULL*/
 char	*ms_get_env(char **env, char *arg)
 {
 	int	i;
