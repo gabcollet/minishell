@@ -1,6 +1,6 @@
 PROG	= test
 
-SRCS 	= ms_cd.c free_func.c env.c utils.c 
+SRCS 	= ms_export.c free_func.c env.c utils.c 
 
 OBJS 	= ${SRCS:.c=.o}
 
