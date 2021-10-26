@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 14:05:15 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/26 14:22:38 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/26 16:42:09 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ void	init_shell(void)
 	char	*username;
 
 	username = getenv("USER");
-	printf("\n******************************************");
-	printf("\n\n\n\t    ****MINISHELL****");
-	printf("\n\n-CRÉE PAR GABRIEL COLLET ET JUSTINE BADIA-");
-	printf("\n\n\n******************************************");
+	printf("\n\033[31m******************************************\033[0m");
+	printf("\n\n\n\t    \033[1;33m****\033[32mMINISHELL\033[1;33m****\033[0m");
+	printf("\n\n\033[1;33m*\033[32mCRÉE PAR JUSTINE BADIA ET GABRIEL COLLET\033[1;33m*\033[0m");
+	printf("\n\n\n\033[31m******************************************\033[0m");
 	printf("\n\nUSER is: @%s\n\n", username);
 }
 

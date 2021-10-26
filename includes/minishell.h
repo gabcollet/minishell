@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/26 14:16:47 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/26 16:54:29 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,17 @@ typedef	struct s_parser
 
 t_msh g_msh;
 
+//ms_builtins.c
+void	ms_builtins(char **arg);
+
 //ms_cd.c
 int		ms_cd(char *arg);
 
 //ms_env.c
 void	ms_env(void);
+
+//ms_pwd.c
+int		ms_pwd(void);
 
 //ms_exit.c
 void	ms_exit(char **arg);
@@ -137,6 +143,6 @@ void	ms_init_export(void);
 void	init_shell();
 
 //main.c
-/* int		main(int argc, char *argv[], char **env); */
+int		main(int argc, char *argv[], char **env);
 
 #endif
