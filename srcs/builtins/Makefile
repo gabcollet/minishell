@@ -1,7 +1,7 @@
 PROG	= test
 
 SRCS 	= main_test.c ms_export.c ../free_func.c ../env.c ../utils.c\
-			ms_unset.c ms_env.c
+			ms_unset.c ms_env.c ms_exit.c
 
 OBJS 	= ${SRCS:.c=.o}
 

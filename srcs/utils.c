@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 15:07:55 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/25 15:29:53 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/26 14:08:22 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,16 @@ char	**ms_matrix_remove_line(char **matrix, char *line)
 	new_matrix[j] = NULL;
 	ft_free_tab(matrix);
 	return (new_matrix);
+}
+
+size_t	ms_line_counter(char **env)
+{
+	size_t	count;
+
+	count = 0;
+	if (!env)
+		return (0);
+	while (env[count])
+		count++;
+	return (count);
 }

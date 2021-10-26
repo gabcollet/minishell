@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 11:56:37 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/25 16:56:35 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/26 14:10:13 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	ms_export_sort(void)
 	i = 0;
 	ft_sort_tab(g_msh.env_export);
 	while (g_msh.env_export[i])
-		printf("declare -x %s\n", g_msh.env_export[i++]);
+		printf("%s\n", g_msh.env_export[i++]);
 }
 
 /* gere l'intégration des arguments valide dans env et env_export */
@@ -116,25 +116,4 @@ int	ms_export(char **arg)
 	if (arg[0] == NULL)
 		ms_export_sort();
 	return (0);
-}
-
-/* sert à initier le tableau d'env_export */
-void	ms_init_export(void)
-{
-	int		i;
-	char	*string;
-
-	i = 0;
-	while (g_msh.env[++i])
-		;
-	g_msh.env_export = malloc(sizeof(char *) * (i));
-	i = 0;
-	while (g_msh.env[i + 2])
-	{
-		string = ms_make_string(g_msh.env[i]);
-		g_msh.env_export[i] = ft_strdup(string);
-		free(string);
-		i++;
-	}
-	g_msh.env_export[i] = NULL;
 }

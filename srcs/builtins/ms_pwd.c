@@ -6,12 +6,13 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 11:30:22 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/22 12:05:55 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/25 17:17:04 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* imprime le path actuel */
 int	ms_pwd(void)
 {
 	char	c[PATH_MAX];

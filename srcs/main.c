@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/25 12:06:20 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/26 14:14:19 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,6 @@
 
 //struct variabl globale
 t_msh	g_msh;
-
-void	init_shell(void)
-{
-	char	*username;
-
-	username = getenv("USER");
-	printf("\n******************************************");
-	printf("\n\n\n\t    ****MINISHELL****");
-	printf("\n\n-CRÉE PAR GABRIEL COLLET ET JUSTINE BADIA-");
-	printf("\n\n\n******************************************");
-	printf("\n\nUSER is: @%s\n\n", username);
-}
-
-void	print_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i] != 0)
-	{
-		printf("tab[%i] = %s\n", i, tab[i]);
-		i++;
-	}
-}
 
 int	main(int argc, char *argv[], char **env)
 {
@@ -68,9 +44,6 @@ int	main(int argc, char *argv[], char **env)
 		else
 			continue ;
 		ms_parsing(line); 
-
-
-
 
 		if (ft_strcmp(line, "pwd") == 0)
 		{

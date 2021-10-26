@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/25 16:47:50 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/26 14:16:47 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,10 @@ int		ms_cd(char *arg);
 //ms_env.c
 void	ms_env(void);
 
+//ms_exit.c
+void	ms_exit(char **arg);
+int		ms_check_exit_arg(char *arg);
+
 //ms_echo.c
 int		ms_newline(char *arg);
 int		ms_echo(char **arg);
@@ -88,7 +92,6 @@ int		ms_check_export_arg(char *arg);
 char	*ms_make_string(char *arg);
 void	ms_export_valid_arg(char *arg, char *strings);
 void	ms_export_sort(void);
-void	ms_init_export(void); /* a mettre dans le init */
 
 //ms_unset.c
 int		ms_unset(char **arg);
@@ -97,13 +100,12 @@ char	**ms_unset_remove(char **env, char *arg);
 //utils.c
 char	**ms_matrix_add_line(char **matrix, char *new_line);
 char	**ms_matrix_remove_line(char **matrix, char *line);
+size_t	ms_line_counter(char **env);
 
 //env.c
 char 	*ms_get_path(void);
-void	ms_dup_env(char **env);
 char	*ms_get_env(char **env, char *arg);
 void	ms_set_env(char **env, char *value);
-size_t	ms_line_counter(char **env);
 
 //free_func.c
 void	ft_free_tab(char **tab);
@@ -112,27 +114,29 @@ void	free_struct(t_parser *parser);
 void	free_all(char *line, char **path);
 
 //parser
-char	*ms_init_s_parser(t_parser *parser, char *line);
-void ms_parsing(char *line);
-bool empty_str(char *str);
-void printList(t_token *tok);
-char *ms_trim_space(char *str);
+void	ms_parsing(char *line);
+bool	empty_str(char *str);
+void	printList(t_token *tok);
+char	*ms_trim_space(char *str);
 
 //token_lst_utils
 t_token	*ms_token_last(t_token	*token);
 t_token	*ms_token_newlst(void	*token);
 void	ms_token_addback(t_token **token, t_token *new_tok);
 
-
 //token_utils
-bool ms_get_token(t_parser *parser);
-char *ms_get_next_tok(t_parser *parser, char *temp);
+bool	ms_get_token(t_parser *parser);
+char	*ms_get_next_tok(t_parser *parser, char *temp);
 t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token);
 void	ft_free_struct(t_msh *g_msh);
 
-//main.c
+//init.c
+char	*ms_init_s_parser(t_parser *parser, char *line);
+void	ms_init_env(char **env);
+void	ms_init_export(void);
 void	init_shell();
-void	print_tab(char **tab);
+
+//main.c
 /* int		main(int argc, char *argv[], char **env); */
 
 #endif

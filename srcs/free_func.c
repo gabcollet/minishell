@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/10/25 13:40:49 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/26 14:13:00 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	free_token_lst(t_token *tok)
 	free(tok);
 }
 
-
+/* fonction qui va devenir inutile quand on va avoir modiff le main */
 void	free_all(char *line, char **path)
 {
 	int i = 0;
