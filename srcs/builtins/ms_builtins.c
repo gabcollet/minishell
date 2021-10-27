@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 16:09:22 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/26 16:24:44 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/27 15:14:39 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,6 @@ void	ms_builtins(char **arg)
 		ms_env();
 	else if (ft_strcmp(arg[0], "exit") == 0)
 		ms_exit(arg + 1);
+	else if (ft_strcmp(arg[0], "mafortin") == 0)
+		printf("\e[91mThis is a very illegal function! (•̀o•́)ง\n");
 }

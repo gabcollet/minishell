@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/26 18:32:57 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/27 15:09:17 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	main(int argc, char *argv[], char **env)
 {
 	char	*line;
 	t_token	*token;
+
 	char** temp_parsing;
 
 	(void)argc;
@@ -33,7 +34,7 @@ int	main(int argc, char *argv[], char **env)
 	{
 		if (line != NULL)
 			free(line);
-		line = readline("\033[32m\033[1mminishell 1.0: \033[0m");
+		line = readline(PROMPT);
 		if (!line)
 		{
 			free(line);

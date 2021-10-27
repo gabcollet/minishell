@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/26 16:54:29 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/27 14:35:07 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,20 @@
 # include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <dirent.h>
+# include <sys/errno.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
 # include "libft.h"
+
 /* include pour linux */
 /* # include <linux/limits.h> */
 
 
 #define WHITESPACE "\t\n\v\f\r "
 #define REDIRECTION "|<>"
+#define PROMPT "\001\e[1;96m\002minishell 1.0$ \001\033[0m\002"
 
 typedef struct s_msh
 {
@@ -40,7 +47,7 @@ typedef enum	e_type
 	VOID,
 	PIPE,
 	STRING,
-	SPACE,
+	/* SPACE, */ //conflit avec le readline
 	REDIR_L,
 	REDIR_R,
 	HERE_DOC_L,

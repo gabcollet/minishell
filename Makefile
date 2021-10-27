@@ -6,7 +6,7 @@
 #    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/10/26 16:20:41 by gcollet          ###   ########.fr        #
+#    Updated: 2021/10/27 14:34:28 by gcollet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ all:	build-repo ${PROG}
 
 ${PROG}:	${OBJS}
 					@make re -C ./libft
-					@$(CC) ${OBJS} -L libft -l ft -o ${PROG} -lreadline 
+					@$(CC) ${OBJS} -Llibft -Llib -l ft -o ${PROG} -lreadline -lcurses
 					@echo "\n\033[32m\033[1mMinishell ALPHA v-1.0 Compiled!\n\033[0m"
 
 ${OBJPATH}%.o:%.c
