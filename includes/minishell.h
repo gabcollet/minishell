@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/27 14:35:07 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/27 15:57:44 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <signal.h>
 # include "libft.h"
 
 /* include pour linux */
@@ -33,7 +34,6 @@
 
 #define WHITESPACE "\t\n\v\f\r "
 #define REDIRECTION "|<>"
-#define PROMPT "\001\e[1;96m\002minishell 1.0$ \001\033[0m\002"
 
 typedef struct s_msh
 {
@@ -121,10 +121,8 @@ char	*ms_get_env(char **env, char *arg);
 void	ms_set_env(char **env, char *value);
 
 //free_func.c
-void	ft_free_tab(char **tab);
 void	free_token_lst(t_token *tok);
 void	free_struct(t_parser *parser);
-void	free_all(char *line, char **path);
 
 //parser
 void	ms_parsing(char *line);
@@ -151,5 +149,6 @@ void	init_shell();
 
 //main.c
 int		main(int argc, char *argv[], char **env);
+void	intHandler();
 
 #endif
