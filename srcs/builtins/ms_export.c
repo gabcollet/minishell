@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 11:56:37 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/25 11:33:35 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/26 14:10:13 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@
 	une est pas bonne tu arrete 
 */
 
-// t_msh g_msh;
-
+/* valide que l'argument donné à export est valide */
 int	ms_check_export_arg(char *arg)
 {
 	if (ft_isalpha(arg[0]) == 0 && arg[0] != 95)
@@ -36,6 +35,7 @@ int	ms_check_export_arg(char *arg)
 		return (0);
 }
 
+/* crée la ligne qui va être envoyer dans env_export */
 char	*ms_make_string(char *arg)
 {
 	char	**strings;
@@ -57,6 +57,7 @@ char	*ms_make_string(char *arg)
 	return (string);
 }
 
+/* trie le env_export dans l'ordre ascii */
 void	ms_export_sort(void)
 {
 	int	i;
@@ -64,9 +65,10 @@ void	ms_export_sort(void)
 	i = 0;
 	ft_sort_tab(g_msh.env_export);
 	while (g_msh.env_export[i])
-		printf("declare -x %s\n", g_msh.env_export[i++]);
+		printf("%s\n", g_msh.env_export[i++]);
 }
 
+/* gere l'intégration des arguments valide dans env et env_export */
 void	ms_export_valid_arg(char *arg, char *strings)
 {
 	char	*string;
@@ -95,54 +97,23 @@ void	ms_export_valid_arg(char *arg, char *strings)
 	}
 }
 
+/* fonction principale de export */
 int	ms_export(char **arg)
 {
 	char	**strings;
 	int		i;
 
-	i = 1;
-	while (arg[i] && ms_check_export_arg(arg[i]) == 0)
-	{	
+	i = 0;
+	while (arg[i])
+	{
+		if (ms_check_export_arg(arg[i]) != 0)
+			return (-1);
 		strings = ft_split(arg[i], '=');
 		ms_export_valid_arg(arg[i], strings[0]);
 		ft_free_tab(strings);
 		i++;
 	}
-	if (arg[1] == NULL)
+	if (arg[0] == NULL)
 		ms_export_sort();
 	return (0);
 }
-
-void	ms_init_export(void)
-{
-	int		i;
-	char	*string;
-
-	i = 0;
-	while (g_msh.env[++i])
-		;
-	g_msh.env_export = malloc(sizeof(char *) * (i));
-	i = 0;
-	while (g_msh.env[i + 2])
-	{
-		string = ms_make_string(g_msh.env[i]);
-		g_msh.env_export[i] = ft_strdup(string);
-		free(string);
-		i++;
-	}
-	g_msh.env_export[i] = NULL;
-}
-
-// int main(int ac, char** av, char **env)
-// {
-// 	(void)ac;
-// 	(void)av;
-// 	ms_dup_env(env);
-// 	ms_init_export();
-// 	ms_export(av);
-// 	/* int	i = 0;
-// 	while (g_msh.env[i])
-// 		printf("declare -x %s\n", g_msh.env[i++]); */
-// 	ft_free_tab(g_msh.env);
-// 	ft_free_tab(g_msh.env_export);
-// }

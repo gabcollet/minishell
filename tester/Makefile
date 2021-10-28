@@ -1,10 +1,14 @@
+
+//MAKEFILE POUR LES BUILTINS
+
 PROG	= test
 
-SRCS 	= ms_export.c free_func.c env.c utils.c 
+SRCS 	= main_test.c ms_export.c ../free_func.c ../env.c ../utils.c\
+			ms_unset.c ms_env.c ms_exit.c
 
 OBJS 	= ${SRCS:.c=.o}
 
-HEADER	= -I../includes -I../libft
+HEADER	= -I../../includes -I../../libft
 
 CC 		= gcc
 CFLAGS 	= -g -Wall -Wextra -Werror
@@ -15,16 +19,16 @@ CFLAGS 	= -g -Wall -Wextra -Werror
 all:	${PROG}
 
 ${PROG}:	${OBJS}
-					@make re -C ../libft
-					@$(CC) ${OBJS} -L ../libft -l ft -o ${PROG} -lreadline 
+					@make re -C ../../libft
+					@$(CC) ${OBJS} -L ../../libft -l ft -o ${PROG} -lreadline 
 					@echo "\n\033[32m\033[1mtest compiled\n\033[0m"
 
 clean:
-					@make clean -C ../libft
+					@make clean -C ../../libft
 					@rm -rf ${OBJS}
 
 fclean: 	clean
-					@make fclean -C ../libft
+					@make fclean -C ../../libft
 					@rm -f ${PROG}
 
 re:			fclean all

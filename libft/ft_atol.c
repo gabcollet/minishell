@@ -6,9 +6,11 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 18:57:20 by gcollet           #+#    #+#             */
-/*   Updated: 2021/08/31 19:04:04 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/26 14:01:27 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/* Convertit le début de la chaîne pointée par nptr en entier de type long. */
 
 #include "libft.h"
 

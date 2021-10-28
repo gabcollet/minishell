@@ -6,9 +6,11 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:38:52 by gcollet           #+#    #+#             */
-/*   Updated: 2021/07/28 16:25:22 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/26 14:00:45 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/* Convertit le début de la chaîne pointée par str en entier de type float. */
 
 #include "libft.h"
 

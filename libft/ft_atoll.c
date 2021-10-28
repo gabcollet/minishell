@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_atoll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/08 11:53:08 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/26 14:01:06 by gcollet          ###   ########.fr       */
+/*   Created: 2021/10/26 10:59:30 by gcollet           #+#    #+#             */
+/*   Updated: 2021/10/26 14:02:04 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* Convertit le début de la chaîne pointée par nptr en entier de type int. */
+/* Convertit la chaîne pointée par nptr en entier de type long long. */
 
 #include "libft.h"
 
-int	ft_atoi(const char *nptr)
+long long	ft_atoll(const char *nptr)
 {
-	long	num;
-	int		sign;
-	int		i;
+	long long	num;
+	int			sign;
+	int			i;
 
 	i = 0;
 	sign = 1;
@@ -33,10 +33,6 @@ int	ft_atoi(const char *nptr)
 	{
 		num = (num * 10) + nptr[i] - '0';
 		nptr++;
-		if (num * sign > 2147483647)
-			return (-1);
-		if (num * sign < -2147483648)
-			return (0);
 	}
 	return (num * sign);
 }

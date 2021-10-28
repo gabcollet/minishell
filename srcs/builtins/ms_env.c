@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   ms_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 16:04:28 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/26 10:54:49 by gcollet          ###   ########.fr       */
+/*   Created: 2021/10/25 16:42:01 by gcollet           #+#    #+#             */
+/*   Updated: 2021/10/26 10:50:35 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* Vérifie si l'on a un chiffre (0 à 9). */
-/* Renvois 1 si le caractère c est un chiffre, et zéro sinon  */
+#include "minishell.h"
 
-#include "libft.h"
-
-int	ft_isdigit(int c)
+/* imprime l'environnement */
+void	ms_env(void)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+	int	i;
+
+	i = 0;
+	while (g_msh.env[i])
+		printf("%s\n", g_msh.env[i++]);
 }

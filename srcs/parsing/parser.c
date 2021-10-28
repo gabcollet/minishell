@@ -41,23 +41,6 @@ void	ms_parsing(char *line)
 	free_token_lst(first);
 }
 
-char	*ms_init_s_parser(t_parser *parser, char *line)
-{
-	char *temp;
-	char *str;
-
-	parser->index = 0;
-	parser->state = TEXT;
-	temp = ft_strdup(line);
-	str = temp;
-	str = ms_trim_space(temp);
-	free(temp);
-	parser->str_line = str;
-	free(line);
-	return (str);
-
-}
-
 bool empty_str(char *str)
 {
 	int	i;

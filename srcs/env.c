@@ -3,43 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/10/25 12:04:04 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/26 14:08:55 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ms_get_path(void)
-{
-	char	*path;
-
-	path = getenv("PATH");
-	if (!path)
-		return (NULL);
-	return (path);
-}
-
-/* Duplique l'env dans la variable global */
-/* a mettre plus general et mettre dans la libft */
-void	ms_dup_env(char **env)
-{
-	int	i;
-
-	i = 0;
-	while (env[i])
-		i++;
-	g_msh.env = malloc(sizeof(char *) * (i + 1));
-	i = -1;
-	while (env[++i])
-		g_msh.env[i] = ft_strdup(env[i]);
-	g_msh.env[i] = NULL;
-	return ;
-}
-
-/* Trouve la ligne recherché par arg dans env et la retourne */
+/* Trouve la ligne recherché par arg dans env et la retourne 
+sinon retourne NULL*/
 char	*ms_get_env(char **env, char *arg)
 {
 	int	i;
@@ -80,22 +54,3 @@ void	ms_set_env(char **env, char *value)
 	ft_free_tab(arg);
 	return ;
 }
-
-size_t	ms_line_counter(char **env)
-{
-	size_t	count;
-
-	count = 0;
-	if (!env)
-		return (0);
-	while (env[count])
-		count++;
-	return (count);
-}
-
-// int main (int argc, char **argv, char **env)
-// {
-// 	(void)argc;
-//  	(void)argv;
-// 	ms_dup_arr(env);
-// }

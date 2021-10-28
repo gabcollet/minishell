@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/28 16:14:15 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/28 17:20:35 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,14 @@
 # include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <dirent.h>
+# include <sys/errno.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <signal.h>
 # include "libft.h"
+
 /* include pour linux */
 /* # include <linux/limits.h> */
 
@@ -73,15 +80,25 @@ typedef	struct s_parser
 
 t_msh g_msh;
 
+//ms_builtins.c
+void	ms_builtins(char **arg);
+
 //ms_cd.c
 int		ms_cd(char *arg);
+
+//ms_env.c
+void	ms_env(void);
+
+//ms_pwd.c
+int		ms_pwd(void);
+
+//ms_exit.c
+void	ms_exit(char **arg);
+int		ms_check_exit_arg(char *arg);
 
 //ms_echo.c
 int		ms_newline(char *arg);
 int		ms_echo(char **arg);
-
-//utils.c
-char	**ms_matrix_add_line(char **matrix, char *new_line);
 
 //ms_export.c
 int		ms_export(char **arg);
@@ -89,33 +106,35 @@ int		ms_check_export_arg(char *arg);
 char	*ms_make_string(char *arg);
 void	ms_export_valid_arg(char *arg, char *strings);
 void	ms_export_sort(void);
-void	ms_init_export(void); /* a mettre dans le init */
+
+//ms_unset.c
+int		ms_unset(char **arg);
+char	**ms_unset_remove(char **env, char *arg);
+
+//utils.c
+char	**ms_matrix_add_line(char **matrix, char *new_line);
+char	**ms_matrix_remove_line(char **matrix, char *line);
+size_t	ms_line_counter(char **env);
 
 //env.c
 char 	*ms_get_path(void);
-void	ms_dup_env(char **env);
 char	*ms_get_env(char **env, char *arg);
 void	ms_set_env(char **env, char *value);
-size_t	ms_line_counter(char **env);
 
 //free_func.c
-void	ft_free_tab(char **tab);
 void	free_token_lst(t_token *tok);
 void	free_struct(t_parser *parser);
-void	free_all(char *line, char **path);
 
 //parser
-char	*ms_init_s_parser(t_parser *parser, char *line);
-void ms_parsing(char *line);
-bool empty_str(char *str);
-void printList(t_token *tok);
-char *ms_trim_space(char *str);
+void	ms_parsing(char *line);
+bool	empty_str(char *str);
+void	printList(t_token *tok);
+char	*ms_trim_space(char *str);
 
 //token_lst_utils
 t_token	*ms_token_last(t_token	*token);
 t_token	*ms_token_newlst(void	*token);
 void	ms_token_addback(t_token **token, t_token *new_tok);
-
 
 //token_utils
 bool ms_get_token(t_parser *parser, t_token *token);
@@ -137,9 +156,16 @@ void	ms_error_quote(t_parser *parser);
 void ms_check_syntax(t_token *token);
 char *ms_remove_quote(char *str);
 
-//main.c
+
+//init.c
+char	*ms_init_s_parser(t_parser *parser, char *line);
+void	ms_init_env(char **env);
+void	ms_init_export(void);
 void	init_shell();
-void	print_tab(char **tab);
-/* int		main(int argc, char *argv[], char **env); */
+
+//main.c
+//int		main(int argc, char *argv[], char **env);
+void	ctrl_c(int var);
+void	loop(void);
 
 #endif
