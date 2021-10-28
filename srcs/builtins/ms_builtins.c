@@ -6,13 +6,13 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 16:09:22 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/27 15:14:39 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/28 13:36:57 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ms_builtins(char **arg)
+int	ms_builtins(char **arg)
 {
 	if (ft_strcmp(arg[0], "echo") == 0)
 		ms_echo(arg + 1);
@@ -30,4 +30,7 @@ void	ms_builtins(char **arg)
 		ms_exit(arg + 1);
 	else if (ft_strcmp(arg[0], "mafortin") == 0)
 		printf("\e[91mThis is a very illegal function! (•̀o•́)ง\n");
+	else
+		return (1);
+	return (0);
 }

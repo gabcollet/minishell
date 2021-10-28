@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/28 11:18:27 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/28 16:30:57 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <string.h>
+# include <sys/wait.h>
+# include <fcntl.h>
 # include "libft.h"
 
 /* include pour linux */
@@ -80,7 +83,7 @@ typedef	struct s_parser
 t_msh g_msh;
 
 //ms_builtins.c
-void	ms_builtins(char **arg);
+int	ms_builtins(char **arg);
 
 //ms_cd.c
 int		ms_cd(char *arg);
@@ -109,6 +112,9 @@ void	ms_export_sort(void);
 //ms_unset.c
 int		ms_unset(char **arg);
 char	**ms_unset_remove(char **env, char *arg);
+
+//exec.c
+void	ms_exec(char **arg);
 
 //utils.c
 char	**ms_matrix_add_line(char **matrix, char *new_line);
