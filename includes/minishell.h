@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/26 14:16:47 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/28 11:18:27 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,14 @@
 # include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <dirent.h>
+# include <sys/errno.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <signal.h>
 # include "libft.h"
+
 /* include pour linux */
 /* # include <linux/limits.h> */
 
@@ -40,7 +47,7 @@ typedef enum	e_type
 	VOID,
 	PIPE,
 	STRING,
-	SPACE,
+	/* SPACE, */ //conflit avec le readline
 	REDIR_L,
 	REDIR_R,
 	HERE_DOC_L,
@@ -72,11 +79,17 @@ typedef	struct s_parser
 
 t_msh g_msh;
 
+//ms_builtins.c
+void	ms_builtins(char **arg);
+
 //ms_cd.c
 int		ms_cd(char *arg);
 
 //ms_env.c
 void	ms_env(void);
+
+//ms_pwd.c
+int		ms_pwd(void);
 
 //ms_exit.c
 void	ms_exit(char **arg);
@@ -108,10 +121,8 @@ char	*ms_get_env(char **env, char *arg);
 void	ms_set_env(char **env, char *value);
 
 //free_func.c
-void	ft_free_tab(char **tab);
 void	free_token_lst(t_token *tok);
 void	free_struct(t_parser *parser);
-void	free_all(char *line, char **path);
 
 //parser
 void	ms_parsing(char *line);
@@ -137,6 +148,8 @@ void	ms_init_export(void);
 void	init_shell();
 
 //main.c
-/* int		main(int argc, char *argv[], char **env); */
+int		main(int argc, char *argv[], char **env);
+void	ctrl_c(int var);
+void	loop(void);
 
 #endif

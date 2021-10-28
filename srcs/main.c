@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/26 15:11:25 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/28 11:18:29 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,17 @@
 //struct variabl globale
 t_msh	g_msh;
 
-int	main(int argc, char *argv[], char **env)
+void	loop(void)
 {
-	char	c[PATH_MAX];
 	char	*line;
-	t_token	*token;
-
-	(void)argc;
-	(void)argv;
-	init_shell();
+	char** temp_parsing;
 	line = NULL;
-	token = NULL;
-	ms_init_env(env);
+	
 	while (true)
 	{
 		if (line != NULL)
 			free(line);
-		line = readline("minishell 1.0: ");
+		line = readline("\001\e[1;96m\002minishell 1.0$ \001\033[0m\002");
 		if (!line)
 		{
 			free(line);
@@ -39,9 +33,39 @@ int	main(int argc, char *argv[], char **env)
 		}
 		if (*line)
 			add_history(line);
-		else
-			continue ;
-		ms_parsing(line); 
+
+		/* ms_parsing(line); */
+		temp_parsing = ft_split(line, ' ');
+		ms_builtins(temp_parsing);
+		ft_free_tab(temp_parsing);
 	}
-	free_all(line, g_msh.env);
+	free(line);
+}
+
+void	ctrl_c(int var)
+{
+	(void) var;
+	printf("\r");
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+int	main(int argc, char *argv[], char **env)
+{
+	t_token	*token;
+
+	(void)argc;
+	(void)argv;
+	init_shell();
+	token = NULL;
+	ms_init_env(env);
+	ms_init_export();
+	g_msh.ret_exit = 0;
+	signal(SIGINT, ctrl_c);
+	signal(SIGQUIT, SIG_IGN);
+	loop();
+	ft_free_tab(g_msh.env);
+	ft_free_tab(g_msh.env_export);
 }

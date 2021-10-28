@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 14:05:15 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/26 14:22:38 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/27 14:54:58 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,24 @@ void	init_shell(void)
 	char	*username;
 
 	username = getenv("USER");
-	printf("\n******************************************");
-	printf("\n\n\n\t    ****MINISHELL****");
-	printf("\n\n-CRÉE PAR GABRIEL COLLET ET JUSTINE BADIA-");
-	printf("\n\n\n******************************************");
-	printf("\n\nUSER is: @%s\n\n", username);
+	printf("\e[2J\e[H\e[1;96m-----------------------------------------");
+	printf("\e[1;96m--------------------------\e[0m\n");
+	printf("\e[91m███╗   ███╗██╗███╗   ██╗██╗");
+	printf("███████╗██╗  ██╗███████╗██╗     ██╗     \n");
+	printf("████╗ ████║██║████╗  ██║██║██╔════╝");
+	printf("██║  ██║██╔════╝██║     ██║     \n");
+	printf("██╔████╔██║██║██╔██╗ ██║██║███████╗");
+	printf("███████║█████╗  ██║     ██║     \n");
+	printf("██║╚██╔╝██║██║██║╚██╗██║██║╚════██║");
+	printf("██╔══██║██╔══╝  ██║     ██║     \n");
+	printf("██║ ╚═╝ ██║██║██║ ╚████║██║███████║");
+	printf("██║  ██║███████╗███████╗███████╗\n");
+	printf("╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚══════╝");
+	printf("╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝\e[0m\n");
+	printf("\e[1;96mMade by: JUSTINE BADIA & GABRIEL COLLET\e[0m\n");
+	printf("\e[1;96m-----------------------------------------");
+	printf("\e[1;96m--------------------------\e[0m\n");
+	printf("\nWelcome %s\n", username);
 }
 
 char	*ms_init_s_parser(t_parser *parser, char *line)
