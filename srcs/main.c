@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/27 16:09:10 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/28 11:18:29 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 //struct variabl globale
 t_msh	g_msh;
 
-
-void	loop()
+void	loop(void)
 {
 	char	*line;
 	char** temp_parsing;
@@ -43,8 +42,10 @@ void	loop()
 	free(line);
 }
 
-void	ctrl_c()
+void	ctrl_c(int var)
 {
+	(void) var;
+	printf("\r");
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -63,7 +64,7 @@ int	main(int argc, char *argv[], char **env)
 	ms_init_export();
 	g_msh.ret_exit = 0;
 	signal(SIGINT, ctrl_c);
-	signal()
+	signal(SIGQUIT, SIG_IGN);
 	loop();
 	ft_free_tab(g_msh.env);
 	ft_free_tab(g_msh.env_export);

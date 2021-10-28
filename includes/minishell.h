@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/27 15:57:44 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/28 11:18:27 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ void	init_shell();
 
 //main.c
 int		main(int argc, char *argv[], char **env);
-void	intHandler();
+void	ctrl_c(int var);
+void	loop(void);
 
 #endif

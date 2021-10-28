@@ -1,3 +1,6 @@
+
+//MAKEFILE POUR LES BUILTINS
+
 PROG	= test
 
 SRCS 	= main_test.c ms_export.c ../free_func.c ../env.c ../utils.c\
