@@ -5,48 +5,37 @@ void printList(t_token *tok)
 	int i = 0;
 	while(tok)
 	{
-		printf("tok[%d] = %s\n", i, tok->str_tok);
+		printf("tok[%d] = %s\ntype = %u\n", i, tok->str_tok, tok->type);
 		tok = tok->next;
 		i++;
 	}
 }
-
-	/*
-	setter ma structure avec un type en TEXT
-	1 - trimmer les white spaces qui ne sont pas entre guillemets
-	2- Tant que je ne rencontre pas un WS, un pipe ou une redir, je copie dans une temp que j'envoie dans ma struct token
-		1 - Si je rencontre un ' ou ", je copie dans temp jusqu'à trouver la fermante
-		2 - je substr str pour reprendre au prochain token
-		  
-	*/
-	// je vérifie le type void check type()
 	
 void	ms_parsing(char *line)
 {
 	char	*temp;
 	t_parser *parser;
 	t_token *first;
+	t_token *first2;
 	t_token *token;
 
 	token = ms_token_newlst(NULL);
 	parser = ft_calloc(1, sizeof(t_parser));
 	first = token;
+	first2 = token;
 	temp = ms_trim_space(line);
 	while (!empty_str(temp))
 	{
 		temp = ms_init_s_parser(parser, temp);
-
-	/*si je recontre des caractères alpha num
-	  sinon si je rencontre un pipe
-	  sinon si je rencontre une redir*/
-		if (ms_get_token(parser))
+		if (ms_get_token(parser, token))
 		{
 			ms_add_tok_to_lst(parser, token);
 			token = token->next;
 			temp = ms_get_next_tok(parser, temp);
 		}
 	}
-	printList(first);
+	ms_check_syntax(first);
+	printList(first2);
 	free(temp);
 	free(parser);
 	free_token_lst(first);

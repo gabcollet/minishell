@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+         #
+#    By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/10/25 14:38:39 by jbadia           ###   ########.fr        #
+#    Updated: 2021/10/28 15:31:07 by jbadia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ PROG	= minishell
 
 SRCS 	= srcs/test_main.c srcs/env.c srcs/free_func.c srcs/token_utils.c \
 			srcs/token_list_utils.c srcs/parser.c srcs/ms_cd.c srcs/ms_echo.c \
-			srcs/ms_export.c srcs/ms_pwd.c srcs/utils.c
+			srcs/ms_export.c srcs/ms_pwd.c srcs/utils.c srcs/parser_utils.c \
+			srcs/error.c srcs/syntax.c
 			
 OBJS 	= $(patsubst $(SRCPATH)/%.c,$(OBJPATH)/%.o,$(SRCS))
 SRCPATH = srcs

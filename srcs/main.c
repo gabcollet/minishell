@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/25 14:11:14 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/28 14:49:53 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//struct variabl globale
 t_msh	g_msh;
 
 void	init_shell(void)
@@ -76,7 +75,6 @@ int	main(int argc, char *argv[], char **env)
 			getcwd(c, sizeof(c));
 			printf("%s\n", c);
 		}
-		//il faudrait passé un ft_split sur les args et juste checker le 1er au lieu de strncmp
 		else if (ft_strncmp(line, "echo", 4) == 0)
 			printf("%s\n", line + 5); 
 		else if (ft_strcmp(line, "exit") == 0)

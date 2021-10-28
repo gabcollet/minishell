@@ -9,5 +9,6 @@ int main (void)
 	
 	line = readline("TEST: ");
 	ms_parsing(line);
+	free(line);
 	
 }

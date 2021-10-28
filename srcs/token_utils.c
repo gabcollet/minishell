@@ -1,18 +1,22 @@
 #include "minishell.h"
 
-bool ms_get_token(t_parser *parser)
+
+bool ms_get_token(t_parser *parser, t_token *token)
 {
 	if (ft_strchr(REDIRECTION, parser->str_line[parser->index]))
 	{
 		parser->index++;
-		return (true);
+		return (tokenize_redir(parser, token));
 	}
 	while ((!ft_strchr(REDIRECTION, parser->str_line[parser->index])) 
-		&& (!ft_strchr(WHITESPACE, parser->str_line[parser->index])))
-				parser->index++;
-			if (parser->index > 0)
-				return (true);
-		return(false);
+	&& (!ft_strchr(WHITESPACE, parser->str_line[parser->index])))
+	{
+		change_state(parser);
+		if (parser->state != TEXT)
+			parser->index = ms_handle_quote(parser);
+		parser->index++;
+	}
+		return(tokenize_string(token));
 }
 
 char *ms_get_next_tok(t_parser *parser, char *temp)
