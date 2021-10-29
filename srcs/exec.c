@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/28 17:01:55 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/29 17:20:56 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,16 @@ void	error(char *arg, int i)
 
 /* Function that try exec or take the command and send it to find_path
  before executing it. */
-void	execute(char **arg)
+void	execute(char *arg)
 {
-	execve(arg[0], NULL, g_msh.env);
-	if (ft_strchr(arg[0], '/') != NULL)
-		error(arg[0], 1);
-	if (execve(find_path(arg[0]), arg, g_msh.env) == -1)
-		error(arg[0], 0);
+	char	**cmd;
+
+	cmd = ft_split(arg, ' ');
+	execve(cmd[0], cmd, g_msh.env);
+	if (ft_strchr(cmd[0], '/') != NULL)
+		error(cmd[0], 1);
+	if (execve(find_path(cmd[0]), cmd, g_msh.env) == -1)
+		error(cmd[0], 0);
 }
 
 /* Function that will read input from the terminal and return line. */
@@ -121,33 +124,50 @@ void	execute(char **arg)
 	return (r);
 } */
 
-
-void	child_process(char **arg)
+void	parent_process(char *arg)
 {
 	pid_t	pid;
 	int		status;
-	/* int		fd[2]; */
 
 	status = 0;
-	/* if (pipe(fd) == -1)
-		error(); */
+	pid = fork();
+	if (pid == -1)
+		printf("Dang! This fork did'nt work!");
+	if (pid == 0)
+		execute(arg);
+	else
+	{
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			g_msh.ret_exit = WEXITSTATUS(status);
+	}
+}
+
+void	child_process(char *arg)
+{
+	pid_t	pid;
+	int		status;
+	int		fd[2];
+
+	status = 0;
+	if (pipe(fd) == -1)
+		printf("Dang! This pipe did'nt work!");
 	pid = fork();
 	if (pid == -1)
 		printf("Dang! This fork did'nt work!");
 	if (pid == 0)
 	{
-		/* close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO); */
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
 		execute(arg);
 	}
 	else
 	{
-		/* close(fd[1]);
-		dup2(fd[0], STDIN_FILENO); */
+		close(fd[1]);
+		dup2(fd[0], STDIN_FILENO);
 		waitpid(pid, &status, 0); 
 		if (WIFEXITED(status))
 			g_msh.ret_exit = WEXITSTATUS(status);
-		/* printf("%d\n", g_msh.ret_exit); */
 	}
 }
 
@@ -167,14 +187,84 @@ int	open_file(char *argv, int i)
 	return (file);
 }
 
-/* <ls> <-la> */
+/* ls -la | echo $PATH */
+/* <ls> <-la> <|> <echo> </Users/gcollet/homebrew/bin:...> <NULL>*/
+/* <ls -la> <echo /Users/gcollet/homebrew/bin:...> <NULL> */
+
+int	count_pipe(char **arg)
+{
+	int	count;
+	int	i;
+
+	count = 1;
+	i = 0;
+	while (arg[i])
+	{
+		if (arg[i][0] == '|')
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+char	**make_command(char **arg)
+{
+	int		count;
+	int		j;
+	int		k;
+	char	**tab;
+	char	*string;
+
+	count = count_pipe(arg);
+	j = 0;
+	k = 0;
+	tab = malloc(sizeof(char *) * count + 2);
+	j = 0;
+	while (count > 0)
+	{
+		string = NULL;
+		while (arg[j][0] != '|')
+		{
+			if (arg[j] == NULL)
+				break;
+			if ((arg[j + 1] == NULL || arg[j + 1][0] == '|') && string == NULL)
+				string = ft_strjoin(arg[j], " ");
+			else if (string == NULL)
+			{
+				string = ft_strjoin(arg[j], " ");
+				string = ft_strjoin_free_s1(string, arg[j + 1]);
+				j++;
+			}
+			else
+				string = ft_strjoin_free_s1(string, arg[j]);
+			j++;
+			string = ft_strjoin_free_s1(string, " ");
+			if (arg[j] == NULL)
+				break ;
+		}
+		tab[k] = ft_strdup(string);
+		free(string);
+		j++;
+		k++;
+		count--;
+		/* printf("%d\n", i); */
+	}
+	tab[k] = NULL;
+	return (tab);
+}
 
 void	ms_exec(char **arg)
 {
 	int	i;
+	int	saved_stdin;
 	/* int	filein;
 	int	fileout; */
 
+	i = 0;
+	saved_stdin = dup(0);
+	arg = make_command(arg);
+	while (arg[i])
+		printf("%s\n", arg[i++]);
 	i = 0;
 	if (arg)
 	{
@@ -192,9 +282,22 @@ void	ms_exec(char **arg)
 			filein = open_file(arg[1], 2);
 			dup2(filein, STDIN_FILENO);
 		} */
-		child_process(arg);
-		/* dup2(fileout, STDOUT_FILENO);
-		execute(argv[argc - 2], envp); */
+		while (arg[i + 1])
+			child_process(arg[i++]);
+		parent_process(arg[i]);
+		dup2(saved_stdin, 0);
+		close(saved_stdin);
 	}
 	return ;
 }
+
+// int main(int argc, char *argv)
+// {
+// 	char **test;
+// 	(void)argc;
+	
+// 	test = ft_split(argv[1], " ");
+// 	ms_exec(test);
+// }
+
+/* quand je fait un bash ca remet une ligne minishell */

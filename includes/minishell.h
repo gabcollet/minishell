@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/28 16:30:57 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/10/29 16:48:37 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 /* include pour linux */
 /* # include <linux/limits.h> */
 
-
 #define WHITESPACE "\t\n\v\f\r "
 #define REDIRECTION "|<>"
 
@@ -43,6 +42,7 @@ typedef struct s_msh
 	char	**env;
 	char	**env_export;
 	int		ret_exit;
+	int		switch_signal;
 }				t_msh;
 
 typedef enum	e_type
@@ -50,7 +50,6 @@ typedef enum	e_type
 	VOID,
 	PIPE,
 	STRING,
-	/* SPACE, */ //conflit avec le readline
 	REDIR_L,
 	REDIR_R,
 	HERE_DOC_L,
