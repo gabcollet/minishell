@@ -6,43 +6,11 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/29 17:20:56 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/01 11:40:53 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* Function who make a child process that will read from the stdin with
- get_next_line until it find the limiter word and then put the output inside a
- pipe. The main process will change his stdin for the pipe file descriptor. */
-/* void	here_doc(char *limiter, int argc)
-{
-	pid_t	reader;
-	int		fd[2];
-	char	*line;
-
-	if (argc < 6)
-		usage();
-	if (pipe(fd) == -1)
-		error();
-	reader = fork();
-	if (reader == 0)
-	{
-		close(fd[0]);
-		while (get_next_line(&line))
-		{
-			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
-				exit(EXIT_SUCCESS);
-			write(fd[1], line, ft_strlen(line));
-		}
-	}
-	else
-	{
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		wait(NULL);
-	}
-} */
 
 /* Function that will look for the path line inside the environment, will
  split and test each command path and then return the right one or NULL. */
@@ -72,16 +40,6 @@ char	*find_path(char *cmd)
 	return (NULL);
 }
 
-/* Display error and quit the child process */
-void	error(char *arg, int i)
-{
-	if (i == 0)
-		printf("minishell: %s: command not found\n", arg);
-	else if (i == 1)
-		printf("minishell: %s: No such file or directory\n", arg);
-	exit (127);
-}
-
 /* Function that try exec or take the command and send it to find_path
  before executing it. */
 void	execute(char *arg)
@@ -95,34 +53,6 @@ void	execute(char *arg)
 	if (execve(find_path(cmd[0]), cmd, g_msh.env) == -1)
 		error(cmd[0], 0);
 }
-
-/* Function that will read input from the terminal and return line. */
-/* int	get_next_line(char **line)
-{
-	char	*buffer;
-	int		i;
-	int		r;
-	char	c;
-
-	i = 0;
-	r = 0;
-	buffer = (char *)malloc(10000);
-	if (!buffer)
-		return (-1);
-	r = read(0, &c, 1);
-	while (r && c != '\n' && c != '\0')
-	{
-		if (c != '\n' && c != '\0')
-			buffer[i] = c;
-		i++;
-		r = read(0, &c, 1);
-	}
-	buffer[i] = '\n';
-	buffer[++i] = '\0';
-	*line = buffer;
-	free(buffer);
-	return (r);
-} */
 
 void	parent_process(char *arg)
 {
@@ -171,87 +101,9 @@ void	child_process(char *arg)
 	}
 }
 
-int	open_file(char *argv, int i)
-{
-	int	file;
-
-	file = 0;
-	if (i == 0)
-		file = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0777);
-	else if (i == 1)
-		file = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	else if (i == 2)
-		file = open(argv, O_RDONLY, 0777);
-	/* if (file == -1)
-		erreur d'ouverture de file */
-	return (file);
-}
-
 /* ls -la | echo $PATH */
 /* <ls> <-la> <|> <echo> </Users/gcollet/homebrew/bin:...> <NULL>*/
 /* <ls -la> <echo /Users/gcollet/homebrew/bin:...> <NULL> */
-
-int	count_pipe(char **arg)
-{
-	int	count;
-	int	i;
-
-	count = 1;
-	i = 0;
-	while (arg[i])
-	{
-		if (arg[i][0] == '|')
-			count++;
-		i++;
-	}
-	return (count);
-}
-
-char	**make_command(char **arg)
-{
-	int		count;
-	int		j;
-	int		k;
-	char	**tab;
-	char	*string;
-
-	count = count_pipe(arg);
-	j = 0;
-	k = 0;
-	tab = malloc(sizeof(char *) * count + 2);
-	j = 0;
-	while (count > 0)
-	{
-		string = NULL;
-		while (arg[j][0] != '|')
-		{
-			if (arg[j] == NULL)
-				break;
-			if ((arg[j + 1] == NULL || arg[j + 1][0] == '|') && string == NULL)
-				string = ft_strjoin(arg[j], " ");
-			else if (string == NULL)
-			{
-				string = ft_strjoin(arg[j], " ");
-				string = ft_strjoin_free_s1(string, arg[j + 1]);
-				j++;
-			}
-			else
-				string = ft_strjoin_free_s1(string, arg[j]);
-			j++;
-			string = ft_strjoin_free_s1(string, " ");
-			if (arg[j] == NULL)
-				break ;
-		}
-		tab[k] = ft_strdup(string);
-		free(string);
-		j++;
-		k++;
-		count--;
-		/* printf("%d\n", i); */
-	}
-	tab[k] = NULL;
-	return (tab);
-}
 
 void	ms_exec(char **arg)
 {
@@ -263,9 +115,9 @@ void	ms_exec(char **arg)
 	i = 0;
 	saved_stdin = dup(0);
 	arg = make_command(arg);
-	while (arg[i])
+	/* while (arg[i])
 		printf("%s\n", arg[i++]);
-	i = 0;
+	i = 0; */
 	if (arg)
 	{
 		/* partie qui open si ca pipe */
@@ -290,14 +142,3 @@ void	ms_exec(char **arg)
 	}
 	return ;
 }
-
-// int main(int argc, char *argv)
-// {
-// 	char **test;
-// 	(void)argc;
-	
-// 	test = ft_split(argv[1], " ");
-// 	ms_exec(test);
-// }
-
-/* quand je fait un bash ca remet une ligne minishell */
