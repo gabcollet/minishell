@@ -10,10 +10,46 @@ void printList(t_token *tok)
 		i++;
 	}
 }
+
+int	counter_token(t_token *tok)
+{
+	int	i;
+
+	i = 0;
+	while(tok)
+	{
+		tok = tok->next;
+		i++;
+	}
+	return (i);
+}
+
+char **token_to_tab(t_token *token)
+{
+	char **tab;
+	int	i;
+	int	counter;
+	t_token *first;
+
+	first = token;
+	counter = counter_token(token);
+	tab = (char**)ft_calloc(counter + 1, sizeof(char*));
+	i = 0;
+	while (first->next != NULL)
+	{
+		tab[i] = ft_calloc(ft_strlen(first->str_tok) + 1, sizeof(char*));
+		ft_strlcpy(tab[i], first->str_tok, ft_strlen(first->str_tok) + 1);
+		first = first->next;
+		//printf("%s\n", tab[i]);
+		i++;
+	}
+	return (tab);
+}
 	
-void	ms_parsing(char *line)
+char	**ms_parsing(char *line)
 {
 	char	*temp;
+	char 	**tab;
 	t_parser *parser;
 	t_token *first;
 	t_token *first2;
@@ -34,11 +70,13 @@ void	ms_parsing(char *line)
 			temp = ms_get_next_tok(parser, temp);
 		}
 	}
-	ms_check_syntax(first);
-	printList(first2);
+	token = ms_check_syntax(first);
+	tab = token_to_tab(first);
+	//printList(first2);
 	free(temp);
 	free(parser);
 	free_token_lst(first);
+	return (tab);
 }
 
 bool empty_str(char *str)

@@ -6,7 +6,7 @@
 #    By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/10/28 17:20:05 by jbadia           ###   ########.fr        #
+#    Updated: 2021/11/01 11:32:28 by jbadia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ OBJPATH = obj/
 SRCS 	= test_main.c env.c free_func.c token_utils.c token_list_utils.c parser.c\
 			init.c utils.c ms_env.c ms_export.c ms_cd.c ms_echo.c ms_exit.c\
 			ms_pwd.c ms_unset.c ms_builtins.c syntax.c error.c parser_utils.c \
+			ms_quote.c
 			
 
 OBJFILES = $(SRCS:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/28 17:19:09 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/01 10:29:39 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	loop(void)
 		if (*line)
 			add_history(line);
 
-		/* ms_parsing(line); */
-		temp_parsing = ft_split(line, ' ');
+		temp_parsing = ms_parsing(line);
+		//temp_parsing = ft_split(line, ' ');
 		ms_builtins(temp_parsing);
 		ft_free_tab(temp_parsing);
 	}

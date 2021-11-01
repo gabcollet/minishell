@@ -70,39 +70,6 @@ void	change_state(t_parser *parser)
 	}
 }
 
-int ms_find_close_quote(t_parser *parser, char quote)
-{
-	int	i;
-
-	i = parser->index + 1;
-	while (parser->str_line[i])
-	{
-		if (parser->str_line[i] == quote)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-int	ms_handle_quote(t_parser *parser)
-{
-	int i;
-	
-	i = 0;
-	if (parser->state == S_QUOTE)
-	{
-		i = ms_find_close_quote(parser, '\'');
-		if (i < 0)
-			ms_error_quote(parser);
-	}
-	if (parser->state == D_QUOTE)
-	{
-		i = ms_find_close_quote(parser, '\"');
-		if (i < 0)
-			ms_error_quote(parser);
-	}
-	return (i);
-}
 
 bool tokenize_string(t_token *token)
 {

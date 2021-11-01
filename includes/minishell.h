@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/28 17:20:35 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/01 11:28:42 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	free_token_lst(t_token *tok);
 void	free_struct(t_parser *parser);
 
 //parser
-void	ms_parsing(char *line);
+char	**ms_parsing(char *line);
 bool	empty_str(char *str);
 void	printList(t_token *tok);
 char	*ms_trim_space(char *str);
@@ -135,26 +135,36 @@ char	*ms_trim_space(char *str);
 t_token	*ms_token_last(t_token	*token);
 t_token	*ms_token_newlst(void	*token);
 void	ms_token_addback(t_token **token, t_token *new_tok);
+char **token_to_tab(t_token *token);
+int	counter_token(t_token *tok);
+
 
 //token_utils
 bool ms_get_token(t_parser *parser, t_token *token);
 char *ms_get_next_tok(t_parser *parser, char *temp);
 t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token);
+bool tokenize_string(t_token *token);
+
 void	ft_free_struct(t_msh *g_msh);
 
 //parser_utils
 bool	tokenize_redir(t_parser *parser, t_token *token);
-int ms_find_close_quote(t_parser *parser, char quote);
 void	change_state(t_parser *parser);
-int	ms_handle_quote(t_parser *parser);
 bool tokenize_string(t_token *token);
+
+
+//ms_quote.c
+int ms_find_close_quote(t_parser *parser, char quote);
+int	ms_handle_quote(t_parser *parser);
+int	quote_counter(t_parser *parser, char quote);
+char *ms_remove_quote(char *str);
+
 
 //error
 void	ms_error_quote(t_parser *parser);
 
 //syntax
-void ms_check_syntax(t_token *token);
-char *ms_remove_quote(char *str);
+t_token *ms_check_syntax(t_token *token);
 
 
 //init.c
