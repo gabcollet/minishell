@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/01 11:41:27 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/01 16:46:25 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ typedef	struct s_parser
 t_msh g_msh;
 
 //ms_builtins.c
-int		ms_builtins(char **arg);
+int	ms_builtins(char **arg);
 
 //ms_cd.c
 int		ms_cd(char *arg);
@@ -112,6 +112,7 @@ void	ms_export_valid_arg(char *arg, char *strings);
 void	ms_export_sort(void);
 
 //ms_unset.c
+int		ms_check_unset_arg(char *arg);
 int		ms_unset(char **arg);
 char	**ms_unset_remove(char **env, char *arg);
 

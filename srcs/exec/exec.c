@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/01 11:40:53 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/01 17:07:18 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,21 +89,22 @@ void	child_process(char *arg)
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
+		/* if (ms_builtins(arg) == 0); */ //cd export pi unset ne fonctionneront pas dememe
 		execute(arg);
 	}
 	else
 	{
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
-		waitpid(pid, &status, 0); 
+		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 			g_msh.ret_exit = WEXITSTATUS(status);
 	}
 }
 
-/* ls -la | echo $PATH */
-/* <ls> <-la> <|> <echo> </Users/gcollet/homebrew/bin:...> <NULL>*/
-/* <ls -la> <echo /Users/gcollet/homebrew/bin:...> <NULL> */
+/* ls -la | echo $PATH > test.txt */
+/* <ls> <-la> <|> <echo> </Users/gcollet/homebrew/bin:...> <>> <test.txt> <NULL>*/
+/* <ls -la> <echo /Users/gcollet/homebrew/bin:...> < > test.txt> <NULL> */
 
 void	ms_exec(char **arg)
 {
@@ -113,6 +114,7 @@ void	ms_exec(char **arg)
 	int	fileout; */
 
 	i = 0;
+	g_msh.switch_signal = 1;
 	saved_stdin = dup(0);
 	arg = make_command(arg);
 	/* while (arg[i])
@@ -140,5 +142,6 @@ void	ms_exec(char **arg)
 		dup2(saved_stdin, 0);
 		close(saved_stdin);
 	}
+	g_msh.switch_signal = 0;
 	return ;
 }
