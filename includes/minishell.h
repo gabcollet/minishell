@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/01 11:28:42 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/01 12:15:29 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <string.h>
+# include <sys/wait.h>
+# include <fcntl.h>
 # include "libft.h"
 
 /* include pour linux */
 /* # include <linux/limits.h> */
-
 
 #define WHITESPACE "\t\n\v\f\r "
 #define REDIRECTION "|<>"
@@ -42,6 +44,8 @@ typedef struct s_msh
 	char	**env;
 	char	**env_export;
 	int		ret_exit;
+	int		switch_signal;
+	int		cmd_i;
 }				t_msh;
 
 typedef enum	e_type
@@ -81,7 +85,7 @@ typedef	struct s_parser
 t_msh g_msh;
 
 //ms_builtins.c
-void	ms_builtins(char **arg);
+int		ms_builtins(char **arg);
 
 //ms_cd.c
 int		ms_cd(char *arg);
@@ -110,6 +114,23 @@ void	ms_export_sort(void);
 //ms_unset.c
 int		ms_unset(char **arg);
 char	**ms_unset_remove(char **env, char *arg);
+
+//exec.c
+void	execute(char *arg);
+void	parent_process(char *arg);
+void	child_process(char *arg);
+void	ms_exec(char **arg);
+char	*find_path(char *cmd);
+
+//exec_utils.c
+void	error(char *arg, int i);
+int		open_file(char *argv, int i);
+int		count_pipe(char **arg);
+char	*make_command_string(char *string, char **arg);
+char	**make_command(char **arg);
+/* int	get_next_line(char **line) */
+/* void	here_doc(char *limiter, int argc) */
+
 
 //utils.c
 char	**ms_matrix_add_line(char **matrix, char *new_line);
