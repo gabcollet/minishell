@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/28 17:19:09 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/10/29 16:49:56 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,14 @@ void	loop(void)
 		}
 		if (*line)
 			add_history(line);
-
 		/* ms_parsing(line); */
 		temp_parsing = ft_split(line, ' ');
-		ms_builtins(temp_parsing);
+		if (ms_builtins(temp_parsing) == 1)
+		{
+			g_msh.switch_signal = 1;
+			ms_exec(temp_parsing);
+			g_msh.switch_signal = 0;
+		}
 		ft_free_tab(temp_parsing);
 	}
 	free(line);
@@ -44,11 +48,11 @@ void	loop(void)
 void	ctrl_c(int var)
 {
 	(void) var;
-	printf("\r");
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	rl_redisplay();
+	if (g_msh.switch_signal == 0)
+		rl_redisplay();
 }
 
 int	main(int argc, char *argv[], char **env)
