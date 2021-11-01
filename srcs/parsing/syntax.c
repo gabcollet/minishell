@@ -1,15 +1,17 @@
 #include "minishell.h"
 
-t_token *ms_check_syntax(t_token *token)
+t_token *ms_check_quote(t_token *token)
 {
 	t_token *first;
 	char *temp;
 	char *temp1;
+	int	i;
 
 	first = token;
+	i = 0;
 	while (token)
 	{
-		if (token->type == STRING && ((token->str_tok[0] == '\'' || token->str_tok[0] == '\"')))
+		if (token->type == STRING && (token->str_tok[0] == '\'' || token->str_tok[0] == '\"'))
 		{
 			temp = ft_strdup(token->str_tok);
 			free(token->str_tok);

@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/01 12:15:29 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/01 19:51:32 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ char *ms_remove_quote(char *str);
 void	ms_error_quote(t_parser *parser);
 
 //syntax
-t_token *ms_check_syntax(t_token *token);
+t_token *ms_check_quote(t_token *token);
 
 
 //init.c
@@ -198,5 +198,9 @@ void	init_shell();
 //int		main(int argc, char *argv[], char **env);
 void	ctrl_c(int var);
 void	loop(void);
+
+//dollar_sign
+char **replace_dol_w_env(char **tab);
+char *get_arg(char **tab);
 
 #endif

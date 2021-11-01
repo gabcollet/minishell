@@ -24,7 +24,7 @@ int	ms_handle_quote(t_parser *parser)
 	counter = 0;
 	if (parser->state == S_QUOTE)
 	{
-		counter = quote_counter(parser,'\'');
+		//counter = quote_counter(parser,'\'');
 		if (counter % 2 != 0)
 			ms_error_quote(parser);
 		i = ms_find_close_quote(parser, '\'');
@@ -33,7 +33,7 @@ int	ms_handle_quote(t_parser *parser)
 	}
 	if (parser->state == D_QUOTE)
 	{
-		counter = quote_counter(parser,'\"');
+		//counter = quote_counter(parser,'\"');
 		if (counter % 2 != 0)
 			ms_error_quote(parser);
 		i = ms_find_close_quote(parser, '\"');

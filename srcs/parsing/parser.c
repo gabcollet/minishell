@@ -27,6 +27,7 @@ int	counter_token(t_token *tok)
 char **token_to_tab(t_token *token)
 {
 	char **tab;
+	char **temp;
 	int	i;
 	int	counter;
 	t_token *first;
@@ -40,9 +41,16 @@ char **token_to_tab(t_token *token)
 		tab[i] = ft_calloc(ft_strlen(first->str_tok) + 1, sizeof(char*));
 		ft_strlcpy(tab[i], first->str_tok, ft_strlen(first->str_tok) + 1);
 		first = first->next;
-		//printf("%s\n", tab[i]);
 		i++;
 	}
+	temp = replace_dol_w_env(tab);
+	// i = 0;
+	// while (temp[i])
+	// {
+	// 	printf("%s\n", temp[i]);
+	// 	i++;
+	// }
+
 	return (tab);
 }
 	
@@ -70,7 +78,7 @@ char	**ms_parsing(char *line)
 			temp = ms_get_next_tok(parser, temp);
 		}
 	}
-	token = ms_check_syntax(first);
+	token = ms_check_quote(first);
 	tab = token_to_tab(first);
 	//printList(first2);
 	free(temp);

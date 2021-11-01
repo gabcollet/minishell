@@ -13,7 +13,10 @@ bool ms_get_token(t_parser *parser, t_token *token)
 	{
 		change_state(parser);
 		if (parser->state != TEXT)
+		{
 			parser->index = ms_handle_quote(parser);
+			change_state(parser);
+		}
 		parser->index++;
 	}
 		return(tokenize_string(token));
