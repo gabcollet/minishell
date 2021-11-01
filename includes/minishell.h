@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
 /*   Updated: 2021/11/01 11:41:27 by gcollet          ###   ########.fr       */
@@ -36,6 +36,8 @@
 
 #define WHITESPACE "\t\n\v\f\r "
 #define REDIRECTION "|<>"
+#define ERR_QUOTE_S "invalid single quote"
+#define ERR_QUOTE_D "invalid double quote"
 
 typedef struct s_msh
 {
@@ -156,10 +158,25 @@ t_token	*ms_token_newlst(void	*token);
 void	ms_token_addback(t_token **token, t_token *new_tok);
 
 //token_utils
-bool	ms_get_token(t_parser *parser);
-char	*ms_get_next_tok(t_parser *parser, char *temp);
+bool ms_get_token(t_parser *parser, t_token *token);
+char *ms_get_next_tok(t_parser *parser, char *temp);
 t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token);
 void	ft_free_struct(t_msh *g_msh);
+
+//parser_utils
+bool	tokenize_redir(t_parser *parser, t_token *token);
+int ms_find_close_quote(t_parser *parser, char quote);
+void	change_state(t_parser *parser);
+int	ms_handle_quote(t_parser *parser);
+bool tokenize_string(t_token *token);
+
+//error
+void	ms_error_quote(t_parser *parser);
+
+//syntax
+void ms_check_syntax(t_token *token);
+char *ms_remove_quote(char *str);
+
 
 //init.c
 char	*ms_init_s_parser(t_parser *parser, char *line);
@@ -168,7 +185,7 @@ void	ms_init_export(void);
 void	init_shell();
 
 //main.c
-int		main(int argc, char *argv[], char **env);
+//int		main(int argc, char *argv[], char **env);
 void	ctrl_c(int var);
 void	loop(void);
 

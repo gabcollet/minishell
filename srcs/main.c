@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
 /*   Updated: 2021/10/29 16:49:56 by gcollet          ###   ########.fr       */
@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-//struct variabl globale
 t_msh	g_msh;
 
 void	loop(void)
