@@ -11,53 +11,49 @@ void printList(t_token *tok)
 	}
 }
 
-int	counter_token(t_token *tok)
+int	counter_string(t_token *tok)
 {
 	int	i;
 
 	i = 0;
-	while(tok)
+	while (tok)
 	{
+		if (tok->type == PIPE)
+			tok = tok->next;
+		else if (tok->type == REDIR_L || tok->type == REDIR_R 
+			|| tok->type == HERE_DOC_L || tok->type == HERE_DOC_R)
+			tok = tok->next->next;
+		else if (tok->type == STRING)
+			i++;
 		tok = tok->next;
-		i++;
 	}
 	return (i);
 }
 
-char **token_to_tab(t_token *token)
+void token_to_tab(t_token *token, t_job *job)
 {
-	char **tab;
-	char **temp;
 	int	i;
 	int	counter;
-	t_token *first;
-
-	first = token;
-	counter = counter_token(token);
-	tab = (char**)ft_calloc(counter + 1, sizeof(char*));
-	i = 0;
-	while (first->next != NULL)
+	
+	if (!job->cmd)
 	{
-		tab[i] = ft_calloc(ft_strlen(first->str_tok) + 1, sizeof(char*));
-		ft_strlcpy(tab[i], first->str_tok, ft_strlen(first->str_tok) + 1);
-		first = first->next;
-		i++;
+		counter = counter_string(token);
+		job->cmd = (char**)ft_calloc(counter + 1, sizeof(char*));
 	}
-	temp = replace_dol_w_env(tab);
-	// i = 0;
-	// while (temp[i])
-	// {
-	// 	printf("%s\n", temp[i]);
-	// 	i++;
-	// }
-
-	return (tab);
+	i = 0;
+	if (token->type == STRING)
+	{
+		while (job->cmd[i])
+			i++;
+		job->cmd[i] = ft_calloc(ft_strlen(token->str_tok) + 1, sizeof(char*));
+		ft_strlcpy(job->cmd[i], token->str_tok, ft_strlen(token->str_tok) + 1);
+	}
+	job->cmd = replace_dol_w_env(job->cmd);
 }
 	
-char	**ms_parsing(char *line)
+t_job	*ms_parsing(char *line, t_job *job_first)
 {
 	char	*temp;
-	char 	**tab;
 	t_parser *parser;
 	t_token *first;
 	t_token *first2;
@@ -79,12 +75,11 @@ char	**ms_parsing(char *line)
 		}
 	}
 	token = ms_check_quote(first);
-	tab = token_to_tab(first);
-	//printList(first2);
 	free(temp);
 	free(parser);
-	free_token_lst(first);
-	return (tab);
+	//free_token_lst(first);
+	job_first = ms_job(job_first, first2);
+	return (job_first);
 }
 
 bool empty_str(char *str)

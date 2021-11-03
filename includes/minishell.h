@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/01 19:51:32 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/03 17:49:31 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_msh
 {
 	char	**env;
 	char	**env_export;
+	char	**tok_tab;
 	int		ret_exit;
 	int		switch_signal;
 	int		cmd_i;
@@ -83,6 +84,23 @@ typedef	struct s_parser
 
 
 t_msh g_msh;
+
+typedef struct s_redir
+{
+	t_type		type;
+	char		*file;
+
+}				t_redir;
+
+typedef	struct s_job
+{
+	struct s_job *previous;
+	char 		**cmd;
+	t_redir 	redir;
+	struct s_job *next;
+	
+}				t_job;
+
 
 //ms_builtins.c
 int		ms_builtins(char **arg);
@@ -147,17 +165,17 @@ void	free_token_lst(t_token *tok);
 void	free_struct(t_parser *parser);
 
 //parser
-char	**ms_parsing(char *line);
+t_job	*ms_parsing(char *line, t_job *first_job);
 bool	empty_str(char *str);
 void	printList(t_token *tok);
 char	*ms_trim_space(char *str);
+void token_to_tab(t_token *token, t_job *job);
 
 //token_lst_utils
 t_token	*ms_token_last(t_token	*token);
 t_token	*ms_token_newlst(void	*token);
 void	ms_token_addback(t_token **token, t_token *new_tok);
-char **token_to_tab(t_token *token);
-int	counter_token(t_token *tok);
+int	counter_string(t_token *tok);
 
 
 //token_utils
@@ -202,5 +220,13 @@ void	loop(void);
 //dollar_sign
 char **replace_dol_w_env(char **tab);
 char *get_arg(char **tab);
+
+//ms_job_list
+void	ms_job_addback(t_job **job, t_job *new_job);
+t_job	*ms_job_last(t_job *job);
+t_job	*ms_job_newlst(void);
+
+//ms_job
+t_job	*ms_job(t_job *job, t_token *token);
 
 #endif
