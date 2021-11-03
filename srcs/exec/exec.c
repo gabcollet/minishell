@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/02 15:35:31 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/03 15:04:50 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,17 @@ void	execute(char *arg)
 	if (execve(find_path(cmd[0]), cmd, g_msh.env) == -1)
 		error(cmd[0], 0);
 }
+
+/* int	redir_output()
+{
+	int	fileout;
+
+	if (g_msh.redir_output != NULL)
+		return (fileout = open_file(g_msh.redir_output, 1));
+	else if (g_msh.append_output != NULL)
+		return (fileout = open_file(g_msh.append_output, 0));
+	return (0);
+} */
 
 void	parent_process(char *arg)
 {
@@ -117,11 +128,6 @@ void	ms_exec(char **arg)
 	{
 		while (arg[i + 1] && parse_redir(arg[i]) != 1)
 			child_process(arg[i++]);
-		/* printf("%s\n", g_msh.redir_input);
-		printf("%s\n", g_msh.redir_output);
-		printf("%s\n", g_msh.append_output);
-		printf("%s\n", g_msh.here_doc);
-		printf("%s\n", arg[i]); */
 		if (parse_redir(arg[i]) != 1)
 			parent_process(arg[i]);
 // Important pour que le readline refonctionne apres

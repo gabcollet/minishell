@@ -6,11 +6,13 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 14:45:11 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/02 15:01:15 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/03 15:05:13 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/* tout ca est bon pour les vidanges */
 
 void	init_redir(void)
 {
@@ -29,7 +31,7 @@ void	set_redir_info(int g_redir, char *string, int i, int file_len)
 	else if (g_redir == 3)
 		g_msh.redir_input = ft_substr(string, i, file_len);
 	else if (g_redir == 4)
-		g_msh.here_doc = ft_substr(string, i, file_len);
+		g_msh.here_doc = ft_substr(string, i, file_len);9
 }
 
 int	get_redir_info(char *string, int g_redir, int i)
@@ -61,25 +63,25 @@ int	parse_redir(char *arg)
 	char	*string;
 	int		i;
 
-	i = 1;
+	i = 0;
 	init_redir();
 	string = ft_strchr(arg, '>');
 	if (string != NULL)
 	{
-		if (string[1] == '>' && get_redir_info(string, 2, 2) == 0)
-			i = 0;
-		else if (get_redir_info(string, 1, 1) == 0)
-			i = 0;
+		if (string[1] == '>' && get_redir_info(string, 2, 2) == 1)
+			i = 1;
+		else if (get_redir_info(string, 1, 1) == 1)
+			i = 1;
 	}
 	string = ft_strchr(arg, '<');
 	if (string != NULL)
 	{
-		if (string[1] == '<' && get_redir_info(string, 4, 2) == 0)
-			i = 0;
-		else if (get_redir_info(string, 3, 1) == 0)
-			i = 0;
+		if (string[1] == '<' && get_redir_info(string, 4, 2) == 1)
+			i = 1;
+		else if (get_redir_info(string, 3, 1) == 1)
+			i = 1;
 	}
-	if (i == 0)
-		return (0);
-	return (1);
+	if (i == 1)
+		return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/02 13:59:22 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/03 15:09:21 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,18 @@ void	loop(void)
 		/* ms_parsing(line); */
 		temp_parsing = ft_split(line, ' ');
 		i = 0;
-		while (temp_parsing[i])
+/* les builtins ne fonctionneront pas si ils passent par une fork */
+		/* while (temp_parsing[i])
 		{
 			if (look_for_pipe_or_redir(temp_parsing[i]) == 1)
 			{	
 				ms_exec(temp_parsing);
 				break;
 			}
-			i++;
+			i++; */
 			if (temp_parsing[i] == NULL && ms_builtins(temp_parsing) == 1)
 				ms_exec(temp_parsing);
-		}
+		/* } */
 		ft_free_tab(temp_parsing);
 	}
 	free(line);
