@@ -6,13 +6,22 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/01 16:34:30 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/02 13:59:22 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 t_msh	g_msh;
+
+int	look_for_pipe_or_redir(char *parsing)
+{
+	if (ft_strchr(parsing, '|') != NULL || ft_strchr(parsing, '<') != NULL
+		|| ft_strchr(parsing, '>') != NULL || ft_strcmp(parsing, "<<") == 0
+		|| ft_strcmp(parsing, ">>") == 0)
+		return (1);
+	return (0);
+}
 
 void	loop(void)
 {
@@ -38,7 +47,7 @@ void	loop(void)
 		i = 0;
 		while (temp_parsing[i])
 		{
-			if (ft_strchr(temp_parsing[i], '|') != NULL)
+			if (look_for_pipe_or_redir(temp_parsing[i]) == 1)
 			{	
 				ms_exec(temp_parsing);
 				break;
