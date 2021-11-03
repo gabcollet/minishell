@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:38:52 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/26 11:11:27 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/02 13:49:51 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ char		*ft_strdup(const char *s);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strjoin_free_s1(char *s1, char const *s2);
 size_t		ft_strlcat(char *dst, const char *src, size_t size);
+size_t		ft_strcpy(char *dst, const char *src);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 size_t		ft_strlen(const char *s);
 char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));

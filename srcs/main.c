@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/29 16:49:56 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/03 15:09:21 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,27 @@
 
 t_msh	g_msh;
 
+int	look_for_pipe_or_redir(char *parsing)
+{
+	if (ft_strchr(parsing, '|') != NULL || ft_strchr(parsing, '<') != NULL
+		|| ft_strchr(parsing, '>') != NULL || ft_strcmp(parsing, "<<") == 0
+		|| ft_strcmp(parsing, ">>") == 0)
+		return (1);
+	return (0);
+}
+
 void	loop(void)
 {
 	char	*line;
-	char** temp_parsing;
+	char**	temp_parsing;
+	int		i;
+
 	line = NULL;
-	
 	while (true)
 	{
 		if (line != NULL)
 			free(line);
-		line = readline("\001\e[1;96m\002minishell 1.0$ \001\033[0m\002");
+		line = readline("\001\e[1;96m\002minishell 1.1$ \001\033[0m\002");
 		if (!line)
 		{
 			free(line);
@@ -34,12 +44,19 @@ void	loop(void)
 			add_history(line);
 		/* ms_parsing(line); */
 		temp_parsing = ft_split(line, ' ');
-		if (ms_builtins(temp_parsing) == 1)
+		i = 0;
+/* les builtins ne fonctionneront pas si ils passent par une fork */
+		/* while (temp_parsing[i])
 		{
-			g_msh.switch_signal = 1;
-			ms_exec(temp_parsing);
-			g_msh.switch_signal = 0;
-		}
+			if (look_for_pipe_or_redir(temp_parsing[i]) == 1)
+			{	
+				ms_exec(temp_parsing);
+				break;
+			}
+			i++; */
+			if (temp_parsing[i] == NULL && ms_builtins(temp_parsing) == 1)
+				ms_exec(temp_parsing);
+		/* } */
 		ft_free_tab(temp_parsing);
 	}
 	free(line);

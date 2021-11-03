@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 11:37:01 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/01 11:40:50 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/02 11:06:23 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,17 @@ int	open_file(char *argv, int i)
 	int	file;
 
 	file = 0;
+	/* write and append (>>) */
 	if (i == 0)
 		file = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	/* write and trunc (>) */
 	else if (i == 1)
 		file = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	/* read only (<) */
 	else if (i == 2)
 		file = open(argv, O_RDONLY, 0777);
-	/* if (file == -1)
-		erreur d'ouverture de file */
+	if (file == -1)
+		printf("minishell: no such file or directory: %s", argv);
 	return (file);
 }
 

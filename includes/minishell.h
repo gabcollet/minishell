@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/01 11:41:27 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/02 15:32:26 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ typedef struct s_msh
 	int		ret_exit;
 	int		switch_signal;
 	int		cmd_i;
+	char	*redir_output;
+	char	*append_output;
+	char	*redir_input;
+	char	*here_doc;
 }				t_msh;
 
 typedef enum	e_type
@@ -85,7 +89,7 @@ typedef	struct s_parser
 t_msh g_msh;
 
 //ms_builtins.c
-int		ms_builtins(char **arg);
+int	ms_builtins(char **arg);
 
 //ms_cd.c
 int		ms_cd(char *arg);
@@ -112,6 +116,7 @@ void	ms_export_valid_arg(char *arg, char *strings);
 void	ms_export_sort(void);
 
 //ms_unset.c
+int		ms_check_unset_arg(char *arg);
 int		ms_unset(char **arg);
 char	**ms_unset_remove(char **env, char *arg);
 
@@ -131,6 +136,11 @@ char	**make_command(char **arg);
 /* int	get_next_line(char **line) */
 /* void	here_doc(char *limiter, int argc) */
 
+//redir_parsing.c
+void	init_redir(void);
+void	set_redir_info(int g_redir, char *string, int i, int file_len);
+int		get_redir_info(char *string, int g_redir, int i);
+int		parse_redir(char *arg);
 
 //utils.c
 char	**ms_matrix_add_line(char **matrix, char *new_line);
@@ -158,25 +168,24 @@ t_token	*ms_token_newlst(void	*token);
 void	ms_token_addback(t_token **token, t_token *new_tok);
 
 //token_utils
-bool ms_get_token(t_parser *parser, t_token *token);
-char *ms_get_next_tok(t_parser *parser, char *temp);
+bool 	ms_get_token(t_parser *parser, t_token *token);
+char 	*ms_get_next_tok(t_parser *parser, char *temp);
 t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token);
 void	ft_free_struct(t_msh *g_msh);
 
 //parser_utils
 bool	tokenize_redir(t_parser *parser, t_token *token);
-int ms_find_close_quote(t_parser *parser, char quote);
+int 	ms_find_close_quote(t_parser *parser, char quote);
 void	change_state(t_parser *parser);
-int	ms_handle_quote(t_parser *parser);
-bool tokenize_string(t_token *token);
+int		ms_handle_quote(t_parser *parser);
+bool 	tokenize_string(t_token *token);
 
 //error
 void	ms_error_quote(t_parser *parser);
 
 //syntax
-void ms_check_syntax(t_token *token);
-char *ms_remove_quote(char *str);
-
+void 	ms_check_syntax(t_token *token);
+char 	*ms_remove_quote(char *str);
 
 //init.c
 char	*ms_init_s_parser(t_parser *parser, char *line);
