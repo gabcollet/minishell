@@ -42,7 +42,7 @@ bool	tokenize_redir(t_parser *parser, t_token *token)
 	return(true);
 }
 
-void	change_state(t_parser *parser)
+void	change_state(t_parser *parser, t_token *token)
 {
 	size_t	i;
 	
@@ -51,12 +51,15 @@ void	change_state(t_parser *parser)
 	{
 		if (parser->str_line[i] == '\'')
 		{
-			if (parser->state == D_QUOTE)
+			if (parser->state == D_QUOTE)	
 				parser->state = D_QUOTE;
 			if (parser->state == TEXT)
 				parser->state = S_QUOTE;
 			else if (parser->state == S_QUOTE)
+			{
 				parser->state = TEXT;
+				token->state = NO_DOL;
+			}
 		}
 		if (parser->str_line[i] == '\"')
 		{

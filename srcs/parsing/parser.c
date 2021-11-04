@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+void printListjob(t_job *tok, t_token *token);;
+
 void printList(t_token *tok)
 {
 	int i = 0;
@@ -41,14 +43,14 @@ void token_to_tab(t_token *token, t_job *job)
 		job->cmd = (char**)ft_calloc(counter + 1, sizeof(char*));
 	}
 	i = 0;
-	if (token->type == STRING)
-	{
-		while (job->cmd[i])
-			i++;
-		job->cmd[i] = ft_calloc(ft_strlen(token->str_tok) + 1, sizeof(char*));
-		ft_strlcpy(job->cmd[i], token->str_tok, ft_strlen(token->str_tok) + 1);
-	}
-	job->cmd = replace_dol_w_env(job->cmd);
+	while (job->cmd[i])
+		i++;
+	job->cmd[i] = ft_calloc(ft_strlen(token->str_tok) + 1, sizeof(char*));
+	ft_strlcpy(job->cmd[i], token->str_tok, ft_strlen(token->str_tok) + 1);
+	if (ft_strchr("$", *job->cmd[i]) && (token->state == TEXT))
+		replace_dol_w_env(&job->cmd[i], job, i);
+	//peut etre un if il y a $ et que on est pas sur un state de simple quote
+	//job->cmd = replace_dol_w_env(job->cmd);
 }
 	
 t_job	*ms_parsing(char *line, t_job *job_first)

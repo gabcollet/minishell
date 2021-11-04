@@ -9,6 +9,7 @@ int main(int argc, char *argv[], char **env)
 {
 	char *line;
 	t_job	*job_first;
+	t_job	*job_first2;
 	
 	(void)argc;
 	(void)argv;
@@ -18,6 +19,8 @@ int main(int argc, char *argv[], char **env)
 	g_msh.ret_exit = 0;
 	line = readline("TEST: ");
 	job_first = ms_parsing(line, job_first);
+	job_first2 = job_first;
 	printListjob(job_first);
+	//free_job_lst(job_first2);
 	free(line);
 }

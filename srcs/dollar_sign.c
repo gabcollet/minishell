@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char **replace_dol_w_env(char **tab)
+void	replace_dol_w_env(char **tab, t_job *job, int k)
 {
 	char *str;
 	char **str2;
@@ -10,21 +10,20 @@ char **replace_dol_w_env(char **tab)
 
 	arg = get_arg(tab);
 	str = ms_get_env(g_msh.env, arg);
-	str2 = ft_calloc(ft_strlen(str) + ft_strlen(*tab), sizeof(char*));
+	str2 = (char**)ft_calloc(ft_strlen(str) + ft_strlen(*tab), sizeof(char*));
 	temp = ft_substr(str, ft_strlen(arg) + 1, ft_strlen(str) - ft_strlen(arg));
 	i = 0;
 	while (tab[i])
 	{
 		if ((ft_strchr("$", *tab[i])))
 		{
-			str2[i] = temp;
+			job->cmd[k] = temp;
 			//free(temp);
 		}
-		else
-			str2[i] = tab[i];
+		// else
+		// 	str2[i] = tab[i];
 		i++;
 	}
-	return(str2);
 }
 
 
@@ -37,17 +36,13 @@ char *get_arg(char **tab)
 	i = 0;
 	j = 0;
 	arg = ft_calloc(10, sizeof(char *));
-	while (tab[i])
+	if (ft_strchr("$", *tab[i]))
 	{
-		if (ft_strchr("$", *tab[i]))
+		while (!ft_strchr(WHITESPACE, tab[i][j]))
 		{
-			while (!ft_strchr(WHITESPACE, tab[i][j]))
-			{
-				arg[j] = tab[i][j + 1];
-				j++;
-			}	
+			arg[j] = tab[i][j + 1];
+			j++;
 		}	
-		i++;
-	}
+	}	
 	return(arg);
 }

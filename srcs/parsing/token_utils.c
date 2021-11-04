@@ -11,11 +11,11 @@ bool ms_get_token(t_parser *parser, t_token *token)
 	while ((!ft_strchr(REDIRECTION, parser->str_line[parser->index])) 
 	&& (!ft_strchr(WHITESPACE, parser->str_line[parser->index])))
 	{
-		change_state(parser);
+		change_state(parser, token);
 		if (parser->state != TEXT)
 		{
 			parser->index = ms_handle_quote(parser);
-			change_state(parser);
+			change_state(parser, token);
 		}
 		parser->index++;
 	}

@@ -9,6 +9,9 @@ t_job	*ms_job_newlst(void)
 		return (NULL);
 	new->cmd = NULL;
 	new->next = NULL;
+	new->redir = ft_calloc(1, sizeof(t_redir));
+	if (!new->redir)
+		return (NULL);
 	return (new);
 }
 

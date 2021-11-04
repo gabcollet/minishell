@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/03 17:49:31 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/04 15:20:43 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,14 @@ typedef enum	e_state
 	TEXT,
 	S_QUOTE,
 	D_QUOTE,
+	NO_DOL,
 }				t_state;
 
 typedef struct s_token
 {
 	struct	s_token	*previous;
 	t_type	type;
+	t_state	state;
 	char	*str_tok;
 	struct s_token *next;
 }				t_token;
@@ -88,7 +90,7 @@ t_msh g_msh;
 typedef struct s_redir
 {
 	t_type		type;
-	char		*file;
+	char		**file;
 
 }				t_redir;
 
@@ -96,7 +98,7 @@ typedef	struct s_job
 {
 	struct s_job *previous;
 	char 		**cmd;
-	t_redir 	redir;
+	t_redir 	*redir;
 	struct s_job *next;
 	
 }				t_job;
@@ -163,6 +165,7 @@ void	ms_set_env(char **env, char *value);
 //free_func.c
 void	free_token_lst(t_token *tok);
 void	free_struct(t_parser *parser);
+void	free_job_lst(t_job *job);
 
 //parser
 t_job	*ms_parsing(char *line, t_job *first_job);
@@ -188,7 +191,7 @@ void	ft_free_struct(t_msh *g_msh);
 
 //parser_utils
 bool	tokenize_redir(t_parser *parser, t_token *token);
-void	change_state(t_parser *parser);
+void	change_state(t_parser *parser, t_token *token);
 bool tokenize_string(t_token *token);
 
 
@@ -218,7 +221,7 @@ void	ctrl_c(int var);
 void	loop(void);
 
 //dollar_sign
-char **replace_dol_w_env(char **tab);
+void	replace_dol_w_env(char **tab, t_job *job, int i);
 char *get_arg(char **tab);
 
 //ms_job_list
@@ -228,5 +231,8 @@ t_job	*ms_job_newlst(void);
 
 //ms_job
 t_job	*ms_job(t_job *job, t_token *token);
+bool is_redirection(t_token *token);
+void	redirection_to_tab(t_token *token, t_job *job);
+int	redir_counter(t_token *tok);
 
 #endif
