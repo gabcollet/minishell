@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/05 11:09:54 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/05 15:57:16 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,10 @@
 
 t_msh	g_msh;
 
-int	look_for_pipe_or_redir(char *parsing)
-{
-	if (ft_strchr(parsing, '|') != NULL || ft_strchr(parsing, '<') != NULL
-		|| ft_strchr(parsing, '>') != NULL || ft_strcmp(parsing, "<<") == 0
-		|| ft_strcmp(parsing, ">>") == 0)
-		return (1);
-	return (0);
-}
-
 void	loop(void)
 {
 	char	*line;
 	t_job	*job_first;
-	int		i;
 
 	line = NULL;
 	while (true)
@@ -44,29 +34,14 @@ void	loop(void)
 			add_history(line);
 
 		job_first = ms_parsing(line, job_first);
-		if (ms_builtins(job_first->cmd) == 1)
+	/* fait les jobs 2 fois */
+		if (job_first->next == NULL)
 		{
-			g_msh.switch_signal = 1;
-			ms_exec(job_first->cmd);
-			g_msh.switch_signal = 0;
+			if (ms_builtins(job_first->cmd, 0) == 1)
+				ms_exec(job_first);
 		}
-		//ft_free_tab(temp_parsing); free la struct job
-
-		/*temp_parsing = ft_split(line, ' ');
-		i = 0;
- les builtins ne fonctionneront pas si ils passent par une fork */
-		/* while (temp_parsing[i])
-		{
-			if (look_for_pipe_or_redir(temp_parsing[i]) == 1)
-			{	
-				ms_exec(temp_parsing);
-				break;
-			}
-			i++; 
-			if (temp_parsing[i] == NULL && ms_builtins(temp_parsing) == 1)
-				ms_exec(temp_parsing);
-		 } */
-		//ft_free_tab(temp_parsing);
+		else
+			ms_exec(job_first);
 	}
 	free(line);
 }
@@ -74,7 +49,8 @@ void	loop(void)
 void	ctrl_c(int var)
 {
 	(void) var;
-	printf("\n");
+	if (g_msh.switch_signal == 0)
+		printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	if (g_msh.switch_signal == 0)

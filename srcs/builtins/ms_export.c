@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 11:56:37 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/01 16:49:35 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/05 14:41:37 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,9 @@ int	ms_export(char **arg)
 {
 	char	**strings;
 	int		i;
+	int		ret;
 
+	ret = 0;
 	i = 0;
 	while (arg[i])
 	{
@@ -110,6 +112,7 @@ int	ms_export(char **arg)
 		{
 			i++;
 			continue;
+			ret = 1;
 		}
 		strings = ft_split(arg[i], '=');
 		ms_export_valid_arg(arg[i], strings[0]);
@@ -118,5 +121,5 @@ int	ms_export(char **arg)
 	}
 	if (arg[0] == NULL)
 		ms_export_sort();
-	return (0);
+	return (ret);
 }

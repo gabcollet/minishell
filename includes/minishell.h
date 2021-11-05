@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/02 15:32:26 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/05 16:02:16 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <string.h>
-# include <sys/wait.h>
 # include <fcntl.h>
 # include "libft.h"
 
@@ -95,9 +94,8 @@ t_msh g_msh;
 
 typedef struct s_redir
 {
-	t_type		type;
-	char		**file;
-
+	t_type		type;  //ca sera pas vraiment le bon si yen a plusieurs
+	char		**file; //">" "test" ">>" "test2
 }				t_redir;
 
 typedef	struct s_job
@@ -111,7 +109,7 @@ typedef	struct s_job
 
 
 //ms_builtins.c
-int	ms_builtins(char **arg);
+int	ms_builtins(char **arg, int i);
 
 //ms_cd.c
 int		ms_cd(char *arg);
@@ -143,10 +141,10 @@ int		ms_unset(char **arg);
 char	**ms_unset_remove(char **env, char *arg);
 
 //exec.c
-void	execute(char *arg);
-void	parent_process(char *arg);
-void	child_process(char *arg);
-void	ms_exec(char **arg);
+void	execute(char **arg);
+void	parent_process(char **arg);
+void	child_process(char **arg);
+void	ms_exec(t_job *job);
 char	*find_path(char *cmd);
 
 //exec_utils.c

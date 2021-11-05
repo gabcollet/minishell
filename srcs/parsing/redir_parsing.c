@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 14:45:11 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/03 15:05:13 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/05 12:20:00 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* tout ca est bon pour les vidanges */
 
-void	init_redir(void)
+/* void	init_redir(void)
 {
 	g_msh.redir_input = NULL;
 	g_msh.redir_output = NULL;
@@ -31,7 +31,7 @@ void	set_redir_info(int g_redir, char *string, int i, int file_len)
 	else if (g_redir == 3)
 		g_msh.redir_input = ft_substr(string, i, file_len);
 	else if (g_redir == 4)
-		g_msh.here_doc = ft_substr(string, i, file_len);9
+		g_msh.here_doc = ft_substr(string, i, file_len);
 }
 
 int	get_redir_info(char *string, int g_redir, int i)
@@ -84,4 +84,4 @@ int	parse_redir(char *arg)
 	if (i == 1)
 		return (1);
 	return (0);
-}
+} */

@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/03 15:04:50 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/05 16:05:41 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,9 @@ char	*find_path(char *cmd)
 
 /* Function that try exec or take the command and send it to find_path
  before executing it. */
-void	execute(char *arg)
+void	execute(char **cmd)
 {
-	char	**cmd;
-
-	cmd = ft_split(arg, ' ');
-	execve(cmd[0], cmd, g_msh.env);
+	execve(cmd[0], cmd, g_msh.env); //error is a directory
 	if (ft_strchr(cmd[0], '/') != NULL)
 		error(cmd[0], 1);
 	if (execve(find_path(cmd[0]), cmd, g_msh.env) == -1)
@@ -65,26 +62,26 @@ void	execute(char *arg)
 	return (0);
 } */
 
-void	parent_process(char *arg)
+void	parent_process(char **arg)
 {
 	pid_t	pid;
-	int		status;
+	int		wstatus;
 
-	status = 0;
+	wstatus = 0;
 	pid = fork();
 	if (pid == -1)
-		printf("Dang! This fork did'nt work!");
+		printf("Dang! This fork didn't work!");
 	if (pid == 0)
-		execute(arg);
-	else
 	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			g_msh.ret_exit = WEXITSTATUS(status);
+		if (ms_builtins(arg, 1) == 1)
+			execute(arg);
 	}
+	waitpid(pid, &wstatus, 0);
+	if (WIFEXITED(wstatus))
+		g_msh.ret_exit = WEXITSTATUS(wstatus);
 }
 
-void	child_process(char *arg)
+void	child_process(char **arg)
 {
 	pid_t	pid;
 	int		status;
@@ -92,44 +89,39 @@ void	child_process(char *arg)
 
 	status = 0;
 	if (pipe(fd) == -1)
-		printf("Dang! This pipe did'nt work!");
+		printf("Dang! This pipe didn't work!");
 	pid = fork();
 	if (pid == -1)
-		printf("Dang! This fork did'nt work!");
+		printf("Dang! This fork didn't work!");
 	if (pid == 0)
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
-		execute(arg);
+		if (ms_builtins(arg, 1) == 1)
+			execute(arg);
 	}
-	else
-	{
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			g_msh.ret_exit = WEXITSTATUS(status);
-	}
+	close(fd[1]);
+	dup2(fd[0], STDIN_FILENO);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		g_msh.ret_exit = WEXITSTATUS(status);
+
 }
 
-void	ms_exec(char **arg)
+void	ms_exec(t_job *job)
 {
-	int	i;
 	int	saved_stdin;
 
-	i = 0;
 	g_msh.switch_signal = 1;
 	saved_stdin = dup(0);
-	arg = make_command(arg);
-	/* while (arg[i])
-		printf("%s\n", arg[i++]);
-	i = 0; */
-	if (arg)
+	if (job->cmd)
 	{
-		while (arg[i + 1] && parse_redir(arg[i]) != 1)
-			child_process(arg[i++]);
-		if (parse_redir(arg[i]) != 1)
-			parent_process(arg[i]);
+		while (job->next)
+		{
+			child_process(job->cmd);
+			job = job->next;
+		}
+		parent_process(job->cmd);
 // Important pour que le readline refonctionne apres
 		dup2(saved_stdin, 0);
 		close(saved_stdin);

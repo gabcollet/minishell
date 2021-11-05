@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 11:37:01 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/02 11:06:23 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/05 15:46:48 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@
 void	error(char *arg, int i)
 {
 	if (i == 0)
-		printf("minishell: %s: command not found\n", arg);
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd(": command not found\n", 2);
+	}
 	else if (i == 1)
 		printf("minishell: %s: No such file or directory\n", arg);
 	exit (127);
@@ -57,7 +61,7 @@ int	count_pipe(char **arg)
 	return (count);
 }
 
-char	*make_command_string(char *string, char **arg)
+/* char	*make_command_string(char *string, char **arg)
 {
 	while (arg[g_msh.cmd_i][0] != '|')
 	{
@@ -102,11 +106,11 @@ char	**make_command(char **arg)
 		free(string);
 		k++;
 		count--;
-		/* printf("%d\n", i); */
+		printf("%d\n", i);
 	}
 	tab[k] = NULL;
 	return (tab);
-}
+} */
 
 /* Function who make a child process that will read from the stdin with
  get_next_line until it find the limiter word and then put the output inside a
