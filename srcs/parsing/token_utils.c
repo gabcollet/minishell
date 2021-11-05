@@ -11,9 +11,12 @@ bool ms_get_token(t_parser *parser, t_token *token)
 	while ((!ft_strchr(REDIRECTION, parser->str_line[parser->index])) 
 	&& (!ft_strchr(WHITESPACE, parser->str_line[parser->index])))
 	{
-		change_state(parser);
+		change_state(parser, token);
 		if (parser->state != TEXT)
+		{
 			parser->index = ms_handle_quote(parser);
+			change_state(parser, token);
+		}
 		parser->index++;
 	}
 		return(tokenize_string(token));
@@ -32,15 +35,22 @@ char *ms_get_next_tok(t_parser *parser, char *temp)
 t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token)
 {
 	size_t	i;
+	size_t	j;
 
 	i = 0;
+	j = 0;
 	token->str_tok = ft_calloc(parser->index + 1, sizeof(char));
 	if (!token->str_tok)
 		return (NULL);
 	while (i < parser->index)
 	{
-		token->str_tok[i] = parser->str_line[i];
+		if (is_quote_next(parser, i) && (parser->quote_state != KEEP_IT))
+			i++;
+		if (is_quote(parser, i) && (parser->quote_state != KEEP_IT))
+			i++;
+		token->str_tok[j] = parser->str_line[i];
 		i++;
+		j++;
 	}
 	ms_token_addback(&token, ms_token_newlst(NULL));
 	return (token);

@@ -43,6 +43,7 @@ typedef struct s_msh
 {
 	char	**env;
 	char	**env_export;
+	char	**tok_tab;
 	int		ret_exit;
 	int		switch_signal;
 	int		cmd_i;
@@ -68,12 +69,15 @@ typedef enum	e_state
 	TEXT,
 	S_QUOTE,
 	D_QUOTE,
+	NO_DOL,
+	KEEP_IT,
 }				t_state;
 
 typedef struct s_token
 {
 	struct	s_token	*previous;
 	t_type	type;
+	t_state	state;
 	char	*str_tok;
 	struct s_token *next;
 }				t_token;
@@ -83,10 +87,28 @@ typedef	struct s_parser
 	char	*str_line;
 	size_t		index;
 	t_state state;
+	t_state quote_state;
 }				t_parser;
 
 
 t_msh g_msh;
+
+typedef struct s_redir
+{
+	t_type		type;
+	char		**file;
+
+}				t_redir;
+
+typedef	struct s_job
+{
+	struct s_job *previous;
+	char 		**cmd;
+	t_redir 	*redir;
+	struct s_job *next;
+	
+}				t_job;
+
 
 //ms_builtins.c
 int	ms_builtins(char **arg);
@@ -155,37 +177,51 @@ void	ms_set_env(char **env, char *value);
 //free_func.c
 void	free_token_lst(t_token *tok);
 void	free_struct(t_parser *parser);
+void	free_job_lst(t_job *job);
 
 //parser
-void	ms_parsing(char *line);
+t_job	*ms_parsing(char *line, t_job *first_job);
 bool	empty_str(char *str);
 void	printList(t_token *tok);
 char	*ms_trim_space(char *str);
+void token_to_tab(t_token *token, t_job *job);
 
 //token_lst_utils
 t_token	*ms_token_last(t_token	*token);
 t_token	*ms_token_newlst(void	*token);
 void	ms_token_addback(t_token **token, t_token *new_tok);
+int	counter_string(t_token *tok);
+
 
 //token_utils
 bool 	ms_get_token(t_parser *parser, t_token *token);
 char 	*ms_get_next_tok(t_parser *parser, char *temp);
 t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token);
+bool tokenize_string(t_token *token);
+
 void	ft_free_struct(t_msh *g_msh);
 
 //parser_utils
 bool	tokenize_redir(t_parser *parser, t_token *token);
-int 	ms_find_close_quote(t_parser *parser, char quote);
-void	change_state(t_parser *parser);
-int		ms_handle_quote(t_parser *parser);
-bool 	tokenize_string(t_token *token);
+void	change_state(t_parser *parser, t_token *token);
+bool tokenize_string(t_token *token);
+
+
+//ms_quote.c
+int ms_find_close_quote(t_parser *parser, char quote);
+int	ms_handle_quote(t_parser *parser);
+int	quote_counter(t_parser *parser, char quote);
+char *ms_remove_quote(char *str);
+bool is_quote(t_parser *parser, int i);
+bool is_quote_next(t_parser *parser, int i);
+
 
 //error
 void	ms_error_quote(t_parser *parser);
 
 //syntax
+t_token *ms_check_quote(t_token *token);
 void 	ms_check_syntax(t_token *token);
-char 	*ms_remove_quote(char *str);
 
 //init.c
 char	*ms_init_s_parser(t_parser *parser, char *line);
@@ -197,5 +233,20 @@ void	init_shell();
 //int		main(int argc, char *argv[], char **env);
 void	ctrl_c(int var);
 void	loop(void);
+
+//dollar_sign
+void	replace_dol_w_env(char **tab, t_job *job, int i);
+char *get_arg(char **tab);
+
+//ms_job_list
+void	ms_job_addback(t_job **job, t_job *new_job);
+t_job	*ms_job_last(t_job *job);
+t_job	*ms_job_newlst(void);
+
+//ms_job
+t_job	*ms_job(t_job *job, t_token *token);
+bool is_redirection(t_token *token);
+void	redirection_to_tab(t_token *token, t_job *job);
+int	redir_counter(t_token *tok);
 
 #endif

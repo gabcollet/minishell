@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+void printListjob(t_job *tok, t_token *token);;
+
 void printList(t_token *tok)
 {
 	int i = 0;
@@ -10,8 +12,46 @@ void printList(t_token *tok)
 		i++;
 	}
 }
+
+int	counter_string(t_token *tok)
+{
+	int	i;
+
+	i = 0;
+	while (tok)
+	{
+		if (tok->type == PIPE)
+			tok = tok->next;
+		else if (tok->type == REDIR_L || tok->type == REDIR_R 
+			|| tok->type == HERE_DOC_L || tok->type == HERE_DOC_R)
+			tok = tok->next->next;
+		else if (tok->type == STRING)
+			i++;
+		tok = tok->next;
+	}
+	return (i);
+}
+
+void token_to_tab(t_token *token, t_job *job)
+{
+	int	i;
+	int	counter;
 	
-void	ms_parsing(char *line)
+	if (!job->cmd)
+	{
+		counter = counter_string(token);
+		job->cmd = (char**)ft_calloc(counter + 1, sizeof(char*));
+	}
+	i = 0;
+	while (job->cmd[i])
+		i++;
+	job->cmd[i] = ft_calloc(ft_strlen(token->str_tok) + 1, sizeof(char*));
+	ft_strlcpy(job->cmd[i], token->str_tok, ft_strlen(token->str_tok) + 1);
+	if (ft_strchr("$", *job->cmd[i]) && (token->state == TEXT))
+		replace_dol_w_env(&job->cmd[i], job, i);
+}
+	
+t_job	*ms_parsing(char *line, t_job *job_first)
 {
 	char	*temp;
 	t_parser *parser;
@@ -34,11 +74,13 @@ void	ms_parsing(char *line)
 			temp = ms_get_next_tok(parser, temp);
 		}
 	}
-	ms_check_syntax(first);
-	printList(first2);
+	//token = ms_check_quote(first);
 	free(temp);
 	free(parser);
+	job_first = ms_job(job_first, first2);
+	//printList(first);
 	free_token_lst(first);
+	return (job_first);
 }
 
 bool empty_str(char *str)

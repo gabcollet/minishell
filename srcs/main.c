@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/03 15:09:21 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/05 11:09:54 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	look_for_pipe_or_redir(char *parsing)
 void	loop(void)
 {
 	char	*line;
-	char**	temp_parsing;
+	t_job	*job_first;
 	int		i;
 
 	line = NULL;
@@ -42,10 +42,19 @@ void	loop(void)
 		}
 		if (*line)
 			add_history(line);
-		/* ms_parsing(line); */
-		temp_parsing = ft_split(line, ' ');
+
+		job_first = ms_parsing(line, job_first);
+		if (ms_builtins(job_first->cmd) == 1)
+		{
+			g_msh.switch_signal = 1;
+			ms_exec(job_first->cmd);
+			g_msh.switch_signal = 0;
+		}
+		//ft_free_tab(temp_parsing); free la struct job
+
+		/*temp_parsing = ft_split(line, ' ');
 		i = 0;
-/* les builtins ne fonctionneront pas si ils passent par une fork */
+ les builtins ne fonctionneront pas si ils passent par une fork */
 		/* while (temp_parsing[i])
 		{
 			if (look_for_pipe_or_redir(temp_parsing[i]) == 1)
@@ -53,11 +62,11 @@ void	loop(void)
 				ms_exec(temp_parsing);
 				break;
 			}
-			i++; */
+			i++; 
 			if (temp_parsing[i] == NULL && ms_builtins(temp_parsing) == 1)
 				ms_exec(temp_parsing);
-		/* } */
-		ft_free_tab(temp_parsing);
+		 } */
+		//ft_free_tab(temp_parsing);
 	}
 	free(line);
 }

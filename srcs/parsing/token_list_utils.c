@@ -34,6 +34,7 @@ t_token	*ms_token_newlst(void *token)
 		return (NULL);
 	new->str_tok = token;
 	new->type = VOID;
+	new->state = TEXT;
 	new->next = NULL;
 	new->previous = NULL;
 	return (new);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_func.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/10/27 15:25:21 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/04 14:20:39 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,23 @@ void	free_struct(t_parser *parser)
 	if (parser)
 		free(parser->str_line);
 	free(parser);
+}
+
+void	free_job_lst(t_job *job)
+{
+	t_job	*temp;
+	int		i;
+
+	i = 0;
+	temp = NULL;
+	while (job)
+	{
+		temp = job->next;
+		while (job->cmd[i])
+		{
+			free(job->cmd[i]);
+			i++;
+		}
+		free(job->cmd);
+	}
 }

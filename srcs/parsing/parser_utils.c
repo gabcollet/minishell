@@ -42,26 +42,34 @@ bool	tokenize_redir(t_parser *parser, t_token *token)
 	return(true);
 }
 
-void	change_state(t_parser *parser)
+void	change_state(t_parser *parser, t_token *token)
 {
 	size_t	i;
 	
-
 	i = parser->index;
 	{
 		if (parser->str_line[i] == '\'')
 		{
 			if (parser->state == D_QUOTE)
+			{
+				parser->quote_state = KEEP_IT;
 				parser->state = D_QUOTE;
+			}
 			if (parser->state == TEXT)
 				parser->state = S_QUOTE;
 			else if (parser->state == S_QUOTE)
+			{
 				parser->state = TEXT;
+				token->state = NO_DOL;
+			}
 		}
 		if (parser->str_line[i] == '\"')
 		{
 			if (parser->state == S_QUOTE)
+			{
+				parser->quote_state = KEEP_IT;
 				parser->state = S_QUOTE;
+			}
 			if (parser->state == TEXT)
 				parser->state = D_QUOTE;
 			else if (parser->state == D_QUOTE)
@@ -70,39 +78,6 @@ void	change_state(t_parser *parser)
 	}
 }
 
-int ms_find_close_quote(t_parser *parser, char quote)
-{
-	int	i;
-
-	i = parser->index + 1;
-	while (parser->str_line[i])
-	{
-		if (parser->str_line[i] == quote)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-int	ms_handle_quote(t_parser *parser)
-{
-	int i;
-	
-	i = 0;
-	if (parser->state == S_QUOTE)
-	{
-		i = ms_find_close_quote(parser, '\'');
-		if (i < 0)
-			ms_error_quote(parser);
-	}
-	if (parser->state == D_QUOTE)
-	{
-		i = ms_find_close_quote(parser, '\"');
-		if (i < 0)
-			ms_error_quote(parser);
-	}
-	return (i);
-}
 
 bool tokenize_string(t_token *token)
 {
