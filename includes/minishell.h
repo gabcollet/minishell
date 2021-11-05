@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/04 15:20:43 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/05 11:13:58 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef enum	e_state
 	S_QUOTE,
 	D_QUOTE,
 	NO_DOL,
+	KEEP_IT,
 }				t_state;
 
 typedef struct s_token
@@ -82,6 +83,7 @@ typedef	struct s_parser
 	char	*str_line;
 	size_t		index;
 	t_state state;
+	t_state quote_state;
 }				t_parser;
 
 
@@ -200,7 +202,8 @@ int ms_find_close_quote(t_parser *parser, char quote);
 int	ms_handle_quote(t_parser *parser);
 int	quote_counter(t_parser *parser, char quote);
 char *ms_remove_quote(char *str);
-
+bool is_quote(t_parser *parser, int i);
+bool is_quote_next(t_parser *parser, int i);
 
 //error
 void	ms_error_quote(t_parser *parser);

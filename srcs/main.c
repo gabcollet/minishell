@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/01 12:16:01 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/05 11:09:54 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@ t_msh	g_msh;
 void	loop(void)
 {
 	char	*line;
-	char** temp_parsing;
+	t_job	*job_first;
 	line = NULL;
-	
 	while (true)
 	{
 		if (line != NULL)
@@ -32,15 +31,14 @@ void	loop(void)
 		}
 		if (*line)
 			add_history(line);
-		temp_parsing = ms_parsing(line);
-		//temp_parsing = ft_split(line, ' ');
-		if (ms_builtins(temp_parsing) == 1)
+		job_first = ms_parsing(line, job_first);
+		if (ms_builtins(job_first->cmd) == 1)
 		{
 			g_msh.switch_signal = 1;
-			ms_exec(temp_parsing);
+			ms_exec(job_first->cmd);
 			g_msh.switch_signal = 0;
 		}
-		ft_free_tab(temp_parsing);
+		//ft_free_tab(temp_parsing); free la struct job
 	}
 	free(line);
 }

@@ -49,8 +49,6 @@ void token_to_tab(t_token *token, t_job *job)
 	ft_strlcpy(job->cmd[i], token->str_tok, ft_strlen(token->str_tok) + 1);
 	if (ft_strchr("$", *job->cmd[i]) && (token->state == TEXT))
 		replace_dol_w_env(&job->cmd[i], job, i);
-	//peut etre un if il y a $ et que on est pas sur un state de simple quote
-	//job->cmd = replace_dol_w_env(job->cmd);
 }
 	
 t_job	*ms_parsing(char *line, t_job *job_first)
@@ -76,11 +74,12 @@ t_job	*ms_parsing(char *line, t_job *job_first)
 			temp = ms_get_next_tok(parser, temp);
 		}
 	}
-	token = ms_check_quote(first);
+	//token = ms_check_quote(first);
 	free(temp);
 	free(parser);
-	//free_token_lst(first);
 	job_first = ms_job(job_first, first2);
+	//printList(first);
+	free_token_lst(first);
 	return (job_first);
 }
 

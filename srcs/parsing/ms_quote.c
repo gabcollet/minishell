@@ -18,10 +18,8 @@ int ms_find_close_quote(t_parser *parser, char quote)
 int	ms_handle_quote(t_parser *parser)
 {
 	int i;
-	int	counter;
 	
 	i = 0;
-	counter = 0;
 	if (parser->state == S_QUOTE)
 	{
 		i = ms_find_close_quote(parser, '\'');
@@ -73,4 +71,22 @@ char *ms_remove_quote(char *str)
 		i++;
 	}
 	return (temp);
+}
+
+
+bool is_quote(t_parser *parser, int i)
+{
+	if (parser->str_line[i] == '\'' || parser->str_line[i] == '\"')
+		return (true);
+	return (false);
+}
+
+bool is_quote_next(t_parser *parser, int i)
+{
+	if ((parser->str_line[i] == '\'' && parser->str_line[i + 1] == '\'') || 
+		(parser->str_line[i] == '\"' && parser->str_line[i + 1] == '\"') || 
+		(parser->str_line[i] == '\"' && parser->str_line[i + 1] == '\'') || 
+		(parser->str_line[i] == '\'' && parser->str_line[i + 1] == '\"'))
+		return (true);
+	return (false);
 }

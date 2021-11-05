@@ -21,6 +21,7 @@ int main(int argc, char *argv[], char **env)
 	job_first = ms_parsing(line, job_first);
 	job_first2 = job_first;
 	printListjob(job_first);
+	//free les leaks de la struct job
 	//free_job_lst(job_first2);
 	free(line);
 }

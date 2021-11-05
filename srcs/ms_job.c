@@ -16,12 +16,12 @@ void printListjob(t_job *tok)
 			i++;
 		}
 		k = 0;
-		while (tok->redir->file && tok->redir->file[k])
-		{
-			printf("redir[%d] = %s\n", k, tok->redir->file[k]);
-			printf("       |__ type = %u\n", tok->redir->type);
-			k++;
-		}
+		// while (tok->redir->file && tok->redir->file[k])
+		// {
+		// 	printf("redir[%d] = %s\n", k, tok->redir->file[k]);
+		// 	printf("       |__ type = %u\n", tok->redir->type);
+		// 	k++;
+		// }
 		tok = tok->next;
 	}
 }
@@ -49,11 +49,8 @@ t_job	*ms_job(t_job *job, t_token *token)
 			ms_job_addback(&job, ms_job_newlst());
 			job = job->next;
 		}
-		else if (token->type == STRING)
-		{
-			//je l'enregistre dans job->cmd avec un malloc en fonction de la taille des arg
+		else if (token->type == STRING)	
 			token_to_tab(token, job);
-		}
 		else if (is_redirection(token))
 		{
 			redirection_to_tab(token, job);
@@ -61,8 +58,6 @@ t_job	*ms_job(t_job *job, t_token *token)
 		}
 		token = token->next;
 	}
-	
-	
 	return (job_first);
 }
 

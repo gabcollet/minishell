@@ -46,13 +46,15 @@ void	change_state(t_parser *parser, t_token *token)
 {
 	size_t	i;
 	
-
 	i = parser->index;
 	{
 		if (parser->str_line[i] == '\'')
 		{
-			if (parser->state == D_QUOTE)	
+			if (parser->state == D_QUOTE)
+			{
+				parser->quote_state = KEEP_IT;
 				parser->state = D_QUOTE;
+			}
 			if (parser->state == TEXT)
 				parser->state = S_QUOTE;
 			else if (parser->state == S_QUOTE)
@@ -64,7 +66,10 @@ void	change_state(t_parser *parser, t_token *token)
 		if (parser->str_line[i] == '\"')
 		{
 			if (parser->state == S_QUOTE)
+			{
+				parser->quote_state = KEEP_IT;
 				parser->state = S_QUOTE;
+			}
 			if (parser->state == TEXT)
 				parser->state = D_QUOTE;
 			else if (parser->state == D_QUOTE)
