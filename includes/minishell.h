@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/02 15:32:26 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/05 11:38:42 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ void	parent_process(char *arg);
 void	child_process(char *arg);
 void	ms_exec(char **arg);
 char	*find_path(char *cmd);
+int	parse_redir(char *arg);
 
 //exec_utils.c
 void	error(char *arg, int i);

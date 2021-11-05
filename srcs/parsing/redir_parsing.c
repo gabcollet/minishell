@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 14:45:11 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/03 15:05:13 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/05 11:40:39 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ void	set_redir_info(int g_redir, char *string, int i, int file_len)
 		g_msh.append_output = ft_substr(string, i, file_len);
 	else if (g_redir == 3)
 		g_msh.redir_input = ft_substr(string, i, file_len);
-	else if (g_redir == 4)
-		g_msh.here_doc = ft_substr(string, i, file_len);9
+	//else if (g_redir == 4)
 }
 
 int	get_redir_info(char *string, int g_redir, int i)

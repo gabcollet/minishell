@@ -44,6 +44,11 @@ t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token)
 		return (NULL);
 	while (i < parser->index)
 	{
+		if (parser->quote_state == KEEP_IT)
+		{
+			ms_remove_quote(token->str_tok);
+			return (token);
+		}
 		if (is_quote_next(parser, i) && (parser->quote_state != KEEP_IT))
 			i++;
 		if (is_quote(parser, i) && (parser->quote_state != KEEP_IT))

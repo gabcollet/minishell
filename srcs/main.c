@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/05 11:09:54 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/05 11:36:36 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	loop(void)
 {
 	char	*line;
 	t_job	*job_first;
-	int		i;
+//	int		i;
 
 	line = NULL;
 	while (true)
