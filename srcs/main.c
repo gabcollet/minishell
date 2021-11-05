@@ -14,16 +14,27 @@
 
 t_msh	g_msh;
 
+int	look_for_pipe_or_redir(char *parsing)
+{
+	if (ft_strchr(parsing, '|') != NULL || ft_strchr(parsing, '<') != NULL
+		|| ft_strchr(parsing, '>') != NULL || ft_strcmp(parsing, "<<") == 0
+		|| ft_strcmp(parsing, ">>") == 0)
+		return (1);
+	return (0);
+}
+
 void	loop(void)
 {
 	char	*line;
 	t_job	*job_first;
+	int		i;
+
 	line = NULL;
 	while (true)
 	{
 		if (line != NULL)
 			free(line);
-		line = readline("\001\e[1;96m\002minishell 1.0$ \001\033[0m\002");
+		line = readline("\001\e[1;96m\002minishell 1.1$ \001\033[0m\002");
 		if (!line)
 		{
 			free(line);
@@ -31,6 +42,7 @@ void	loop(void)
 		}
 		if (*line)
 			add_history(line);
+
 		job_first = ms_parsing(line, job_first);
 		if (ms_builtins(job_first->cmd) == 1)
 		{
@@ -39,6 +51,22 @@ void	loop(void)
 			g_msh.switch_signal = 0;
 		}
 		//ft_free_tab(temp_parsing); free la struct job
+
+		/*temp_parsing = ft_split(line, ' ');
+		i = 0;
+ les builtins ne fonctionneront pas si ils passent par une fork */
+		/* while (temp_parsing[i])
+		{
+			if (look_for_pipe_or_redir(temp_parsing[i]) == 1)
+			{	
+				ms_exec(temp_parsing);
+				break;
+			}
+			i++; 
+			if (temp_parsing[i] == NULL && ms_builtins(temp_parsing) == 1)
+				ms_exec(temp_parsing);
+		 } */
+		//ft_free_tab(temp_parsing);
 	}
 	free(line);
 }

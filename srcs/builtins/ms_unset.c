@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:10:20 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/26 14:05:05 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/01 16:48:11 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,17 @@
 définie ne doit pas être considérée comme une erreur et n'entraîne pas un abort.
 - unset test1 test2 |	Peut unset plusieurs variables en même temps 
 */
+
+int	ms_check_unset_arg(char *arg)
+{
+	if (ft_isalpha(arg[0]) == 0 && arg[0] != 95)
+	{
+		printf("unset: '%s': not a valid identifier\n", arg);
+		return (-1);
+	}
+	else
+		return (0);
+}
 
 /* valide dans env et env_export si les ligne de unset existe et les enlèves */
 char	**ms_unset_remove(char **env, char *arg)
@@ -39,6 +50,11 @@ int	ms_unset(char **arg)
 	i = 0;
 	while (arg[i])
 	{
+		if (ms_check_unset_arg(arg[i]) != 0)
+		{
+			i++;
+			continue;
+		}
 		strings = ft_split(arg[i], '=');
 		g_msh.env = ms_unset_remove(g_msh.env, strings[0]);
 		g_msh.env_export = ms_unset_remove(g_msh.env_export, strings[0]);

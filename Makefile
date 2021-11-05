@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+         #
+#    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/11/05 11:04:17 by jbadia           ###   ########.fr        #
+#    Updated: 2021/11/02 14:46:56 by gcollet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,12 +16,12 @@ OBJPATH = obj/
 
 SRCS 	= main.c env.c free_func.c token_utils.c token_list_utils.c parser.c\
 			init.c utils.c ms_env.c ms_export.c ms_cd.c ms_echo.c ms_exit.c\
-			ms_pwd.c ms_unset.c ms_builtins.c exec.c exec_utils.c syntax.c error.c parser_utils.c \
-			ms_quote.c dollar_sign.c ms_job.c  ms_job_list.c
+			ms_pwd.c ms_unset.c ms_builtins.c exec.c exec_utils.c syntax.c error.c\
+      parser_utils.c 	ms_quote.c dollar_sign.c ms_job.c  ms_job_list.c redir_parsing.c \
 
 OBJFILES = $(SRCS:.c=.o)
 OBJS 	= $(addprefix $(OBJPATH), $(OBJFILES))
-VPATH   = srcs srcs/builtins srcs/parsing
+VPATH   = srcs srcs/builtins srcs/parsing srcs/exec
 
 HEADER	= -Iincludes -Ilibft
 

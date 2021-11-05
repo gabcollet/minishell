@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/01 11:40:53 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/03 15:04:50 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,17 @@ void	execute(char *arg)
 		error(cmd[0], 0);
 }
 
+/* int	redir_output()
+{
+	int	fileout;
+
+	if (g_msh.redir_output != NULL)
+		return (fileout = open_file(g_msh.redir_output, 1));
+	else if (g_msh.append_output != NULL)
+		return (fileout = open_file(g_msh.append_output, 0));
+	return (0);
+} */
+
 void	parent_process(char *arg)
 {
 	pid_t	pid;
@@ -95,24 +106,19 @@ void	child_process(char *arg)
 	{
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
-		waitpid(pid, &status, 0); 
+		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 			g_msh.ret_exit = WEXITSTATUS(status);
 	}
 }
 
-/* ls -la | echo $PATH */
-/* <ls> <-la> <|> <echo> </Users/gcollet/homebrew/bin:...> <NULL>*/
-/* <ls -la> <echo /Users/gcollet/homebrew/bin:...> <NULL> */
-
 void	ms_exec(char **arg)
 {
 	int	i;
 	int	saved_stdin;
-	/* int	filein;
-	int	fileout; */
 
 	i = 0;
+	g_msh.switch_signal = 1;
 	saved_stdin = dup(0);
 	arg = make_command(arg);
 	/* while (arg[i])
@@ -120,25 +126,25 @@ void	ms_exec(char **arg)
 	i = 0; */
 	if (arg)
 	{
-		/* partie qui open si ca pipe */
-		/* if (ft_strncmp(argv[1], "here_doc", 8) == 0)
-		{
-			i = 3;
-			fileout = open_file(argv[argc - 1], 0);
-			here_doc(argv[2], argc);
-		}
-		else
-		{
-			i = 2;
-			fileout = open_file(arg[argc - 1], 1);
-			filein = open_file(arg[1], 2);
-			dup2(filein, STDIN_FILENO);
-		} */
-		while (arg[i + 1])
+		while (arg[i + 1] && parse_redir(arg[i]) != 1)
 			child_process(arg[i++]);
-		parent_process(arg[i]);
+		if (parse_redir(arg[i]) != 1)
+			parent_process(arg[i]);
+// Important pour que le readline refonctionne apres
 		dup2(saved_stdin, 0);
 		close(saved_stdin);
 	}
+	g_msh.switch_signal = 0;
 	return ;
 }
+
+/* pour les redirection:
+check si les redirections sont a NULL
+sinon open le file mentionner
+dup2 le file open au bon stdin 
+ramene le saved_stdin
+
+pour le here doc:
+same mais tu prend les inputs dans le get_next_line
+
+est-ce que le pipe prend le dsessus sur la redir ou l'inverse? */

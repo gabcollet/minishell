@@ -6,7 +6,7 @@
 #    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/11 12:58:26 by gcollet           #+#    #+#              #
-#    Updated: 2021/10/26 11:03:02 by gcollet          ###   ########.fr        #
+#    Updated: 2021/11/02 13:51:17 by gcollet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRCS 	= ft_isalnum.c ft_isdigit.c ft_memccpy.c ft_memcpy.c ft_putchar_fd.c\
 		dlst_last.c dlst_len.c dlst_add_back.c dlst_add_front.c dlst_new.c ft_isint.c\
 		ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c\
 		ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c\
-		ft_sort_tab.c ft_free_tab.c ft_strjoin_free_s1.c ft_atoll.c
+		ft_sort_tab.c ft_free_tab.c ft_strjoin_free_s1.c ft_atoll.c ft_strcpy.c
 
 OBJFILES = $(SRCS:.c=.o)
 OBJS 	= $(addprefix $(OBJPATH), $(OBJFILES))
