@@ -73,7 +73,10 @@ void	change_state(t_parser *parser, t_token *token)
 			if (parser->state == TEXT)
 				parser->state = D_QUOTE;
 			else if (parser->state == D_QUOTE)
+			{
 				parser->state = TEXT;
+				token->state = TEXT;
+			}
 		}
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/05 11:38:42 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/08 17:01:05 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,7 @@ int	quote_counter(t_parser *parser, char quote);
 char *ms_remove_quote(char *str);
 bool is_quote(t_parser *parser, int i);
 bool is_quote_next(t_parser *parser, int i);
+t_token	*ms_trim_quotes(t_token *token);
 
 
 //error
@@ -236,8 +237,10 @@ void	ctrl_c(int var);
 void	loop(void);
 
 //dollar_sign
-void	replace_dol_w_env(char **tab, t_job *job, int i);
-char *get_arg(char **tab);
+//void	replace_dol_w_env(char **tab, t_job *job, int i);
+void	replace_dol_w_env(char *tab, t_token *token);
+//char *get_arg(char **tab);
+bool	is_dolsign(char *str);
 
 //ms_job_list
 void	ms_job_addback(t_job **job, t_job *new_job);
@@ -251,3 +254,4 @@ void	redirection_to_tab(t_token *token, t_job *job);
 int	redir_counter(t_token *tok);
 
 #endif
+

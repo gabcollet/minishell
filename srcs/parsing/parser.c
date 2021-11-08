@@ -46,9 +46,10 @@ void token_to_tab(t_token *token, t_job *job)
 	while (job->cmd[i])
 		i++;
 	job->cmd[i] = ft_calloc(ft_strlen(token->str_tok) + 1, sizeof(char*));
+	if (is_dolsign(token->str_tok) && (token->state == TEXT))
+		replace_dol_w_env(token->str_tok, token);
+		//replace_dol_w_env(&job->cmd[i], job, i);
 	ft_strlcpy(job->cmd[i], token->str_tok, ft_strlen(token->str_tok) + 1);
-	if (ft_strchr("$", *job->cmd[i]) && (token->state == TEXT))
-		replace_dol_w_env(&job->cmd[i], job, i);
 }
 	
 t_job	*ms_parsing(char *line, t_job *job_first)
@@ -77,8 +78,9 @@ t_job	*ms_parsing(char *line, t_job *job_first)
 	//token = ms_check_quote(first);
 	free(temp);
 	free(parser);
-	job_first = ms_job(job_first, first2);
 	//printList(first);
+	token = ms_trim_quotes(first);
+	job_first = ms_job(job_first, first2);
 	free_token_lst(first);
 	return (job_first);
 }
