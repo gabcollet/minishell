@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/05 16:02:16 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/09 11:12:56 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,6 @@ typedef struct s_msh
 	int		ret_exit;
 	int		switch_signal;
 	int		cmd_i;
-	char	*redir_output;
-	char	*append_output;
-	char	*redir_input;
-	char	*here_doc;
 }				t_msh;
 
 typedef enum	e_type
@@ -142,7 +138,7 @@ char	**ms_unset_remove(char **env, char *arg);
 
 //exec.c
 void	execute(char **arg);
-void	parent_process(char **arg);
+void	parent_process(char **arg, char	**redir);
 void	child_process(char **arg);
 void	ms_exec(t_job *job);
 char	*find_path(char *cmd);

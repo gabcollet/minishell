@@ -17,13 +17,13 @@ bool	tokenize_redir(t_parser *parser, t_token *token)
 		if (temp[i] == '<' && temp[i + 1] == '<')
 		{
 			token->type = HERE_DOC_L;
-			parser->index += 2;
+			parser->index++;
 			break ;
 		}
 		if (temp[i] == '>' && temp[i + 1] == '>')
 		{
 			token->type = HERE_DOC_R;
-			parser->index += 2;
+			parser->index++;
 			break ;
 		}
 		else if (temp[i] == '<')

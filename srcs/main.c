@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/05 15:57:16 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/09 13:21:19 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ void	loop(void)
 			add_history(line);
 
 		job_first = ms_parsing(line, job_first);
-	/* fait les jobs 2 fois */
 		if (job_first->next == NULL)
 		{
+			//ne pas oublier les redirs pour les builtins
 			if (ms_builtins(job_first->cmd, 0) == 1)
 				ms_exec(job_first);
 		}
-		else
-			ms_exec(job_first);
+		/* else
+			ms_exec(job_first); */
 	}
 	free(line);
 }
