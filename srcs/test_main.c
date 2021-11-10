@@ -4,7 +4,6 @@ void printListjob(t_job *tok);
 
 t_msh g_msh = {0};
 
-
 int main(int argc, char *argv[], char **env)
 {
 	char *line;

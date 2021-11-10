@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/09 13:21:19 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/10 15:30:13 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	loop(void)
 			if (ms_builtins(job_first->cmd, 0) == 1)
 				ms_exec(job_first);
 		}
-		/* else
-			ms_exec(job_first); */
+		else
+			ms_exec(job_first);
 	}
 	free(line);
 }

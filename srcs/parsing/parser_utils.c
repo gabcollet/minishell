@@ -22,7 +22,7 @@ bool	tokenize_redir(t_parser *parser, t_token *token)
 		}
 		if (temp[i] == '>' && temp[i + 1] == '>')
 		{
-			token->type = HERE_DOC_R;
+			token->type = APPEND;
 			parser->index++;
 			break ;
 		}
@@ -73,7 +73,10 @@ void	change_state(t_parser *parser, t_token *token)
 			if (parser->state == TEXT)
 				parser->state = D_QUOTE;
 			else if (parser->state == D_QUOTE)
+			{
 				parser->state = TEXT;
+				token->state = TEXT;
+			}
 		}
 	}
 }
