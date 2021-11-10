@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/09 13:31:00 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/10 10:17:31 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	parent_process(char **arg, char	**redir)
 	fd[0] = 0;
 	fd[1] = 0;
 	wstatus = 0;
-/* 	while (redir && redir[i])
+	while (redir && redir[i])
 	{
 		printf("%s\n", redir[i]);
 		i++;
@@ -85,7 +85,7 @@ void	parent_process(char **arg, char	**redir)
 		printf("%s\n", arg[i]);
 		i++;
 	}
-	i = 0; */
+	i = 0;
 	pid = fork();
 	if (pid == -1)
 		printf("Dang! This fork didn't work!");
