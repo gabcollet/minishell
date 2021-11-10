@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:34:34 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/29 10:06:50 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/05 14:19:14 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ int	ms_cd(char *arg)
 		if ((arg - 5) == NULL)
 		{
 			printf("cd: HOME not set\n");
-			return (-1);
+			return (1);
 		}
 	}
 	getcwd(c, sizeof(c));
 	if (chdir(arg) == -1)
 	{
 		printf("cd: %s: No such file or directory\n", arg);
-		return (-1);
+		return (1);
 	}
 	ms_set_env(g_msh.env, ft_strjoin("OLDPWD=", c));
 	getcwd(c, sizeof(c));

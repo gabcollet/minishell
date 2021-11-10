@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/10 14:55:31 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/10 15:31:41 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <string.h>
-# include <sys/wait.h>
 # include <fcntl.h>
 # include "libft.h"
 
@@ -100,7 +99,7 @@ typedef	struct s_job
 
 
 //ms_builtins.c
-int	ms_builtins(char **arg);
+int	ms_builtins(char **arg, int i);
 
 //ms_cd.c
 int		ms_cd(char *arg);
@@ -132,10 +131,10 @@ int		ms_unset(char **arg);
 char	**ms_unset_remove(char **env, char *arg);
 
 //exec.c
-void	execute(char *arg);
-void	parent_process(char *arg);
-void	child_process(char *arg);
-void	ms_exec(char **arg);
+void	execute(char **arg);
+void	parent_process(char **arg);
+void	child_process(char **arg);
+void	ms_exec(t_job *job);
 char	*find_path(char *cmd);
 int	parse_redir(char *arg);
 

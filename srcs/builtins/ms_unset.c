@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:10:20 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/01 16:48:11 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/05 15:49:29 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,16 @@ int	ms_unset(char **arg)
 {
 	int		i;
 	char	**strings;
+	int		ret;
 
+	ret = 0;
 	i = 0;
 	while (arg[i])
 	{
 		if (ms_check_unset_arg(arg[i]) != 0)
 		{
 			i++;
+			ret = 1;
 			continue;
 		}
 		strings = ft_split(arg[i], '=');
@@ -61,5 +64,5 @@ int	ms_unset(char **arg)
 		ft_free_tab(strings);
 		i++;
 	}
-	return (0);
+	return (ret);
 }
