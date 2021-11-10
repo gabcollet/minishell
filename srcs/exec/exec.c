@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/05 16:05:41 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/10 10:17:31 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,49 @@ void	execute(char **cmd)
 	return (0);
 } */
 
-void	parent_process(char **arg)
+void	parent_process(char **arg, char	**redir)
 {
 	pid_t	pid;
 	int		wstatus;
+	int		fd[2];
+	int 	i;
 
+	i = 0;
+	fd[0] = 0;
+	fd[1] = 0;
 	wstatus = 0;
+	while (redir && redir[i])
+	{
+		printf("%s\n", redir[i]);
+		i++;
+	}
+	printf("-----------------------------\n");
+	i = 0;
+	while (arg[i])
+	{
+		printf("%s\n", arg[i]);
+		i++;
+	}
+	i = 0;
 	pid = fork();
 	if (pid == -1)
 		printf("Dang! This fork didn't work!");
+	while (redir && redir[i])
+	{
+		if (ft_strcmp(redir[i], "<") == 0)
+			fd[0] = open_file(redir[++i], 2);
+		else if (ft_strcmp(redir[i], ">") == 0)
+			fd[1] = open_file(redir[++i], 1);
+		else if (ft_strcmp(redir[i], ">>") == 0)
+			fd[1] = open_file(redir[++i], 0);
+		i++;
+	}
 	if (pid == 0)
 	{
+		if (fd[0])
+			dup2(fd[0], STDIN_FILENO);
+		if (fd[1])
+			dup2(fd[1], STDOUT_FILENO);
 		if (ms_builtins(arg, 1) == 1)
 			execute(arg);
 	}
@@ -121,7 +153,7 @@ void	ms_exec(t_job *job)
 			child_process(job->cmd);
 			job = job->next;
 		}
-		parent_process(job->cmd);
+		parent_process(job->cmd, job->redir->file);
 // Important pour que le readline refonctionne apres
 		dup2(saved_stdin, 0);
 		close(saved_stdin);

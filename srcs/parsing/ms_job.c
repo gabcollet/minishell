@@ -73,7 +73,6 @@ t_job	*redirection_to_tab(t_token *token, t_job *job)
 	if (!job->file)
 	{
 		counter = redir_counter(token);
-		printf("\nNOMBRE DE REDIR = %d\n\n", counter);
 		job->file = (char**)ft_calloc((counter *2) + 1, sizeof(char*));
 	}
 	i = 0;

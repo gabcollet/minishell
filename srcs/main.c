@@ -34,11 +34,9 @@ void	loop(void)
 			add_history(line);
 
 		job_first = ms_parsing(line, job_first);
-		
-	//	if (ms_builtins(job_first->cmd) == 1)
-	/* fait les jobs 2 fois */
 		if (job_first->next == NULL)
 		{
+			//ne pas oublier les redirs pour les builtins
 			if (ms_builtins(job_first->cmd, 0) == 1)
 				ms_exec(job_first);
 		}
