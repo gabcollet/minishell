@@ -7,7 +7,7 @@ void printList(t_token *tok)
 	int i = 0;
 	while(tok)
 	{
-		printf("tok[%d] = %s\ntype = %u\n", i, tok->str_tok, tok->type);
+		printf("tok[%d] = %s\nstate = %u\n", i, tok->str_tok, tok->state);
 		tok = tok->next;
 		i++;
 	}
@@ -23,8 +23,8 @@ int	counter_string(t_token *tok)
 		if (tok->type == PIPE)
 			tok = tok->next;
 		else if (tok->type == REDIR_L || tok->type == REDIR_R 
-			|| tok->type == HERE_DOC_L || tok->type == HERE_DOC_R)
-			tok = tok->next->next;
+			|| tok->type == HERE_DOC_L || tok->type == APPEND)
+			tok = tok->next;
 		else if (tok->type == STRING)
 			i++;
 		tok = tok->next;
@@ -40,17 +40,16 @@ void token_to_tab(t_token *token, t_job *job)
 	if (!job->cmd)
 	{
 		counter = counter_string(token);
-		job->cmd = (char**)ft_calloc(counter + 1, sizeof(char*));
+		job->cmd = calloc(counter + 1, sizeof(char*));
 	}
 	i = 0;
 	while (job->cmd[i])
 		i++;
-	job->cmd[i] = ft_calloc(ft_strlen(token->str_tok) + 1, sizeof(char*));
-	if (is_dolsign(token->str_tok) && (token->state == TEXT))
-		replace_dol_w_env(token->str_tok, token);
-		//replace_dol_w_env(&job->cmd[i], job, i);
-	ft_strlcpy(job->cmd[i], token->str_tok, ft_strlen(token->str_tok) + 1);
-}
+	job->cmd[i] = malloc(sizeof(char) * (ft_strlen(token->str_tok) + 1));  
+	// if (is_dolsign(token->str_tok) && (token->state == TEXT))
+	// 	replace_dol_w_env(token->str_tok, token);
+	ft_strcpy(job->cmd[i], token->str_tok);
+ }
 	
 t_job	*ms_parsing(char *line, t_job *job_first)
 {
@@ -61,7 +60,7 @@ t_job	*ms_parsing(char *line, t_job *job_first)
 	t_token *token;
 
 	token = ms_token_newlst(NULL);
-	parser = ft_calloc(1, sizeof(t_parser));
+	parser = malloc(sizeof(t_parser) * 1);
 	first = token;
 	first2 = token;
 	temp = ms_trim_space(line);
@@ -75,11 +74,10 @@ t_job	*ms_parsing(char *line, t_job *job_first)
 			temp = ms_get_next_tok(parser, temp);
 		}
 	}
-	//token = ms_check_quote(first);
 	free(temp);
 	free(parser);
-	//printList(first);
 	token = ms_trim_quotes(first);
+	//printList(first);
 	job_first = ms_job(job_first, first2);
 	free_token_lst(first);
 	return (job_first);

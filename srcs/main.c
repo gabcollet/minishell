@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/05 11:36:36 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/10 11:02:47 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	loop(void)
 			add_history(line);
 
 		job_first = ms_parsing(line, job_first);
+		
 		if (ms_builtins(job_first->cmd) == 1)
 		{
 			g_msh.switch_signal = 1;

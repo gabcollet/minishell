@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 14:45:11 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/05 11:40:39 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/10 10:37:29 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,24 @@
 
 /* tout ca est bon pour les vidanges */
 
-void	init_redir(void)
-{
-	g_msh.redir_input = NULL;
-	g_msh.redir_output = NULL;
-	g_msh.append_output = NULL;
-	g_msh.here_doc = NULL;
-}
+// void	init_redir(void)
+// {
+// 	g_msh.redir_input = NULL;
+// 	g_msh.redir_output = NULL;
+// 	g_msh.append_output = NULL;
+// 	g_msh.here_doc = NULL;
+// }
 
-void	set_redir_info(int g_redir, char *string, int i, int file_len)
-{
-	if (g_redir == 1)
-		g_msh.redir_output = ft_substr(string, i, file_len);
-	else if (g_redir == 2)
-		g_msh.append_output = ft_substr(string, i, file_len);
-	else if (g_redir == 3)
-		g_msh.redir_input = ft_substr(string, i, file_len);
-	//else if (g_redir == 4)
-}
+// void	set_redir_info(int g_redir, char *string, int i, int file_len)
+// {
+// 	if (g_redir == 1)
+// 		g_msh.redir_output = ft_substr(string, i, file_len);
+// 	else if (g_redir == 2)
+// 		g_msh.append_output = ft_substr(string, i, file_len);
+// 	else if (g_redir == 3)
+// 		g_msh.redir_input = ft_substr(string, i, file_len);
+// 	//else if (g_redir == 4)
+// }
 
 int	get_redir_info(char *string, int g_redir, int i)
 {

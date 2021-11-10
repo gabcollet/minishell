@@ -36,7 +36,6 @@ int	ms_handle_quote(t_parser *parser)
 		if (i < 0)
 			ms_error_quote(parser);
 	}
-	//parser = ms_trim_quotes(parser);
 	return (i);
 }
 
@@ -51,16 +50,18 @@ t_token	*ms_trim_quotes(t_token *token)
 	{
 		if (token->type == STRING)
 		{
-			quote = '\0';
 			i = 0;
 			j = 0;
+			quote = '\0';
 			temp = ft_calloc(ft_strlen(token->str_tok) + 1, sizeof(char*));
-			while (token->str_tok[i])
+			while (token && token->str_tok[i])
 			{
+				if (token->str_tok[i] == quote)
+					i++;
 				if (token->str_tok[i] == '\'' || token->str_tok[i] == '\"')
 					quote = token->str_tok[i];
 				if (token->str_tok[i] == quote)
-					i++;
+				 	i++;
 				while (token->str_tok[i] != '\0' && token->str_tok[i] != quote)
 				{
 					temp[j] = token->str_tok[i];

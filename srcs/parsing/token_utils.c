@@ -26,10 +26,14 @@ char *ms_get_next_tok(t_parser *parser, char *temp)
 {
 	char *str;
 
-	str = temp;
-	str = ft_substr(parser->str_line, parser->index, ft_strlen(parser->str_line) - parser->index);
-	free(temp);
-	return (str);
+	if (temp)
+	{
+		str = temp;
+		str = ft_substr(parser->str_line, parser->index, ft_strlen(parser->str_line) - parser->index);
+		free(temp);
+		return (str);
+	}
+	return (NULL);
 }
 
 t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token)

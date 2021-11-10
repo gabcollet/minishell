@@ -4,14 +4,12 @@ t_job	*ms_job_newlst(void)
 {
 	t_job	*new;
 
-	new = ft_calloc(1, sizeof(t_job));
+	new = malloc(sizeof(t_job) * 1);
 	if (!new)
 		return (NULL);
 	new->cmd = NULL;
 	new->next = NULL;
-	new->redir = ft_calloc(1, sizeof(t_redir));
-	if (!new->redir)
-		return (NULL);
+	new->file = NULL;
 	return (new);
 }
 

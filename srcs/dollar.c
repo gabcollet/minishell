@@ -65,6 +65,7 @@ char *get_arg(char *tab)
 
 	int	k;
 	char *arg;
+	char *temp;
 
 	i = 0;
 	k = 0;
@@ -79,10 +80,13 @@ char *get_arg(char *tab)
 				i++;
 				k++;
 			}
-				if(arg)
-					return (arg);
+				// if(arg)
+				// 	return (arg);
 		}
 		i++;
-	}	
-	return(arg);
+	}
+	//trimmer tous les types de quote
+	temp = ft_strtrim(arg, "\'");
+	free(arg);
+	return(temp);
 }
