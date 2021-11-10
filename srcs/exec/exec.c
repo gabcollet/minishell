@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/10 10:17:31 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/10 16:47:03 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	parent_process(char **arg, char	**redir)
 	fd[0] = 0;
 	fd[1] = 0;
 	wstatus = 0;
-	while (redir && redir[i])
+/* 	while (redir && redir[i])
 	{
 		printf("%s\n", redir[i]);
 		i++;
@@ -85,22 +85,22 @@ void	parent_process(char **arg, char	**redir)
 		printf("%s\n", arg[i]);
 		i++;
 	}
-	i = 0;
+	i = 0; */
 	pid = fork();
 	if (pid == -1)
 		printf("Dang! This fork didn't work!");
-	while (redir && redir[i])
-	{
-		if (ft_strcmp(redir[i], "<") == 0)
-			fd[0] = open_file(redir[++i], 2);
-		else if (ft_strcmp(redir[i], ">") == 0)
-			fd[1] = open_file(redir[++i], 1);
-		else if (ft_strcmp(redir[i], ">>") == 0)
-			fd[1] = open_file(redir[++i], 0);
-		i++;
-	}
 	if (pid == 0)
 	{
+		while (redir && redir[i])
+		{
+			if (ft_strcmp(redir[i], "<") == 0)
+				fd[0] = open_file(redir[++i], 2);
+			else if (ft_strcmp(redir[i], ">") == 0)
+				fd[1] = open_file(redir[++i], 1);
+			else if (ft_strcmp(redir[i], ">>") == 0)
+				fd[1] = open_file(redir[++i], 0);
+			i++;
+		}
 		if (fd[0])
 			dup2(fd[0], STDIN_FILENO);
 		if (fd[1])
@@ -153,7 +153,7 @@ void	ms_exec(t_job *job)
 			child_process(job->cmd);
 			job = job->next;
 		}
-		parent_process(job->cmd, job->redir->file);
+		parent_process(job->cmd, job->file);
 // Important pour que le readline refonctionne apres
 		dup2(saved_stdin, 0);
 		close(saved_stdin);

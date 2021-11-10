@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 14:05:15 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/27 14:54:58 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/10 16:35:26 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,19 @@ void	ms_init_export(void)
 	char	*string;
 
 	i = 0;
-	while (g_msh.env[++i])
-		;
+	while (g_msh.env[i])
+		i++;
 	g_msh.env_export = malloc(sizeof(char *) * (i));
 	i = 0;
-	while (g_msh.env[i + 2])
+	if (g_msh.env[i])
 	{
-		string = ms_make_string(g_msh.env[i]);
-		g_msh.env_export[i] = ft_strdup(string);
-		free(string);
-		i++;
+		while (g_msh.env[i + 2])
+		{
+			string = ms_make_string(g_msh.env[i]);
+			g_msh.env_export[i] = ft_strdup(string);
+			free(string);
+			i++;
+		}
 	}
 	g_msh.env_export[i] = NULL;
 }
