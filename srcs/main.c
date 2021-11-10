@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/05 15:57:16 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/10 15:30:13 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	loop(void)
 			add_history(line);
 
 		job_first = ms_parsing(line, job_first);
+		
+	//	if (ms_builtins(job_first->cmd) == 1)
 	/* fait les jobs 2 fois */
 		if (job_first->next == NULL)
 		{

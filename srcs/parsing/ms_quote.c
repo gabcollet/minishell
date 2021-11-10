@@ -18,24 +18,65 @@ int ms_find_close_quote(t_parser *parser, char quote)
 int	ms_handle_quote(t_parser *parser)
 {
 	int i;
+	char	s_quote;
+	char	d_quote;
 	
 	i = 0;
+	s_quote = '\'';
+	d_quote = '\"';
 	if (parser->state == S_QUOTE)
 	{
-		i = ms_find_close_quote(parser, '\'');
+		i = ms_find_close_quote(parser, s_quote);
 		if (i < 0)
 			ms_error_quote(parser);
 	}
 	if (parser->state == D_QUOTE)
 	{
-		i = ms_find_close_quote(parser, '\"');
+		i = ms_find_close_quote(parser, d_quote);
 		if (i < 0)
 			ms_error_quote(parser);
 	}
 	return (i);
 }
 
+t_token	*ms_trim_quotes(t_token *token)
+{
+	char *temp;
+	char quote;
+	int	i;
+	int	j;
 
+	while (token)
+	{
+		if (token->type == STRING)
+		{
+			i = 0;
+			j = 0;
+			quote = '\0';
+			temp = ft_calloc(ft_strlen(token->str_tok) + 1, sizeof(char*));
+			while (token && token->str_tok[i])
+			{
+				if (token->str_tok[i] == quote)
+					i++;
+				if (token->str_tok[i] == '\'' || token->str_tok[i] == '\"')
+					quote = token->str_tok[i];
+				if (token->str_tok[i] == quote)
+				 	i++;
+				while (token->str_tok[i] != '\0' && token->str_tok[i] != quote)
+				{
+					temp[j] = token->str_tok[i];
+					j++;
+					i++;
+				}
+			}
+			free(token->str_tok);
+			token->str_tok = ft_strdup(temp);
+			free(temp);
+		}
+		token = token->next;
+	}
+	return (token);
+}
 
 // int	quote_counter(t_parser *parser, char quote)
 // {

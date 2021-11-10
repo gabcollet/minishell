@@ -26,10 +26,14 @@ char *ms_get_next_tok(t_parser *parser, char *temp)
 {
 	char *str;
 
-	str = temp;
-	str = ft_substr(parser->str_line, parser->index, ft_strlen(parser->str_line) - parser->index);
-	free(temp);
-	return (str);
+	if (temp)
+	{
+		str = temp;
+		str = ft_substr(parser->str_line, parser->index, ft_strlen(parser->str_line) - parser->index);
+		free(temp);
+		return (str);
+	}
+	return (NULL);
 }
 
 t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token)
@@ -44,14 +48,19 @@ t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token)
 		return (NULL);
 	while (i < parser->index)
 	{
+		/*if (parser->quote_state == KEEP_IT)
+		{
+			ms_remove_quote(token->str_tok);
+			return (token);
+		}
 		if (is_quote_next(parser, i) && (parser->quote_state != KEEP_IT))
 			i++;
 		if (is_quote(parser, i) && (parser->quote_state != KEEP_IT))
-			i++;
-		token->str_tok[j] = parser->str_line[i];
+			i++;*/
+		token->str_tok[i] = parser->str_line[i];
 		i++;
-		j++;
 	}
+	token->str_tok[i] = '\0';
 	ms_token_addback(&token, ms_token_newlst(NULL));
 	return (token);
 }

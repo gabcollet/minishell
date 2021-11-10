@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/05 16:02:16 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/10 15:31:41 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,6 @@ typedef struct s_msh
 	int		ret_exit;
 	int		switch_signal;
 	int		cmd_i;
-	char	*redir_output;
-	char	*append_output;
-	char	*redir_input;
-	char	*here_doc;
 }				t_msh;
 
 typedef enum	e_type
@@ -60,7 +56,7 @@ typedef enum	e_type
 	REDIR_L,
 	REDIR_R,
 	HERE_DOC_L,
-	HERE_DOC_R, 
+	APPEND, 
 }				t_type;
 
 typedef enum	e_state
@@ -92,17 +88,11 @@ typedef	struct s_parser
 
 t_msh g_msh;
 
-typedef struct s_redir
-{
-	t_type		type;  //ca sera pas vraiment le bon si yen a plusieurs
-	char		**file; //">" "test" ">>" "test2
-}				t_redir;
-
 typedef	struct s_job
 {
 	struct s_job *previous;
 	char 		**cmd;
-	t_redir 	*redir;
+	char		**file;
 	struct s_job *next;
 	
 }				t_job;
@@ -146,6 +136,7 @@ void	parent_process(char **arg);
 void	child_process(char **arg);
 void	ms_exec(t_job *job);
 char	*find_path(char *cmd);
+int	parse_redir(char *arg);
 
 //exec_utils.c
 void	error(char *arg, int i);
@@ -212,6 +203,7 @@ int	quote_counter(t_parser *parser, char quote);
 char *ms_remove_quote(char *str);
 bool is_quote(t_parser *parser, int i);
 bool is_quote_next(t_parser *parser, int i);
+t_token	*ms_trim_quotes(t_token *token);
 
 
 //error
@@ -233,8 +225,10 @@ void	ctrl_c(int var);
 void	loop(void);
 
 //dollar_sign
-void	replace_dol_w_env(char **tab, t_job *job, int i);
-char *get_arg(char **tab);
+//void	replace_dol_w_env(char **tab, t_job *job, int i);
+void	replace_dol_w_env(char *tab, t_token *token);
+//char *get_arg(char **tab);
+bool	is_dolsign(char *str);
 
 //ms_job_list
 void	ms_job_addback(t_job **job, t_job *new_job);
@@ -244,7 +238,8 @@ t_job	*ms_job_newlst(void);
 //ms_job
 t_job	*ms_job(t_job *job, t_token *token);
 bool is_redirection(t_token *token);
-void	redirection_to_tab(t_token *token, t_job *job);
+t_job	*redirection_to_tab(t_token *token, t_job *job);
 int	redir_counter(t_token *tok);
 
 #endif
+
