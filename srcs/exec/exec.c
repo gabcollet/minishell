@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/10 16:47:03 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/11 11:08:32 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,60 +51,18 @@ void	execute(char **cmd)
 		error(cmd[0], 0);
 }
 
-/* int	redir_output()
-{
-	int	fileout;
-
-	if (g_msh.redir_output != NULL)
-		return (fileout = open_file(g_msh.redir_output, 1));
-	else if (g_msh.append_output != NULL)
-		return (fileout = open_file(g_msh.append_output, 0));
-	return (0);
-} */
-
-void	parent_process(char **arg, char	**redir)
+void	parent_process(char **arg, char **redir)
 {
 	pid_t	pid;
 	int		wstatus;
-	int		fd[2];
-	int 	i;
 
-	i = 0;
-	fd[0] = 0;
-	fd[1] = 0;
 	wstatus = 0;
-/* 	while (redir && redir[i])
-	{
-		printf("%s\n", redir[i]);
-		i++;
-	}
-	printf("-----------------------------\n");
-	i = 0;
-	while (arg[i])
-	{
-		printf("%s\n", arg[i]);
-		i++;
-	}
-	i = 0; */
 	pid = fork();
 	if (pid == -1)
 		printf("Dang! This fork didn't work!");
 	if (pid == 0)
 	{
-		while (redir && redir[i])
-		{
-			if (ft_strcmp(redir[i], "<") == 0)
-				fd[0] = open_file(redir[++i], 2);
-			else if (ft_strcmp(redir[i], ">") == 0)
-				fd[1] = open_file(redir[++i], 1);
-			else if (ft_strcmp(redir[i], ">>") == 0)
-				fd[1] = open_file(redir[++i], 0);
-			i++;
-		}
-		if (fd[0])
-			dup2(fd[0], STDIN_FILENO);
-		if (fd[1])
-			dup2(fd[1], STDOUT_FILENO);
+		check_redirection(redir);
 		if (ms_builtins(arg, 1) == 1)
 			execute(arg);
 	}
@@ -143,9 +101,23 @@ void	child_process(char **arg)
 void	ms_exec(t_job *job)
 {
 	int	saved_stdin;
+	int	saved_stdout;
 
 	g_msh.switch_signal = 1;
 	saved_stdin = dup(0);
+	saved_stdout = dup(1);
+	if (job->next == NULL)
+	{
+		check_redirection(job->file);
+	 	if (ms_builtins(job->cmd, 0) == 0)
+		{
+			dup2(saved_stdin, 0);
+			close(saved_stdin);
+			dup2(saved_stdout, 1);
+			close(saved_stdout);
+			return ;
+		}
+	}
 	if (job->cmd)
 	{
 		while (job->next)
@@ -154,7 +126,7 @@ void	ms_exec(t_job *job)
 			job = job->next;
 		}
 		parent_process(job->cmd, job->file);
-// Important pour que le readline refonctionne apres
+		// Important pour que le readline refonctionne apres
 		dup2(saved_stdin, 0);
 		close(saved_stdin);
 	}

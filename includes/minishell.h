@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/10 16:10:20 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/11 12:05:12 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,20 +131,19 @@ char	**ms_unset_remove(char **env, char *arg);
 
 //exec.c
 void	execute(char **arg);
-void	parent_process(char **arg, char	**redir);
+void	parent_process(char **arg, char **redir);
 void	child_process(char **arg);
 void	ms_exec(t_job *job);
 char	*find_path(char *cmd);
-int	parse_redir(char *arg);
 
 //exec_utils.c
 void	error(char *arg, int i);
 int		open_file(char *argv, int i);
-int		count_pipe(char **arg);
-char	*make_command_string(char *string, char **arg);
-char	**make_command(char **arg);
-/* int	get_next_line(char **line) */
-/* void	here_doc(char *limiter, int argc) */
+
+//exec_redir.c
+void	check_redirection(char **redir);
+int		get_next_line(char **line);
+int		here_doc(char *limiter, int *fd);
 
 //redir_parsing.c
 void	init_redir(void);
@@ -180,20 +179,17 @@ t_token	*ms_token_newlst(void	*token);
 void	ms_token_addback(t_token **token, t_token *new_tok);
 int	counter_string(t_token *tok);
 
-
 //token_utils
 bool 	ms_get_token(t_parser *parser, t_token *token);
 char 	*ms_get_next_tok(t_parser *parser, char *temp);
 t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token);
 bool tokenize_string(t_token *token);
-
 void	ft_free_struct(t_msh *g_msh);
 
 //parser_utils
 bool	tokenize_redir(t_parser *parser, t_token *token);
 void	change_state(t_parser *parser, t_token *token);
 bool tokenize_string(t_token *token);
-
 
 //ms_quote.c
 int ms_find_close_quote(t_parser *parser, char quote);
@@ -203,7 +199,6 @@ char *ms_remove_quote(char *str);
 bool is_quote(t_parser *parser, int i);
 bool is_quote_next(t_parser *parser, int i);
 t_token	*ms_trim_quotes(t_token *token);
-
 
 //error
 void	ms_error_quote(t_parser *parser);
