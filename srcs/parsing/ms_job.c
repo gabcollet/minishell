@@ -62,7 +62,6 @@ t_job	*ms_job(t_job *job, t_token *token)
 		}
 		token = token->next;
 	}
-	/* printf("redir[] dans ms_job= %s\n", job->file[0]); */
 	return (job_first);
 }
 
@@ -73,21 +72,19 @@ t_job	*redirection_to_tab(t_token *token, t_job *job)
 	if (!job->file)
 	{
 		counter = redir_counter(token);
-		job->file = (char**)ft_calloc((counter *2) + 1, sizeof(char*));
+		job->file = (char**)ft_calloc((counter * 2) + 1, sizeof(char*));
 	}
 	i = 0;
 	while (job->file[i])
 		i++;
-	job->file[i] = ft_calloc(ft_strlen(token->str_tok) + 2, sizeof(char));
+	job->file[i] = ft_calloc(ft_strlen(token->str_tok) + 1, sizeof(char));
 	ft_strcpy(job->file[i], token->str_tok);
-	/* printf("%s\n", job->file[i]); */
 	i++;
 	if (!token->next)
 		return (job);
 	token = token->next;
 	job->file[i] = ft_calloc(ft_strlen(token->str_tok) + 1, sizeof(char));
 	ft_strcpy(job->file[i], token->str_tok);
-	/* printf("redir[0] dans redir to tab= %s\n", job->file[0]); */
 	return (job);
 }
 

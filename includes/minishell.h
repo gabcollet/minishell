@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/10 16:10:20 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/11 17:29:46 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ int ms_find_close_quote(t_parser *parser, char quote);
 int	ms_handle_quote(t_parser *parser);
 int	quote_counter(t_parser *parser, char quote);
 char *ms_remove_quote(char *str);
-bool is_quote(t_parser *parser, int i);
+bool is_quote(char *tab, int i);
 bool is_quote_next(t_parser *parser, int i);
 t_token	*ms_trim_quotes(t_token *token);
 
@@ -224,10 +224,12 @@ void	ctrl_c(int var);
 void	loop(void);
 
 //dollar_sign
-//void	replace_dol_w_env(char **tab, t_job *job, int i);
-void	replace_dol_w_env(char *tab, t_token *token);
-//char *get_arg(char **tab);
+char	*replace_dol_w_env(char *token);
 bool	is_dolsign(char *str);
+char	*ms_get_dolenv(char *tab, int i);
+char *get_arg(char *tab, int i);
+int	dollar_counter(char *token);
+bool	check_dol(char *tab);
 
 //ms_job_list
 void	ms_job_addback(t_job **job, t_job *new_job);

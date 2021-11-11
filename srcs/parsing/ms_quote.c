@@ -115,9 +115,9 @@ char *ms_remove_quote(char *str)
 }
 
 
-bool is_quote(t_parser *parser, int i)
+bool is_quote(char *tab, int i)
 {
-	if (parser->str_line[i] == '\'' || parser->str_line[i] == '\"')
+	if (tab[i] == '\'' || tab[i] == '\"')
 		return (true);
 	return (false);
 }

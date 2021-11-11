@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+
+
 void printListjob(t_job *tok, t_token *token);;
 
 void printList(t_token *tok)
@@ -36,6 +38,7 @@ void token_to_tab(t_token *token, t_job *job)
 {
 	int	i;
 	int	counter;
+	char	*temp;
 	
 	if (!job->cmd)
 	{
@@ -46,8 +49,13 @@ void token_to_tab(t_token *token, t_job *job)
 	while (job->cmd[i])
 		i++;
 	job->cmd[i] = malloc(sizeof(char) * (ft_strlen(token->str_tok) + 1));  
-	// if (is_dolsign(token->str_tok) && (token->state == TEXT))
-	// 	replace_dol_w_env(token->str_tok, token);
+	if (is_dolsign(token->str_tok) && (token->state == TEXT))
+	{
+		temp = ft_strdup(token->str_tok);
+		free(token->str_tok);
+		token->str_tok = replace_dol_w_env(temp);
+		//free(temp); //fixme ca bug si on free
+	}
 	ft_strcpy(job->cmd[i], token->str_tok);
  }
 	
@@ -77,9 +85,9 @@ t_job	*ms_parsing(char *line, t_job *job_first)
 	free(temp);
 	free(parser);
 	token = ms_trim_quotes(first);
-	//printList(first);
 	job_first = ms_job(job_first, first2);
-	free_token_lst(first);
+	//printList(first);
+	 free_token_lst(first);
 	return (job_first);
 }
 
