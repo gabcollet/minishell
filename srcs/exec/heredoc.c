@@ -6,13 +6,13 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:15:25 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/12 10:52:17 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/12 14:48:50 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_heredoc(char **redir, int stdin_fd)
+int	check_heredoc(char **redir, int stdin_fd)
 {
 	int 	i;
 
@@ -20,9 +20,13 @@ void	check_heredoc(char **redir, int stdin_fd)
 	while (redir && redir[i])
 	{
 		if (ft_strcmp(redir[i], "<<") == 0)
-			redir_heredoc(redir[++i], stdin_fd);
+		{
+			if (redir_heredoc(redir[++i], stdin_fd) == 1)
+				return (0);
+		}
 		i++;
 	}
+	return (1);
 }
 
 void	init_pipe(t_job *job)
@@ -34,34 +38,45 @@ void	init_pipe(t_job *job)
 	}
 }
 
-void	make_heredocs(t_job *job)
+int	make_heredocs(t_job *job)
 {
 	while (job)
 	{
-		check_heredoc(job->file, job->fd[0]);
+		if (!check_heredoc(job->file, job->fd[0]))
+			return (1);
 		job = job->next;
 	}
+	return (0);
 }
 
-void	redir_heredoc(char *limiter, int fd)
+int	redir_heredoc(char *limiter, int fd)
 {
 	int		new_fd[2];
 	pid_t	pid;
+	int		wstatus;
 
+	signal(SIGINT, nothing);
 	pipe(new_fd);
 	pid = fork();
 	if (pid == 0)
 		heredoc(limiter, new_fd);
 	waitpid(pid, NULL, 0);
+	signal(SIGINT, newline);
+	if (WIFEXITED(wstatus))
+		g_msh.ret_exit = WEXITSTATUS(wstatus);
 	dup2(new_fd[0], fd);
 	close(new_fd[1]);
 	close(new_fd[0]);
+	if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 130)
+		return (0);
+	return (1);
 }
 
 void	heredoc(char *limiter, int *fd)
 {
 	char *line;
 	
+	signal(SIGINT, stop_heredoc);
 	line = readline("> ");
 	while (line)
 	{

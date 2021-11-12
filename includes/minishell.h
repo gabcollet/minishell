@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/12 12:07:29 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/12 14:51:47 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,11 +145,17 @@ char	*find_path(char *cmd);
 void	check_redirection(char **redir, int *fd_pipe);
 
 //heredoc.c
-void	check_heredoc(char **redir, int stdin_fd);
+int		check_heredoc(char **redir, int stdin_fd);
 void	init_pipe(t_job *job);
-void	make_heredocs(t_job *job);
-void	redir_heredoc(char *limiter, int fd);
+int		make_heredocs(t_job *job);
+int		redir_heredoc(char *limiter, int fd);
 void	heredoc(char *limiter, int *fd);
+
+//signal.c
+void	ctrl_c(int var);
+void	nothing(int signal);
+void	stop_heredoc(int signal);
+void	newline(int signal);
 
 //redir_parsing.c
 void	init_redir(void);
@@ -221,7 +227,6 @@ void	init_shell();
 
 //main.c
 //int		main(int argc, char *argv[], char **env);
-void	ctrl_c(int var);
 void	loop(void);
 
 //dollar_sign

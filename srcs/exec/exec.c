@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/12 12:03:57 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/12 14:56:46 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ void	ms_exec(t_job *job)
 	saved_stdout = dup(1);
 	first = job;
 	init_pipe(first);
-	make_heredocs(job);
+	if (make_heredocs(job) == 1)
+		return ;
 	if (job->next == NULL)
 	{
 		check_redirection(job->file, job->fd);
@@ -102,7 +103,6 @@ void	ms_exec(t_job *job)
 			job = job->next;
 		}
 		parent_process(job->cmd, job->file, job->fd);
-		// Important pour que le readline refonctionne apres
 		dup2(saved_stdin, 0);
 		close(saved_stdin);
 	}
