@@ -25,9 +25,11 @@ void printListjob(t_job *tok)
 			k++;
 		}
 		tok = tok->next;
+		i = 0;
 	}
 }
 
+/*Retournes vrai si le token est de type redirection, sinon faux*/
 bool is_redirection(t_token *token)
 {
 	if (token->type == REDIR_L || token->type == REDIR_R
@@ -36,6 +38,7 @@ bool is_redirection(t_token *token)
 	return (false);
 }
 
+/*Rassemble les tokens pour créer des "jobs" en fonction des pipes*/
 t_job	*ms_job(t_job *job, t_token *token)
 {	
 	t_token	*tok_first;
@@ -62,10 +65,10 @@ t_job	*ms_job(t_job *job, t_token *token)
 		}
 		token = token->next;
 	}
-	/* printf("redir[] dans ms_job= %s\n", job->file[0]); */
 	return (job_first);
 }
 
+/*Enregistre les redirections et leur fichier depuis la struct token vers la struct job*/
 t_job	*redirection_to_tab(t_token *token, t_job *job)
 {
 	int	counter;
@@ -73,24 +76,23 @@ t_job	*redirection_to_tab(t_token *token, t_job *job)
 	if (!job->file)
 	{
 		counter = redir_counter(token);
-		job->file = (char**)ft_calloc((counter *2) + 1, sizeof(char*));
+		job->file = (char**)ft_calloc((counter * 2) + 1, sizeof(char*));
 	}
 	i = 0;
 	while (job->file[i])
 		i++;
-	job->file[i] = ft_calloc(ft_strlen(token->str_tok) + 2, sizeof(char));
+	job->file[i] = ft_calloc(ft_strlen(token->str_tok) + 1, sizeof(char));
 	ft_strcpy(job->file[i], token->str_tok);
-	/* printf("%s\n", job->file[i]); */
 	i++;
 	if (!token->next)
 		return (job);
 	token = token->next;
 	job->file[i] = ft_calloc(ft_strlen(token->str_tok) + 1, sizeof(char));
 	ft_strcpy(job->file[i], token->str_tok);
-	/* printf("redir[0] dans redir to tab= %s\n", job->file[0]); */
 	return (job);
 }
 
+/*Compte et retourne le nombre de redirection contenue dans l'input*/
 int	redir_counter(t_token *tok)
 {
 	int	i;
