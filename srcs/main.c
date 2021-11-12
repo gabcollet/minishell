@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/10 16:36:27 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/12 14:52:57 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,10 @@ void	loop(void)
 		}
 		if (*line)
 			add_history(line);
-
 		job_first = ms_parsing(line, job_first);
-		if (job_first->next == NULL)
-		{
-			//ne pas oublier les redirs pour les builtins
-			if (ms_builtins(job_first->cmd, 0) == 1)
-				ms_exec(job_first);
-		}
-		else
-			ms_exec(job_first);
+		ms_exec(job_first);
 	}
 	free(line);
-}
-
-void	ctrl_c(int var)
-{
-	(void) var;
-	if (g_msh.switch_signal == 0)
-		printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	if (g_msh.switch_signal == 0)
-		rl_redisplay();
 }
 
 int	main(int argc, char *argv[], char **env)

@@ -6,13 +6,12 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 11:37:01 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/10 16:48:17 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/12 11:01:17 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Display error and quit the child process */
 void	error(char *arg, int i)
 {
 	if (i == 0)
@@ -48,129 +47,28 @@ int	open_file(char *argv, int i)
 	return (file);
 }
 
-int	count_pipe(char **arg)
+char	*find_path(char *cmd)
 {
-	int	count;
-	int	i;
-
-	count = 1;
-	i = 0;
-	while (arg[i])
-	{
-		if (arg[i][0] == '|')
-			count++;
-		i++;
-	}
-	return (count);
-}
-
-/* char	*make_command_string(char *string, char **arg)
-{
-	while (arg[g_msh.cmd_i][0] != '|')
-	{
-		if (arg[g_msh.cmd_i] == NULL)
-			break;
-		if ((arg[g_msh.cmd_i + 1] == NULL || arg[g_msh.cmd_i + 1][0] == '|')
-			&& string == NULL)
-			string = ft_strjoin(arg[g_msh.cmd_i], " ");
-		else if (string == NULL)
-		{
-			string = ft_strjoin(arg[g_msh.cmd_i], " ");
-			string = ft_strjoin_free_s1(string, arg[g_msh.cmd_i + 1]);
-			g_msh.cmd_i++;
-		}
-		else
-			string = ft_strjoin_free_s1(string, arg[g_msh.cmd_i]);
-		g_msh.cmd_i++;
-		string = ft_strjoin_free_s1(string, " ");
-		if (arg[g_msh.cmd_i] == NULL)
-			break ;
-	}
-	g_msh.cmd_i++;
-	return (string);
-}
-
-char	**make_command(char **arg)
-{
-	int		count;
-	int		k;
-	char	**tab;
-	char	*string;
-
-	count = count_pipe(arg);
-	k = 0;
-	tab = malloc(sizeof(char *) * count + 2);
-	g_msh.cmd_i = 0;
-	while (count > 0)
-	{
-		string = NULL;
-		string = make_command_string(string, arg);
-		tab[k] = ft_strdup(string);
-		free(string);
-		k++;
-		count--;
-		printf("%d\n", i);
-	}
-	tab[k] = NULL;
-	return (tab);
-} */
-
-/* Function who make a child process that will read from the stdin with
- get_next_line until it find the limiter word and then put the output inside a
- pipe. The main process will change his stdin for the pipe file descriptor. */
-/* void	here_doc(char *limiter, int argc)
-{
-	pid_t	reader;
-	int		fd[2];
-	char	*line;
-
-	if (argc < 6)
-		usage();
-	if (pipe(fd) == -1)
-		error();
-	reader = fork();
-	if (reader == 0)
-	{
-		close(fd[0]);
-		while (get_next_line(&line))
-		{
-			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
-				exit(EXIT_SUCCESS);
-			write(fd[1], line, ft_strlen(line));
-		}
-	}
-	else
-	{
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		wait(NULL);
-	}
-} */
-
-/* Function that will read input from the terminal and return line. */
-/* int	get_next_line(char **line)
-{
-	char	*buffer;
+	char	**paths;
+	char	*path;
 	int		i;
-	int		r;
-	char	c;
 
 	i = 0;
-	r = 0;
-	buffer = (char *)malloc(10000);
-	if (!buffer)
-		return (-1);
-	r = read(0, &c, 1);
-	while (r && c != '\n' && c != '\0')
-	{
-		if (c != '\n' && c != '\0')
-			buffer[i] = c;
+	while (ft_strnstr(g_msh.env[i], "PATH", 4) == 0)
 		i++;
-		r = read(0, &c, 1);
+	paths = ft_split(g_msh.env[i] + 5, ':');
+	i = 0;
+	while (paths[i])
+	{
+		path = ft_strjoin(paths[i], "/");
+		path = ft_strjoin_free_s1(path, cmd);
+		if (access(path, F_OK) == 0)
+		{
+			ft_free_tab(paths);
+			return (path);
+		}
+		i++;
 	}
-	buffer[i] = '\n';
-	buffer[++i] = '\0';
-	*line = buffer;
-	free(buffer);
-	return (r);
-} */
+	ft_free_tab(paths);
+	return (NULL);
+}

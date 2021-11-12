@@ -74,13 +74,13 @@ typedef struct s_token
 	t_type	type;
 	t_state	state;
 	char	*str_tok;
-	struct s_token *next;
+	struct 	s_token *next;
 }				t_token;
 
 typedef	struct s_parser
 {
 	char	*str_line;
-	size_t		index;
+	size_t	index;
 	t_state state;
 	t_state quote_state;
 }				t_parser;
@@ -89,10 +89,11 @@ t_msh g_msh;
 
 typedef	struct s_job
 {
-	struct s_job *previous;
-	char 		**cmd;
-	char		**file;
-	struct s_job *next;
+	struct s_job	*previous;
+	char 			**cmd;
+	char			**file;
+	int				fd[2];
+	struct s_job	*next;
 	
 }				t_job;
 
@@ -131,20 +132,30 @@ char	**ms_unset_remove(char **env, char *arg);
 
 //exec.c
 void	execute(char **arg);
-void	parent_process(char **arg, char	**redir);
-void	child_process(char **arg);
+void	parent_process(char **arg, char **redir, int *fd);
+void	child_process(char **arg, char **redir, int *fd_heredoc);
 void	ms_exec(t_job *job);
-char	*find_path(char *cmd);
-int	parse_redir(char *arg);
 
 //exec_utils.c
 void	error(char *arg, int i);
 int		open_file(char *argv, int i);
-int		count_pipe(char **arg);
-char	*make_command_string(char *string, char **arg);
-char	**make_command(char **arg);
-/* int	get_next_line(char **line) */
-/* void	here_doc(char *limiter, int argc) */
+char	*find_path(char *cmd);
+
+//exec_redir.c
+void	check_redirection(char **redir, int *fd_pipe);
+
+//heredoc.c
+int		check_heredoc(char **redir, int stdin_fd);
+void	init_pipe(t_job *job);
+int		make_heredocs(t_job *job);
+int		redir_heredoc(char *limiter, int fd);
+void	heredoc(char *limiter, int *fd);
+
+//signal.c
+void	ctrl_c(int var);
+void	nothing(int signal);
+void	stop_heredoc(int signal);
+void	newline(int signal);
 
 //redir_parsing.c
 void	init_redir(void);
@@ -180,20 +191,17 @@ t_token	*ms_token_newlst(void	*token);
 void	ms_token_addback(t_token **token, t_token *new_tok);
 int	counter_string(t_token *tok);
 
-
 //token_utils
 bool 	ms_get_token(t_parser *parser, t_token *token);
 char 	*ms_get_next_tok(t_parser *parser, char *temp);
 t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token);
 bool tokenize_string(t_token *token);
-
 void	ft_free_struct(t_msh *g_msh);
 
 //parser_utils
 bool	tokenize_redir(t_parser *parser, t_token *token);
 void	change_state(t_parser *parser, t_token *token);
 bool tokenize_string(t_token *token);
-
 
 //ms_quote.c
 int ms_find_close_quote(t_parser *parser, char quote);
@@ -203,7 +211,6 @@ char *ms_remove_quote(char *str);
 bool is_quote(char *tab, int i);
 bool is_quote_next(t_parser *parser, int i);
 t_token	*ms_trim_quotes(t_token *token);
-
 
 //error
 void	ms_error_quote(t_parser *parser);
@@ -220,7 +227,6 @@ void	init_shell();
 
 //main.c
 //int		main(int argc, char *argv[], char **env);
-void	ctrl_c(int var);
 void	loop(void);
 
 //dollar_sign

@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 14:40:30 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/05 15:16:28 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/11 11:07:10 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ms_newline(char *arg)
 	int	i;
 
 	i = 0;
-	if (arg[i++] == '-')
+	if (arg && arg[i++] == '-')
 	{
 		while (arg[i])
 		{
