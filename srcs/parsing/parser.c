@@ -43,19 +43,21 @@ void token_to_tab(t_token *token, t_job *job)
 	if (!job->cmd)
 	{
 		counter = counter_string(token);
-		job->cmd = calloc(counter + 1, sizeof(char*));
+		job->cmd = ft_calloc(counter + 1, sizeof(char*));
 	}
 	i = 0;
 	while (job->cmd[i])
 		i++;
-	job->cmd[i] = malloc(sizeof(char) * (ft_strlen(token->str_tok) + 1));  
 	if (is_dolsign(token->str_tok) && (token->state == TEXT))
 	{
 		temp = ft_strdup(token->str_tok);
 		free(token->str_tok);
 		token->str_tok = replace_dol_w_env(temp);
-		//free(temp); //fixme ca bug si on free
+		free(temp);
 	}
+	if (token->str_tok == NULL) // TODO une fonction qui check s'il y a qqch dans la str
+		return ;
+	job->cmd[i] = ft_calloc((ft_strlen(token->str_tok) + 1), sizeof(char));  
 	ft_strcpy(job->cmd[i], token->str_tok);
  }
 	

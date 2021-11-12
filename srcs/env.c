@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/01 15:50:31 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/12 14:14:55 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,34 @@ char	*ms_get_env(char **env, char *arg)
 	return (env[i]);
 }
 
+char	*ms_get_varenv(char **env, char *arg)
+{
+	int	i;
+	int	len;
+	char **split;
+	char *var_env;
+
+	i = 0;
+	len = ft_strlen(arg);
+	var_env = NULL;
+	while (env[i] && !var_env)
+	{
+		split = ft_split(env[i], '=');
+		if (ft_strcmp(split[0], arg) == 0)
+			var_env = ft_strdup(split[1]);
+		else
+			i++;
+		ft_free_tab(split);
+	}
+	if (env[i] == NULL)
+		return (NULL);
+	return (var_env);
+}
+
+
 /* Remplace une ligne dans env par le nouveau contenue. Si la ligne n'existe
 pas en cree une nouvelle. Arg devrait etre ex: HOME= et new content devrait 
-etre ce qui va etre remplacer dedant. */
+etre ce qui va etre remplacer dedans. */
 void	ms_set_env(char **env, char *value)
 {
 	int		i;

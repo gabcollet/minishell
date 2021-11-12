@@ -1,7 +1,7 @@
 #include "minishell.h"
 
-// tester avec $USE 
-
+// FIXME tester avec $USE 
+/*remplace le $ENV par sa variable complète et retournes la nouvelle string*/
 char		*replace_dol_w_env(char *token)
 {
 	char 	*var_env = NULL;
@@ -24,6 +24,8 @@ char		*replace_dol_w_env(char *token)
 				else
 				{
 					var_env = ms_get_dolenv(temp, index);
+					if (!var_env)
+						break ;
 					j = 0;
 					while (var_env[j])
 						str[i++] = var_env[j++];
@@ -39,7 +41,6 @@ char		*replace_dol_w_env(char *token)
 			index++;
 		}
 		 free(temp);
-		//printf(" RESULTAT = %s\n", str);
 		return(str);
 }
 /*va chercher la variable dans env et retourne ce qu'il y a après le = */
@@ -52,9 +53,12 @@ char	*ms_get_dolenv(char *tab, int i)
 	arg = get_arg(tab, i);
 	if (!check_dol(arg))
 		return (NULL);
-	str = ms_get_env(g_msh.env, arg);
-	temp = ft_substr(str, ft_strlen(arg) + 1, ft_strlen(str) - ft_strlen(arg));
+	str = ms_get_varenv(g_msh.env, arg);
+	if (!str)
+		return (NULL);
+	temp = ft_substr(str, 0, ft_strlen(str));
 	free(arg);
+	free(str);
 	return (temp);
 }
 
@@ -73,7 +77,7 @@ char *get_arg(char *tab, int i)
 		if (ft_strchr("$", tab[i]))
 		{
 			while (!ft_strchr(WHITESPACE, tab[i]) && !ft_strchr(WHITESPACE, tab[i + 1]) 
-			&& !ft_strchr("$", tab[i + 1]) && !is_quote(tab, i))
+			&& !ft_strchr("$", tab[i + 1]) && !is_quote(tab, i + 1))
 			{
 				arg[k] = tab[i + 1];
 				i++;
@@ -97,7 +101,7 @@ bool	check_dol(char *tab)
 	{
 		if (ft_isdigit(tab[0]))
 			return (false);
-		if (ft_strchr("_", tab[i]))
+		if (ft_strchr("_", tab[i]) || ft_strchr("\'", tab[i]) || ft_strchr("\"", tab[i]))
 			i++;
 		if (!ft_isalnum(tab[i]))
 			return (false);
@@ -107,7 +111,7 @@ bool	check_dol(char *tab)
 }
 
 /*retourne la longueur de la variable d'env*/
-int	dollar_counter(char *token)
+int	dollar_counter(char *token) //FIXME : invalid read of size 1
 {
 	int	counter;
 	char	*str;
@@ -115,7 +119,7 @@ int	dollar_counter(char *token)
 
 	i = 0;
 	counter = 0;
-	while (token[i])
+	while (token && token[i])
 	{
 		if (ft_strchr("$", token[i]))
 		{
@@ -124,13 +128,15 @@ int	dollar_counter(char *token)
 				return (1);
 			while (str[counter])
 				counter++;
-			free(str);
+			if (str)
+				free(str);
 		}
 		i++;
 	}
 	return (counter + i);
 }
 
+/*vérifie si la string contient un dollar sign*/
 bool	is_dolsign(char *str)
 {
 	int	i;

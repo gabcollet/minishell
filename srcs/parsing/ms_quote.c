@@ -45,11 +45,13 @@ t_token	*ms_trim_quotes(t_token *token)
 	char quote;
 	int	i;
 	int	j;
+	int	check;
 
 	while (token)
 	{
 		if (token->type == STRING)
 		{
+			check = 0;
 			i = 0;
 			j = 0;
 			quote = '\0';
@@ -57,13 +59,31 @@ t_token	*ms_trim_quotes(t_token *token)
 			while (token && token->str_tok[i])
 			{
 				if (token->str_tok[i] == quote)
-					i++;
-				if (token->str_tok[i] == '\'' || token->str_tok[i] == '\"')
-					quote = token->str_tok[i];
-				if (token->str_tok[i] == quote)
-				 	i++;
-				while (token->str_tok[i] != '\0' && token->str_tok[i] != quote)
 				{
+					check++;	
+					i++;
+				}
+				if ((token->str_tok[i] == '\'' || token->str_tok[i] == '\"') && (check == 2 || check == 0))
+				{
+					if (check == 2)
+					{
+						quote = '\0';
+						check = 0;
+					}
+					quote = token->str_tok[i];
+				}
+				if (token->str_tok[i] == quote)
+				{
+				 	i++;
+					check++;
+				}
+				if (token->str_tok[i] != '\0' && token->str_tok[i] != quote)
+				{
+					// if (token->str_tok[i] == '\'' || token->str_tok[i] == '\"')
+					// {
+					// 	quote = token->str_tok[i];
+					// 	i++;
+					// }		
 					temp[j] = token->str_tok[i];
 					j++;
 					i++;

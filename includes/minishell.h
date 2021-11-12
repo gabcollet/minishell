@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/11 17:29:46 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/12 14:06:37 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,6 +241,8 @@ t_job	*ms_job(t_job *job, t_token *token);
 bool is_redirection(t_token *token);
 t_job	*redirection_to_tab(t_token *token, t_job *job);
 int	redir_counter(t_token *tok);
+
+char	*ms_get_varenv(char **env, char *arg);
 
 #endif
 
