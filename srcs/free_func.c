@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/04 14:20:39 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/12 10:52:01 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ void	free_job_lst(t_job *job)
 			free(job->cmd[i]);
 			i++;
 		}
-		free(job->cmd);
+		if (job->cmd)
+			free(job->cmd);
+		job = temp;
 	}
+	if (job)
+		free(job);
 }
