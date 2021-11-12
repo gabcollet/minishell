@@ -6,13 +6,12 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 11:37:01 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/11 10:26:04 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/12 11:01:17 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Display error and quit the child process */
 void	error(char *arg, int i)
 {
 	if (i == 0)
@@ -46,4 +45,30 @@ int	open_file(char *argv, int i)
 		exit(1);
 	}
 	return (file);
+}
+
+char	*find_path(char *cmd)
+{
+	char	**paths;
+	char	*path;
+	int		i;
+
+	i = 0;
+	while (ft_strnstr(g_msh.env[i], "PATH", 4) == 0)
+		i++;
+	paths = ft_split(g_msh.env[i] + 5, ':');
+	i = 0;
+	while (paths[i])
+	{
+		path = ft_strjoin(paths[i], "/");
+		path = ft_strjoin_free_s1(path, cmd);
+		if (access(path, F_OK) == 0)
+		{
+			ft_free_tab(paths);
+			return (path);
+		}
+		i++;
+	}
+	ft_free_tab(paths);
+	return (NULL);
 }

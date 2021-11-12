@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/11 12:05:12 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/12 12:07:29 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,13 @@ typedef struct s_token
 	t_type	type;
 	t_state	state;
 	char	*str_tok;
-	struct s_token *next;
+	struct 	s_token *next;
 }				t_token;
 
 typedef	struct s_parser
 {
 	char	*str_line;
-	size_t		index;
+	size_t	index;
 	t_state state;
 	t_state quote_state;
 }				t_parser;
@@ -89,10 +89,11 @@ t_msh g_msh;
 
 typedef	struct s_job
 {
-	struct s_job *previous;
-	char 		**cmd;
-	char		**file;
-	struct s_job *next;
+	struct s_job	*previous;
+	char 			**cmd;
+	char			**file;
+	int				fd[2];
+	struct s_job	*next;
 	
 }				t_job;
 
@@ -131,19 +132,24 @@ char	**ms_unset_remove(char **env, char *arg);
 
 //exec.c
 void	execute(char **arg);
-void	parent_process(char **arg, char **redir);
-void	child_process(char **arg);
+void	parent_process(char **arg, char **redir, int *fd);
+void	child_process(char **arg, char **redir, int *fd_heredoc);
 void	ms_exec(t_job *job);
-char	*find_path(char *cmd);
 
 //exec_utils.c
 void	error(char *arg, int i);
 int		open_file(char *argv, int i);
+char	*find_path(char *cmd);
 
 //exec_redir.c
-void	check_redirection(char **redir);
-int		get_next_line(char **line);
-int		here_doc(char *limiter, int *fd);
+void	check_redirection(char **redir, int *fd_pipe);
+
+//heredoc.c
+void	check_heredoc(char **redir, int stdin_fd);
+void	init_pipe(t_job *job);
+void	make_heredocs(t_job *job);
+void	redir_heredoc(char *limiter, int fd);
+void	heredoc(char *limiter, int *fd);
 
 //redir_parsing.c
 void	init_redir(void);

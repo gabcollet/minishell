@@ -6,39 +6,11 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/11 11:08:32 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/12 12:03:57 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* Function that will look for the path line inside the environment, will
- split and test each command path and then return the right one or NULL. */
-char	*find_path(char *cmd)
-{
-	char	**paths;
-	char	*path;
-	int		i;
-
-	i = 0;
-	while (ft_strnstr(g_msh.env[i], "PATH", 4) == 0)
-		i++;
-	paths = ft_split(g_msh.env[i] + 5, ':');
-	i = 0;
-	while (paths[i])
-	{
-		path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin_free_s1(path, cmd);
-		if (access(path, F_OK) == 0)
-		{
-			ft_free_tab(paths);
-			return (path);
-		}
-		i++;
-	}
-	ft_free_tab(paths);
-	return (NULL);
-}
 
 /* Function that try exec or take the command and send it to find_path
  before executing it. */
@@ -51,7 +23,7 @@ void	execute(char **cmd)
 		error(cmd[0], 0);
 }
 
-void	parent_process(char **arg, char **redir)
+void	parent_process(char **arg, char **redir, int *fd)
 {
 	pid_t	pid;
 	int		wstatus;
@@ -62,7 +34,7 @@ void	parent_process(char **arg, char **redir)
 		printf("Dang! This fork didn't work!");
 	if (pid == 0)
 	{
-		check_redirection(redir);
+		check_redirection(redir, fd);
 		if (ms_builtins(arg, 1) == 1)
 			execute(arg);
 	}
@@ -71,7 +43,7 @@ void	parent_process(char **arg, char **redir)
 		g_msh.ret_exit = WEXITSTATUS(wstatus);
 }
 
-void	child_process(char **arg)
+void	child_process(char **arg, char **redir, int *fd_heredoc)
 {
 	pid_t	pid;
 	int		status;
@@ -87,6 +59,7 @@ void	child_process(char **arg)
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
+		check_redirection(redir, fd_heredoc);
 		if (ms_builtins(arg, 1) == 1)
 			execute(arg);
 	}
@@ -95,20 +68,23 @@ void	child_process(char **arg)
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		g_msh.ret_exit = WEXITSTATUS(status);
-
 }
 
 void	ms_exec(t_job *job)
 {
 	int	saved_stdin;
 	int	saved_stdout;
+	t_job *first;
 
 	g_msh.switch_signal = 1;
 	saved_stdin = dup(0);
 	saved_stdout = dup(1);
+	first = job;
+	init_pipe(first);
+	make_heredocs(job);
 	if (job->next == NULL)
 	{
-		check_redirection(job->file);
+		check_redirection(job->file, job->fd);
 	 	if (ms_builtins(job->cmd, 0) == 0)
 		{
 			dup2(saved_stdin, 0);
@@ -122,10 +98,10 @@ void	ms_exec(t_job *job)
 	{
 		while (job->next)
 		{
-			child_process(job->cmd);
+			child_process(job->cmd, job->file, job->fd);
 			job = job->next;
 		}
-		parent_process(job->cmd, job->file);
+		parent_process(job->cmd, job->file, job->fd);
 		// Important pour que le readline refonctionne apres
 		dup2(saved_stdin, 0);
 		close(saved_stdin);
@@ -133,14 +109,3 @@ void	ms_exec(t_job *job)
 	g_msh.switch_signal = 0;
 	return ;
 }
-
-/* pour les redirection:
-check si les redirections sont a NULL
-sinon open le file mentionner
-dup2 le file open au bon stdin 
-ramene le saved_stdin
-
-pour le here doc:
-same mais tu prend les inputs dans le get_next_line
-
-est-ce que le pipe prend le dsessus sur la redir ou l'inverse? */
