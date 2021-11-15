@@ -1,0 +1,25 @@
+echo ~
+echo ~/123
+echo ~/123/456
+echo               text "$USER"            "$USER"text
+echo ''''''''''$USER''''''''''
+echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER ''
+echo " " " """ ''' (quand ca ecrit : invalid single quote(pas de /n), ca quitte ensuite le minishell)
+echo text"$USER"test
+echo "$USER""Users/$USER/file""'$USER'"'$USER'
+echo '$USER'"$USER"'$USER'
+echo '"$USER"''$USER'"""$USER"
+echo " $USER  "'$PWD'
+echo " $USER  $ "'$PWD'
+echo $USER=4
+echo $USER=thallard
+echo $?
+echo $USER$12USER$USER=4$USER12
+echo $USER $123456789USER $USER123456789
+echo $USER $9999USER $8888USER $7777USER
+echo $USER $USER9999 $USER8888 $USER7777
+echo $USER $USER9999 $USER8888 $USER7777 "$USER"
+echo "$USER=12$USER"
+echo "$9USER" "'$USER=12$SOMETHING'"
+echo $PWD/file
+echo "$PWD/file"

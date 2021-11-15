@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:34:34 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/05 14:19:14 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/15 16:47:25 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ int	ms_cd(char *arg)
 	getcwd(c, sizeof(c));
 	if (chdir(arg) == -1)
 	{
-		printf("cd: %s: No such file or directory\n", arg);
+		ft_putstr_fd("cd: ", 2);
+		ft_putstr_fd(arg, 2);
+		ft_putendl_fd(": No such file or directory", 2);
 		return (1);
 	}
 	ms_set_env(g_msh.env, ft_strjoin("OLDPWD=", c));

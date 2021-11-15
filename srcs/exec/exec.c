@@ -6,14 +6,12 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/12 14:56:46 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/15 16:37:09 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Function that try exec or take the command and send it to find_path
- before executing it. */
 void	execute(char **cmd)
 {
 	execve(cmd[0], cmd, g_msh.env); //error is a directory

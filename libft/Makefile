@@ -6,7 +6,7 @@
 #    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/11 12:58:26 by gcollet           #+#    #+#              #
-#    Updated: 2021/11/02 13:51:17 by gcollet          ###   ########.fr        #
+#    Updated: 2021/11/15 17:57:03 by gcollet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ VPATH   = ./
 HEADER	= libft.h
 
 CC 		= gcc
-CFLAGS 	= -Wall -Wextra -Werror
+CFLAGS 	= -Wall -Wextra -Werror -g
 
 all:		build-repo	${NAME}
 

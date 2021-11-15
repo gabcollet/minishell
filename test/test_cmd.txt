@@ -1,0 +1,23 @@
+| test
+echo > <
+echo | |
+< (ici ca segfault carrement)
+|
+| | |
+||||||||
+	(juste rien (un espace) ca segfault)
+> (segfault)
+>>>>>>>>
+<<<<<<<<<
+> > > >
+>> >> >> >>
+~
+<<
+/Users
+.
+/
+>echo>
+<echo<
+>>echo>>
+|echo|
+| echo -n oui
