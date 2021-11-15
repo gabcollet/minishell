@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-
+/*tokenize la string et renvoie vers tokenize_redir ou tokeniz_string*/
 bool ms_get_token(t_parser *parser, t_token *token)
 {
 	if (ft_strchr(REDIRECTION, parser->str_line[parser->index]))
@@ -22,6 +22,7 @@ bool ms_get_token(t_parser *parser, t_token *token)
 		return(tokenize_string(token));
 }
 
+/*renvoie la string de l'input en retirant le morceau de string qui vient d'etre copié dans le token précédent*/
 char *ms_get_next_tok(t_parser *parser, char *temp)
 {
 	char *str;
@@ -36,6 +37,7 @@ char *ms_get_next_tok(t_parser *parser, char *temp)
 	return (NULL);
 }
 
+/*Copie l'input dans la struct token puis ajoute un token null à la suite*/
 t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token)
 {
 	size_t	i;

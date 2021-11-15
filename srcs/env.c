@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/12 14:14:55 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/13 12:56:27 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	*ms_get_env(char **env, char *arg)
 	return (env[i]);
 }
 
+/*Va chercher la variable d'env selon le nom de arg et retournes 
+l'expansion de la variable sans son nom ou retournes NULL*/
 char	*ms_get_varenv(char **env, char *arg)
 {
 	int	i;

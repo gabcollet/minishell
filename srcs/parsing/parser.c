@@ -15,6 +15,7 @@ void printList(t_token *tok)
 	}
 }
 
+/*Compte le nombre de type string présente dans la struct et le retourne*/
 int	counter_string(t_token *tok)
 {
 	int	i;
@@ -34,6 +35,7 @@ int	counter_string(t_token *tok)
 	return (i);
 }
 
+/*Enregistre les token type string dans une job*/
 void token_to_tab(t_token *token, t_job *job)
 {
 	int	i;
@@ -55,12 +57,13 @@ void token_to_tab(t_token *token, t_job *job)
 		token->str_tok = replace_dol_w_env(temp);
 		free(temp);
 	}
-	if (token->str_tok == NULL) // TODO une fonction qui check s'il y a qqch dans la str
+	if (token->str_tok == NULL)
 		return ;
 	job->cmd[i] = ft_calloc((ft_strlen(token->str_tok) + 1), sizeof(char));  
 	ft_strcpy(job->cmd[i], token->str_tok);
  }
-	
+
+/*Fonction principale qui parse l'input*/
 t_job	*ms_parsing(char *line, t_job *job_first)
 {
 	char	*temp;
@@ -93,6 +96,7 @@ t_job	*ms_parsing(char *line, t_job *job_first)
 	return (job_first);
 }
 
+/*Vérifie si la chaine est vide*/
 bool empty_str(char *str)
 {
 	int	i;
@@ -105,6 +109,7 @@ bool empty_str(char *str)
 	return (true);
 }
 
+/*Trimmes les whitespace de la chaine passée en paramètre et en retourne une nouvelle*/
 char *ms_trim_space(char *str)
 {
 	char *temp;

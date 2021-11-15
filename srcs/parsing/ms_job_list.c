@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+/*créer et initialise une nouvelle liste chainée job*/
 t_job	*ms_job_newlst(void)
 {
 	t_job	*new;
@@ -13,6 +14,7 @@ t_job	*ms_job_newlst(void)
 	return (new);
 }
 
+/*positionne le pointeur sur le dernier node de la liste chainée job*/
 t_job	*ms_job_last(t_job *job)
 {
 	while (job)
@@ -24,6 +26,7 @@ t_job	*ms_job_last(t_job *job)
 	return (job);
 }
 
+/*ajoute un nouveau node à la suite du dernier node de la liste job*/
 void	ms_job_addback(t_job **job, t_job *new_job)
 {
 	t_job *last_job;

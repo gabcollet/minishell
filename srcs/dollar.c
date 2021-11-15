@@ -77,7 +77,7 @@ char *get_arg(char *tab, int i)
 		if (ft_strchr("$", tab[i]))
 		{
 			while (!ft_strchr(WHITESPACE, tab[i]) && !ft_strchr(WHITESPACE, tab[i + 1]) 
-			&& !ft_strchr("$", tab[i + 1]) && !is_quote(tab, i + 1))
+			&& !ft_strchr("$", tab[i + 1]) && !is_quote(tab, i + 1) && !ft_strchr("/", tab[i + 1]))
 			{
 				arg[k] = tab[i + 1];
 				i++;

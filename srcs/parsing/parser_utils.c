@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+/*Enregistre les credir et les pipes dans leur propre token*/
 bool	tokenize_redir(t_parser *parser, t_token *token)
 {
 	char *temp;
@@ -42,6 +43,7 @@ bool	tokenize_redir(t_parser *parser, t_token *token)
 	return(true);
 }
 
+/*state machine permettant de gérer les quotes et l'expansion du $*/
 void	change_state(t_parser *parser, t_token *token)
 {
 	size_t	i;
@@ -81,7 +83,7 @@ void	change_state(t_parser *parser, t_token *token)
 	}
 }
 
-
+/*Donne le type string au token passé en paramètre*/
 bool tokenize_string(t_token *token)
 {
 	token->type = STRING;
