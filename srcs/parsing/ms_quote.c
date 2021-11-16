@@ -65,7 +65,8 @@ t_token	*ms_trim_quotes(t_token *token)
 					check++;	
 					i++;
 				}
-				if ((token->str_tok[i] == '\'' || token->str_tok[i] == '\"') && (check == 2 || check == 0))
+				if ((token->str_tok[i] == '\'' || token->str_tok[i] == '\"') 
+					&& (check == 2 || check == 0))
 				{
 					if (check == 2)
 					{

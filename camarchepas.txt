@@ -1,0 +1,10 @@
+
+echo "$9USER" "'$USER=12$SOMETHING'"
+
+echo '"$USER"''$USER'"""$USER"
+
+echo '"$USER"'
+echo "'$USER'"
+
+echo " $USER  $ "'$PWD' // faut print le dollar tout seul 
+

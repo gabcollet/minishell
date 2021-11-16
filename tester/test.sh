@@ -20,7 +20,7 @@ echo a '' b '' c '' d
 echo a "" b "" c "" d
 echo -n -n lol -n
 echo -n -n -n test tout
-echo
+echo -n -n -n test tout
 echo -n -n 
 echo -n a '' b '' c '' d
 echo -n a "" b "" c "" d

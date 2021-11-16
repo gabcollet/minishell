@@ -10,25 +10,34 @@ char		*replace_dol_w_env(char *token)
 	char	*str;
 	int		i = 0;
 	int		j = 0;
+	int k = 0;
 	int		index = 0;
+	int		d_quote_count = 0;
 	
 	temp = ft_strdup(token);
-	str = ft_calloc((dollar_counter(temp) + 1), sizeof(char*));
+	str = ft_calloc((dollar_counter(temp) + 1 +ft_strlen(token)), sizeof(char*));
 	while (temp[index])
 		{
+			j = 0;
 			if (ft_strchr("$", temp[index]))
 			{
 				name_var = get_arg(temp, index);
 				if (!check_dol(name_var))
-					i++;
+				{
+					j = 1;
+					while (name_var[k++])
+							str[i++] = name_var[j++];
+					i--;
+				}
 				else
 				{
 					var_env = ms_get_dolenv(temp, index);
-					if (!var_env)
-						break ;
-					j = 0;
-					while (var_env[j])
-						str[i++] = var_env[j++];
+					if (var_env)
+					{
+						j = 0;
+						while (var_env[j])
+							str[i++] = var_env[j++];
+					}
 					free(var_env);
 				}
 				index += ft_strlen(name_var) + 1;
@@ -36,9 +45,16 @@ char		*replace_dol_w_env(char *token)
 				if (ft_strchr("$", temp[index]))
 					continue ;
 			}
-			str[i] = temp[index];
-			i++;
-			index++;
+			if (temp[index] == '\"')
+			{
+				d_quote_count++;
+			}
+			if ((temp[index] == '\'' && (d_quote_count % 2 == 0)) || (temp[index] == '\'' && d_quote_count == 1))
+			{
+				while(temp[index++] != '\'')
+					str[i++] = temp[index++];
+			}
+			str[i++] = temp[index++];
 		}
 		 free(temp);
 		return(str);
@@ -51,6 +67,11 @@ char	*ms_get_dolenv(char *tab, int i)
 	char *temp;
 
 	arg = get_arg(tab, i);
+	if( arg[i] == '?')
+	{
+		temp = ft_itoa(g_msh.ret_exit);
+		return (temp);
+	}
 	if (!check_dol(arg))
 		return (NULL);
 	str = ms_get_varenv(g_msh.env, arg);
@@ -76,12 +97,15 @@ char *get_arg(char *tab, int i)
 	{
 		if (ft_strchr("$", tab[i]))
 		{
-			while (!ft_strchr(WHITESPACE, tab[i]) && !ft_strchr(WHITESPACE, tab[i + 1]) 
-			&& !ft_strchr("$", tab[i + 1]) && !is_quote(tab, i + 1) && !ft_strchr("/", tab[i + 1]))
+			while ((!ft_strchr(WHITESPACE, tab[i]) && !ft_strchr(WHITESPACE, tab[i + 1]) 
+			&& !ft_strchr("$", tab[i + 1]) && !is_quote(tab, i + 1) && !ft_strchr("/", tab[i + 1]) 
+			&& ft_isalnum(tab[i + 1])) || (tab[i + 1] == '?'))
 			{
 				arg[k] = tab[i + 1];
 				i++;
 				k++;
+				if (tab[i - 1] == '$' && arg[k - 1] == '?')
+					return(arg);
 			}
 			is_dol = 1;
 		}
@@ -101,9 +125,10 @@ bool	check_dol(char *tab)
 	{
 		if (ft_isdigit(tab[0]))
 			return (false);
-		if (ft_strchr("_", tab[i]) || ft_strchr("\'", tab[i]) || ft_strchr("\"", tab[i]))
+		else if (ft_strchr("_", tab[i]) || ft_strchr("\'", tab[i]) || ft_strchr("\"", tab[i]) 
+				|| ft_isdigit(tab[i]) || ft_strchr("?", tab[i]))
 			i++;
-		if (!ft_isalnum(tab[i]))
+		else if (!ft_isalnum(tab[i]))
 			return (false);
 		i++;
 	}
@@ -149,4 +174,22 @@ bool	is_dolsign(char *str)
 		i++;
 	}
 	return (false);
+}
+
+t_token	*expand_dol_sign(t_token *token)
+{
+	char	*temp;
+	t_token	*head;
+
+	head = token;
+	temp = NULL;
+	while (token && token->str_tok)
+	{
+		temp = ft_strdup(token->str_tok);
+		free(token->str_tok);
+		token->str_tok = replace_dol_w_env(temp);
+		token = token->next;
+		free(temp);
+	}
+	return(head);
 }

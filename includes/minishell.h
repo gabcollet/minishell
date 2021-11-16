@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/12 14:06:37 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/15 16:03:38 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef enum	e_state
 	D_QUOTE,
 	NO_DOL,
 	KEEP_IT,
+	PRINT_IT,
 }				t_state;
 
 typedef struct s_token
@@ -236,6 +237,15 @@ char	*ms_get_dolenv(char *tab, int i);
 char *get_arg(char *tab, int i);
 int	dollar_counter(char *token);
 bool	check_dol(char *tab);
+t_token	*expand_dol_sign(t_token *token);
+
+//replace_tild_w_home
+char	*replace_tild_w_home(char *token);
+t_token	*ms_expand_tild(t_token *token);
+int	tild_counter(char *str);
+
+
+
 
 //ms_job_list
 void	ms_job_addback(t_job **job, t_job *new_job);

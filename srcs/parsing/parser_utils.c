@@ -58,7 +58,9 @@ void	change_state(t_parser *parser, t_token *token)
 				parser->state = D_QUOTE;
 			}
 			if (parser->state == TEXT)
+			{
 				parser->state = S_QUOTE;
+			}
 			else if (parser->state == S_QUOTE)
 			{
 				parser->state = TEXT;
@@ -73,7 +75,9 @@ void	change_state(t_parser *parser, t_token *token)
 				parser->state = S_QUOTE;
 			}
 			if (parser->state == TEXT)
+			{
 				parser->state = D_QUOTE;
+			}
 			else if (parser->state == D_QUOTE)
 			{
 				parser->state = TEXT;

@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 
-
+t_token	*ms_trim_and_expand(t_token *token);
 void printListjob(t_job *tok, t_token *token);;
 
 void printList(t_token *tok)
@@ -39,8 +39,9 @@ int	counter_string(t_token *tok)
 void token_to_tab(t_token *token, t_job *job)
 {
 	int	i;
+	int	j;
 	int	counter;
-	char	*temp;
+	// char	*temp;
 	
 	if (!job->cmd)
 	{
@@ -48,17 +49,25 @@ void token_to_tab(t_token *token, t_job *job)
 		job->cmd = ft_calloc(counter + 1, sizeof(char*));
 	}
 	i = 0;
+	j = 0;
 	while (job->cmd[i])
 		i++;
-	if (is_dolsign(token->str_tok) && (token->state == TEXT))
-	{
-		temp = ft_strdup(token->str_tok);
-		free(token->str_tok);
-		token->str_tok = replace_dol_w_env(temp);
-		free(temp);
-	}
-	if (token->str_tok == NULL)
-		return ;
+	// if (is_dolsign(token->str_tok) && (token->state == PRINT_IT))
+	// {
+	// 	temp = ft_strdup(token->str_tok);
+	// 	free(token->str_tok);
+	// 	token->str_tok = get_arg(temp, j);
+	// 	free(temp);
+	// }	
+	// else if (is_dolsign(token->str_tok) && (token->state == TEXT))
+	// {
+	// 	temp = ft_strdup(token->str_tok);
+	// 	free(token->str_tok);
+	// 	token->str_tok = replace_dol_w_env(temp);
+	// 	free(temp);
+	// }
+	// if (token->str_tok == NULL)
+	// 	return ;
 	job->cmd[i] = ft_calloc((ft_strlen(token->str_tok) + 1), sizeof(char));  
 	ft_strcpy(job->cmd[i], token->str_tok);
  }
@@ -70,12 +79,14 @@ t_job	*ms_parsing(char *line, t_job *job_first)
 	t_parser *parser;
 	t_token *first;
 	t_token *first2;
+	t_token	*first3;
 	t_token *token;
 
 	token = ms_token_newlst(NULL);
 	parser = malloc(sizeof(t_parser) * 1);
 	first = token;
 	first2 = token;
+	first3 = token;
 	temp = ms_trim_space(line);
 	while (!empty_str(temp))
 	{
@@ -89,9 +100,12 @@ t_job	*ms_parsing(char *line, t_job *job_first)
 	}
 	free(temp);
 	free(parser);
+	token = ms_expand_tild(first);
+	token = expand_dol_sign(first3);
+	printList(first);
 	token = ms_trim_quotes(first);
+	//ms_trim_and_expand(first);
 	job_first = ms_job(job_first, first2);
-	//printList(first);
 	 free_token_lst(first);
 	return (job_first);
 }
