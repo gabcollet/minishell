@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/15 16:37:09 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/16 16:08:30 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,19 @@
 
 void	execute(char **cmd)
 {
-	execve(cmd[0], cmd, g_msh.env); //error is a directory
+	char	*path;
+
+	execve(cmd[0], cmd, g_msh.env);
 	if (ft_strchr(cmd[0], '/') != NULL)
+	{
+		if (access(cmd[0], F_OK) == 0)
+			error(cmd[0], 2);
 		error(cmd[0], 1);
-	if (execve(find_path(cmd[0]), cmd, g_msh.env) == -1)
+	}
+	path = find_path(cmd[0]);
+	if (path && (execve(path, cmd, g_msh.env) == -1))
 		error(cmd[0], 0);
+	error(cmd[0], 0);
 }
 
 void	parent_process(char **arg, char **redir, int *fd)
@@ -68,31 +76,35 @@ void	child_process(char **arg, char **redir, int *fd_heredoc)
 		g_msh.ret_exit = WEXITSTATUS(status);
 }
 
+int	ms_exec_builtins(t_job *job, int saved_stdin, int saved_stdout)
+{
+	if (job->next == NULL)
+	{
+		check_redirection(job->file, job->fd);
+		if (ms_builtins(job->cmd, 0) == 0)
+		{
+			restore_fd(saved_stdin, saved_stdout);
+			return (1);
+		}
+	}
+	return (0);
+}
+
 void	ms_exec(t_job *job)
 {
-	int	saved_stdin;
-	int	saved_stdout;
-	t_job *first;
+	int		saved_stdin;
+	int		saved_stdout;
+	t_job	*first;
 
-	g_msh.switch_signal = 1;
 	saved_stdin = dup(0);
 	saved_stdout = dup(1);
 	first = job;
 	init_pipe(first);
 	if (make_heredocs(job) == 1)
 		return ;
-	if (job->next == NULL)
-	{
-		check_redirection(job->file, job->fd);
-	 	if (ms_builtins(job->cmd, 0) == 0)
-		{
-			dup2(saved_stdin, 0);
-			close(saved_stdin);
-			dup2(saved_stdout, 1);
-			close(saved_stdout);
-			return ;
-		}
-	}
+	if (ms_exec_builtins(job, saved_stdin, saved_stdout) == 1)
+		return ;
+	g_msh.switch_signal = 1;
 	if (job->cmd)
 	{
 		while (job->next)
@@ -101,8 +113,7 @@ void	ms_exec(t_job *job)
 			job = job->next;
 		}
 		parent_process(job->cmd, job->file, job->fd);
-		dup2(saved_stdin, 0);
-		close(saved_stdin);
+		restore_fd(saved_stdin, saved_stdout);
 	}
 	g_msh.switch_signal = 0;
 	return ;

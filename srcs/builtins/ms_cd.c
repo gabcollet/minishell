@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:34:34 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/15 16:47:25 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/16 16:38:55 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,5 @@ int	ms_cd(char *arg)
 	ms_set_env(g_msh.env, ft_strjoin("OLDPWD=", c));
 	getcwd(c, sizeof(c));
 	ms_set_env(g_msh.env, ft_strjoin("PWD=", c));
-	ms_pwd();
 	return (0);
 }

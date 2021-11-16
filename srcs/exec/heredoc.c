@@ -6,15 +6,26 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:15:25 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/12 14:48:50 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/16 16:27:24 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	make_heredocs(t_job *job)
+{
+	while (job)
+	{
+		if (check_heredoc(job->file, job->fd[0]) == 1)
+			return (1);
+		job = job->next;
+	}
+	return (0);
+}
+
 int	check_heredoc(char **redir, int stdin_fd)
 {
-	int 	i;
+	int	i;
 
 	i = 0;
 	while (redir && redir[i])
@@ -22,29 +33,9 @@ int	check_heredoc(char **redir, int stdin_fd)
 		if (ft_strcmp(redir[i], "<<") == 0)
 		{
 			if (redir_heredoc(redir[++i], stdin_fd) == 1)
-				return (0);
+				return (1);
 		}
 		i++;
-	}
-	return (1);
-}
-
-void	init_pipe(t_job *job)
-{
-	while (job)
-	{
-		pipe(job->fd);
-		job = job->next;
-	}
-}
-
-int	make_heredocs(t_job *job)
-{
-	while (job)
-	{
-		if (!check_heredoc(job->file, job->fd[0]))
-			return (1);
-		job = job->next;
 	}
 	return (0);
 }
@@ -60,7 +51,7 @@ int	redir_heredoc(char *limiter, int fd)
 	pid = fork();
 	if (pid == 0)
 		heredoc(limiter, new_fd);
-	waitpid(pid, NULL, 0);
+	waitpid(pid, &wstatus, 0);
 	signal(SIGINT, newline);
 	if (WIFEXITED(wstatus))
 		g_msh.ret_exit = WEXITSTATUS(wstatus);
@@ -68,14 +59,14 @@ int	redir_heredoc(char *limiter, int fd)
 	close(new_fd[1]);
 	close(new_fd[0]);
 	if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 130)
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
 void	heredoc(char *limiter, int *fd)
 {
-	char *line;
-	
+	char	*line;
+
 	signal(SIGINT, stop_heredoc);
 	line = readline("> ");
 	while (line)
@@ -90,7 +81,15 @@ void	heredoc(char *limiter, int *fd)
 		free(line);
 		line = readline("> ");
 	}
-	//gerer l'erreur si ya rien dans line
 	free(line);
 	exit(EXIT_SUCCESS);
+}
+
+void	init_pipe(t_job *job)
+{
+	while (job)
+	{
+		pipe(job->fd);
+		job = job->next;
+	}
 }

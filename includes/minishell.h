@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/15 16:32:35 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/16 16:46:06 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_msh
 	int		ret_exit;
 	int		switch_signal;
 	int		cmd_i;
+	char	*user;
 }				t_msh;
 
 typedef enum	e_type
@@ -134,6 +135,7 @@ char	**ms_unset_remove(char **env, char *arg);
 void	execute(char **arg);
 void	parent_process(char **arg, char **redir, int *fd);
 void	child_process(char **arg, char **redir, int *fd_heredoc);
+int		ms_exec_builtins(t_job *job, int saved_stdin, int saved_stdout);
 void	ms_exec(t_job *job);
 
 //exec_utils.c
@@ -143,6 +145,7 @@ char	*find_path(char *cmd);
 
 //exec_redir.c
 void	check_redirection(char **redir, int *fd_pipe);
+void	restore_fd(int saved_stdin, int saved_stdout);
 
 //heredoc.c
 int		check_heredoc(char **redir, int stdin_fd);
@@ -220,6 +223,7 @@ t_token *ms_check_quote(t_token *token);
 void 	ms_check_syntax(t_token *token);
 
 //init.c
+void	check_shlvl(void);
 char	*ms_init_s_parser(t_parser *parser, char *line);
 void	ms_init_env(char **env);
 void	ms_init_export(void);
