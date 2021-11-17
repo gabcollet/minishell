@@ -1,33 +1,53 @@
 #include "minishell.h"
 
-// FIXME tester avec $USE 
+bool	dol_solo(char *str);
+
 /*remplace le $ENV par sa variable complète et retournes la nouvelle string*/
 char		*replace_dol_w_env(char *token)
 {
 	char 	*var_env = NULL;
 	char	*name_var = NULL;
 	char	*temp = NULL;
-	char	*str;
+	char	*str; //peut etre mettre str dans ma struct 
 	int		i = 0;
-	int		j = 0;
+	int		j;
 	int k = 0;
 	int		index = 0;
-	int		d_quote_count = 0;
+	int		s_quote = 0;
+	int d_quote = 0;
 	
 	temp = ft_strdup(token);
 	str = ft_calloc((dollar_counter(temp) + 1 +ft_strlen(token)), sizeof(char*));
 	while (temp[index])
 		{
-			j = 0;
-			if (ft_strchr("$", temp[index]))
+			if (temp[index] == '\'' && d_quote == 0) // faire une fonction qui regarde ca
+			{
+				s_quote++;
+				if (s_quote == 2)
+					s_quote = 0;
+			}
+			else if (temp[index] == '\"' && s_quote == 0)
+			{
+				d_quote++;
+				if (d_quote == 2)
+					d_quote = 0;
+			}
+			else if (ft_strchr("$", temp[index]) && s_quote == 0) 
 			{
 				name_var = get_arg(temp, index);
 				if (!check_dol(name_var))
 				{
-					j = 1;
+					if (dol_solo(name_var))
+					{
+						j = 0;
+						index--;
+					}
+					else
+						j = 1; //si je le met à 0 et que je fais j++ dans le while mais ++j en dessous ?
 					while (name_var[k++])
-							str[i++] = name_var[j++];
-					i--;
+						str[i++] = name_var[j++];
+					k = 0;
+					//i--; // si j'enlève le ++ je peux peut etre retirer le --
 				}
 				else
 				{
@@ -42,17 +62,7 @@ char		*replace_dol_w_env(char *token)
 				}
 				index += ft_strlen(name_var) + 1;
 				free(name_var);
-				if (ft_strchr("$", temp[index]))
-					continue ;
-			}
-			if (temp[index] == '\"')
-			{
-				d_quote_count++;
-			}
-			if ((temp[index] == '\'' && (d_quote_count % 2 == 0)) || (temp[index] == '\'' && d_quote_count == 1))
-			{
-				while(temp[index++] != '\'')
-					str[i++] = temp[index++];
+				continue ;
 			}
 			str[i++] = temp[index++];
 		}
@@ -106,8 +116,13 @@ char *get_arg(char *tab, int i)
 				k++;
 				if (tab[i - 1] == '$' && arg[k - 1] == '?')
 					return(arg);
+				is_dol = 1; //ca marche pas
 			}
-			is_dol = 1;
+			if (is_dol == 0)
+			{
+				arg[0] = tab[i];
+				return (arg);
+			}
 		}
 		i++;
 	}
@@ -192,4 +207,18 @@ t_token	*expand_dol_sign(t_token *token)
 		free(temp);
 	}
 	return(head);
+}
+
+/*vérifie s'il s'agit d'un signe dollar seul
+retroune vrai si oui, sinon retourne faux*/
+bool	dol_solo(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str && str[i])
+		i++;
+	if (i > 2)
+		return (false);
+	return (true);
 }
