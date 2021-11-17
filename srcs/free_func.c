@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_func.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/12 10:52:01 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/17 15:07:53 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,19 @@ void	free_job_lst(t_job *job)
 
 	i = 0;
 	temp = NULL;
-	while (job)
-	{
-		temp = job->next;
-		while (job->cmd[i])
+		while (job)
 		{
-			free(job->cmd[i]);
-			i++;
+			temp = job->next;
+			
+			while (job->cmd[i])
+			{
+				free(job->cmd[i]);
+				i++;
+			}
+			if (job->cmd)
+				free(job->cmd);
+			job = temp;
 		}
-		if (job->cmd)
-			free(job->cmd);
-		job = temp;
-	}
-	if (job)
-		free(job);
+		if (job)
+			free(job);
 }

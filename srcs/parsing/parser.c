@@ -52,22 +52,6 @@ void token_to_tab(t_token *token, t_job *job)
 	j = 0;
 	while (job->cmd[i])
 		i++;
-	// if (is_dolsign(token->str_tok) && (token->state == PRINT_IT))
-	// {
-	// 	temp = ft_strdup(token->str_tok);
-	// 	free(token->str_tok);
-	// 	token->str_tok = get_arg(temp, j);
-	// 	free(temp);
-	// }	
-	// else if (is_dolsign(token->str_tok) && (token->state == TEXT))
-	// {
-	// 	temp = ft_strdup(token->str_tok);
-	// 	free(token->str_tok);
-	// 	token->str_tok = replace_dol_w_env(temp);
-	// 	free(temp);
-	// }
-	// if (token->str_tok == NULL)
-	// 	return ;
 	job->cmd[i] = ft_calloc((ft_strlen(token->str_tok) + 1), sizeof(char));  
 	ft_strcpy(job->cmd[i], token->str_tok);
  }
@@ -80,6 +64,7 @@ t_job	*ms_parsing(char *line, t_job *job_first)
 	t_token *first;
 	t_token *first2;
 	t_token	*first3;
+	t_token	*first4;
 	t_token *token;
 
 	token = ms_token_newlst(NULL);
@@ -87,6 +72,7 @@ t_job	*ms_parsing(char *line, t_job *job_first)
 	first = token;
 	first2 = token;
 	first3 = token;
+	first4 = token;
 	temp = ms_trim_space(line);
 	while (!empty_str(temp))
 	{
@@ -100,13 +86,14 @@ t_job	*ms_parsing(char *line, t_job *job_first)
 	}
 	free(temp);
 	free(parser);
+	if (!valid_syntax(first4))
+		return (NULL);
 	token = ms_expand_tild(first);
 	token = expand_dol_sign(first3);
-	printList(first);
+	//printList(first);
 	token = ms_trim_quotes(first);
-	//ms_trim_and_expand(first);
 	job_first = ms_job(job_first, first2);
-	 free_token_lst(first);
+	free_token_lst(first);
 	return (job_first);
 }
 

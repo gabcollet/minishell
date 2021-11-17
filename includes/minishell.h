@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/15 16:03:38 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/17 16:08:16 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@
 # include <fcntl.h>
 # include "libft.h"
 
+
 /* include pour linux */
 /* # include <linux/limits.h> */
 
-#define WHITESPACE "\t\n\v\f\r "
-#define REDIRECTION "|<>"
-#define ERR_QUOTE_S "invalid single quote"
-#define ERR_QUOTE_D "invalid double quote"
+
+# define WHITESPACE "\t\n\v\f\r "
+# define REDIRECTION "|<>"
 
 typedef struct s_msh
 {
@@ -213,12 +213,6 @@ bool is_quote(char *tab, int i);
 bool is_quote_next(t_parser *parser, int i);
 t_token	*ms_trim_quotes(t_token *token);
 
-//error
-void	ms_error_quote(t_parser *parser);
-
-//syntax
-t_token *ms_check_quote(t_token *token);
-void 	ms_check_syntax(t_token *token);
 
 //init.c
 char	*ms_init_s_parser(t_parser *parser, char *line);
@@ -259,6 +253,34 @@ t_job	*redirection_to_tab(t_token *token, t_job *job);
 int	redir_counter(t_token *tok);
 
 char	*ms_get_varenv(char **env, char *arg);
+
+
+# define ERR_QUOTE_S "minishell : invalid single quote"
+# define ERR_QUOTE_D "minishell : invalid double quote"
+# define ERR_UNEX_PIPES "minishell : syntax error near unexpected token '||'"
+# define ERR_UNEX_PIPE "minishell : syntax error near unexpected token '|'"
+# define ERR_UNEX_REDIR_L "minishell : syntax error near unexpected token '<'"
+# define ERR_UNEX_REDIR_R "minishell : syntax error near unexpected token '>'"
+# define ERR_UNEX_HEREDOC_L "minishell : syntax error near unexpected token '<<'"
+# define ERR_UNEX_APPEND "minishell : syntax error near unexpected token '>>'"
+# define ERR_UNEX_REDIRS_LR "minishell : syntax error near unexpected token '<>'"
+# define ERR_UNEX_NEWLINE "minishell : syntax error near unexpected token 'newline'"
+# define SYNTAX_ERROR 258
+
+//error
+void	ms_error_quote(t_parser *parser);
+bool is_only_space(char *str);
+
+
+
+//syntax
+
+bool	valid_syntax(t_token *token);
+bool	valid_redir_l(t_token *token);
+bool	valid_redir_r(t_token *token);
+bool	valid_pipe(t_token *token);
+bool	valid_here_doc(t_token	*token);
+bool	valid_append(t_token	*token);
 
 #endif
 

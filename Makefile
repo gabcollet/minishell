@@ -6,7 +6,7 @@
 #    By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/11/15 16:51:27 by jbadia           ###   ########.fr        #
+#    Updated: 2021/11/17 15:13:00 by jbadia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,12 +16,13 @@ OBJPATH = obj/
 
 SRCS 	= test_main.c env.c free_func.c token_utils.c token_list_utils.c parser.c\
 			init.c utils.c ms_env.c ms_export.c ms_cd.c ms_echo.c ms_exit.c\
-			ms_pwd.c ms_unset.c ms_builtins.c  exec_utils.c syntax.c error.c\
-      parser_utils.c ms_quote.c  ms_job.c  ms_job_list.c\
-			dollar.c exec.c exec_redir.c heredoc.c signal.c replace_tild_w_home.c
+			ms_pwd.c ms_unset.c ms_builtins.c  exec_utils.c  error.c\
+      		parser_utils.c ms_quote.c  ms_job.c  ms_job_list.c\
+			dollar.c exec.c exec_redir.c heredoc.c signal.c \
+			replace_tild_w_home.c syntax.c
 
 OBJFILES = $(SRCS:.c=.o)
-OBJS 	= $(addprefix $(OBJPATH), $(OBJFILES))
+OBJS 	= $(addprefix $(OBJPATH), $(OBJFILES)) 
 VPATH   = srcs srcs/builtins srcs/parsing srcs/exec
 
 HEADER	= -Iincludes -Ilibft
@@ -30,6 +31,7 @@ CC 		= gcc
 CFLAGS 	= -g -Wall -Wextra -Werror
 
 all:	build-repo ${PROG}
+
 
 ${PROG}:	${OBJS}
 					@make re -C ./libft
@@ -40,6 +42,9 @@ ${PROG}:	${OBJS}
 ${OBJPATH}%.o:%.c
 					@gcc ${CFLAGS} ${HEADER} -o $@ -c $<
 
+
+	
+	
 clean:
 					@make clean -C ./libft
 					@rm -f ${OBJS}
