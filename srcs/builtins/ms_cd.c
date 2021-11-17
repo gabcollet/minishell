@@ -6,13 +6,21 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:34:34 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/16 16:38:55 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/17 11:26:32 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Effectue le builtin-cd */
+void	set_pwd(char *arg, char	*c)
+{
+	char	*string;
+
+	string = ft_strjoin(arg, c);
+	ms_set_env(g_msh.env, string);
+	free (string);
+}
+
 int	ms_cd(char *arg)
 {
 	char	c[PATH_MAX];
@@ -34,8 +42,8 @@ int	ms_cd(char *arg)
 		ft_putendl_fd(": No such file or directory", 2);
 		return (1);
 	}
-	ms_set_env(g_msh.env, ft_strjoin("OLDPWD=", c));
+	set_pwd("OLDPWD=", c);
 	getcwd(c, sizeof(c));
-	ms_set_env(g_msh.env, ft_strjoin("PWD=", c));
+	set_pwd("PWD=", c);
 	return (0);
 }

@@ -6,13 +6,13 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 10:13:49 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/16 15:40:19 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/17 15:43:43 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_redirection(char **redir, int *fd_pipe)
+void	check_redirection(t_job *job)
 {
 	int	fd[2];
 	int	i;
@@ -20,16 +20,16 @@ void	check_redirection(char **redir, int *fd_pipe)
 	i = 0;
 	fd[0] = 0;
 	fd[1] = 0;
-	while (redir && redir[i])
+	while (job->file && job->file[i])
 	{
-		if (ft_strcmp(redir[i], "<") == 0)
-			fd[0] = open_file(redir[++i], 2);
-		else if (ft_strcmp(redir[i], ">") == 0)
-			fd[1] = open_file(redir[++i], 1);
-		else if (ft_strcmp(redir[i], ">>") == 0)
-			fd[1] = open_file(redir[++i], 0);
-		else if (ft_strcmp(redir[i], "<<") == 0)
-			dup2(fd_pipe[0], STDIN_FILENO);
+		if (ft_strcmp(job->file[i], "<") == 0)
+			fd[0] = open_file(job->file[++i], 2);
+		else if (ft_strcmp(job->file[i], ">") == 0)
+			fd[1] = open_file(job->file[++i], 1);
+		else if (ft_strcmp(job->file[i], ">>") == 0)
+			fd[1] = open_file(job->file[++i], 0);
+		else if (ft_strcmp(job->file[i], "<<") == 0)
+			dup2(job->fd[0], STDIN_FILENO);
 		i++;
 	}
 	if (fd[0])

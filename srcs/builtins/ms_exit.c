@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 10:19:58 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/16 16:11:28 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/17 11:06:55 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,9 @@ void	ms_exit(char **arg)
 			return ;
 		}
 	}
+	free (g_msh.user);
+	ft_free_tab(g_msh.env);
+	ft_free_tab(g_msh.env_export);
+	rl_clear_history();
 	exit(g_msh.ret_exit);
 }

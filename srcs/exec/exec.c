@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/16 16:08:30 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/17 15:44:39 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,58 +29,51 @@ void	execute(char **cmd)
 	error(cmd[0], 0);
 }
 
-void	parent_process(char **arg, char **redir, int *fd)
+void	parent_process(t_job *job)
 {
-	pid_t	pid;
 	int		wstatus;
 
 	wstatus = 0;
-	pid = fork();
-	if (pid == -1)
+	job->pid = fork();
+	if (job->pid == -1)
 		printf("Dang! This fork didn't work!");
-	if (pid == 0)
+	if (job->pid == 0)
 	{
-		check_redirection(redir, fd);
-		if (ms_builtins(arg, 1) == 1)
-			execute(arg);
+		signal(SIGQUIT, SIG_DFL);
+		check_redirection(job);
+		if (ms_builtins(job->cmd, 1) == 1)
+			execute(job->cmd);
 	}
-	waitpid(pid, &wstatus, 0);
-	if (WIFEXITED(wstatus))
-		g_msh.ret_exit = WEXITSTATUS(wstatus);
 }
 
-void	child_process(char **arg, char **redir, int *fd_heredoc)
+void	child_process(t_job *job)
 {
-	pid_t	pid;
 	int		status;
-	int		fd[2];
 
 	status = 0;
-	if (pipe(fd) == -1)
-		printf("Dang! This pipe didn't work!");
-	pid = fork();
-	if (pid == -1)
+	job->pid = fork();
+	if (job->pid == -1)
 		printf("Dang! This fork didn't work!");
-	if (pid == 0)
+	if (job->pid == 0)
 	{
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		check_redirection(redir, fd_heredoc);
-		if (ms_builtins(arg, 1) == 1)
-			execute(arg);
+		signal(SIGQUIT, SIG_DFL);
+		close(job->fd[0]);
+		dup2(job->fd[1], STDOUT_FILENO);
+		check_redirection(job);
+		if (ms_builtins(job->cmd, 1) == 1)
+			execute(job->cmd);
 	}
-	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		g_msh.ret_exit = WEXITSTATUS(status);
+	close(job->fd[1]);
+	dup2(job->fd[0], STDIN_FILENO);
 }
 
 int	ms_exec_builtins(t_job *job, int saved_stdin, int saved_stdout)
 {
 	if (job->next == NULL)
 	{
-		check_redirection(job->file, job->fd);
+		if (check_builtins(job->cmd) == 1)
+			return (0);
+		check_redirection(job);
 		if (ms_builtins(job->cmd, 0) == 0)
 		{
 			restore_fd(saved_stdin, saved_stdout);
@@ -95,10 +88,13 @@ void	ms_exec(t_job *job)
 	int		saved_stdin;
 	int		saved_stdout;
 	t_job	*first;
+	t_job	*first1;
+	int		status;
 
 	saved_stdin = dup(0);
 	saved_stdout = dup(1);
 	first = job;
+	first1 = job;
 	init_pipe(first);
 	if (make_heredocs(job) == 1)
 		return ;
@@ -109,10 +105,17 @@ void	ms_exec(t_job *job)
 	{
 		while (job->next)
 		{
-			child_process(job->cmd, job->file, job->fd);
+			child_process(job);
 			job = job->next;
 		}
-		parent_process(job->cmd, job->file, job->fd);
+		parent_process(job);
+		while (first1)
+		{
+			waitpid(first->pid, &status, 0);
+			if (WIFEXITED(status))
+				g_msh.ret_exit = WEXITSTATUS(status);
+			first1 = first1->next;
+		}
 		restore_fd(saved_stdin, saved_stdout);
 	}
 	g_msh.switch_signal = 0;

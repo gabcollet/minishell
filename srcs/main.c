@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/16 17:26:39 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/17 14:34:25 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,42 +40,15 @@ static char	*getcwd_dir(void)
 	return (ft_strdup(cwd));
 }
 
-int	get_next_line(char **line)
-{
-	char	*buffer;
-	int		i;
-	int		r;
-	char	c;
-
-	i = 0;
-	r = 0;
-	buffer = (char *)malloc(10000);
-	if (!buffer)
-		return (-1);
-	r = read(0, &c, 1);
-	while (r && c != '\n' && c != '\0')
-	{
-		if (c != '\n' && c != '\0')
-			buffer[i] = c;
-		i++;
-		r = read(0, &c, 1);
-	}
-	buffer[i] = '\n';
-	buffer[++i] = '\0';
-	*line = buffer;
-	free(buffer);
-	return (r);
-}
-
 char	*get_prompt(void)
 {
 	char	*prompt;
 	char	*dir;
-	int		fd;
+	//faire une fonction get_git
+/* 	int		fd;
 	char	git[1000];
-	/* int		r; */
 	
-	fd = open(".git/HEAD", O_RDONLY, 0777);
+	fd = open(".git/HEAD", O_RDONLY, 0777); */
 	prompt = ft_strdup("\001\e[1;91m\002");
 	if (g_msh.user)
 		prompt = ft_strjoin_free_s1(prompt, g_msh.user);
@@ -85,17 +58,16 @@ char	*get_prompt(void)
 	dir = getcwd_dir();
 	prompt = ft_strjoin_free_s1(prompt, "\001\e[1;96m\002");
 	prompt = ft_strjoin_free_s1(prompt, dir);
-	/* r = read(fd, &git, 1000); */
-	git[read(fd, &git, 1000) - 1] = '\0';
+/* 	git[read(fd, &git, 1000) - 1] = '\0';
 	prompt = ft_strjoin_free_s1(prompt, " git:(\001\e[1;91m\002");
 	prompt = ft_strjoin_free_s1(prompt, &git[16]);
-	prompt = ft_strjoin_free_s1(prompt, "\001\e[1;96m\002)");
+	prompt = ft_strjoin_free_s1(prompt, "\001\e[1;96m\002)"); */
 	prompt = ft_strjoin_free_s1(prompt, "\001\033[0m\002$ ");
 	free(dir);
 	return (prompt);
 }
 
-void	loop()
+void	loop(void)
 {
 	char	*line;
 	t_job	*job_first;
@@ -104,9 +76,6 @@ void	loop()
 	line = NULL;
 	while (true)
 	{
-		if (line != NULL)
-			free(line);
-			/* \001\e[1;96m\002minishell 1.1$ \001\033[0m\002 */
 		prompt = get_prompt();
 		line = readline(prompt);
 		free(prompt);
@@ -115,14 +84,16 @@ void	loop()
 			free(line);
 			exit(0);
 		}
+		if (is_only_space(line))
+			continue ;
 		if (*line)
 		{
 			add_history(line);
 			job_first = ms_parsing(line, job_first);
+			free(line);
 			ms_exec(job_first);
 		}
 	}
-	free(line);
 }
 
 int	main(int argc, char *argv[], char **env)
@@ -145,7 +116,4 @@ int	main(int argc, char *argv[], char **env)
 		return (0);
 	}
 	loop();
-	free (g_msh.user);
-	ft_free_tab(g_msh.env);
-	ft_free_tab(g_msh.env_export);
 }
