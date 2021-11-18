@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/18 14:49:18 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/18 17:07:17 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	execute(char **cmd)
 		error(cmd[0], 1);
 	}
 	path = find_path(cmd[0]);
+	if (path == NULL)
+		error(cmd[0], 1);
 	if (path && (execve(path, cmd, g_msh.env) == -1))
 		error(cmd[0], 0);
 	error(cmd[0], 0);
@@ -34,6 +36,7 @@ void	parent_process(t_job *job)
 	int		wstatus;
 
 	wstatus = 0;
+	g_msh.switch_signal = 1;
 	job->pid = fork();
 	if (job->pid == -1)
 		printf("Dang! This fork didn't work!");
@@ -59,6 +62,7 @@ void	child_process(t_job *job, t_job	*first)
 	int		status;
 
 	status = 0;
+	g_msh.switch_signal = 1;
 	job->pid = fork();
 	if (job->pid == -1)
 		printf("Dang! This fork didn't work!");
@@ -71,12 +75,7 @@ void	child_process(t_job *job, t_job	*first)
 		close(job->fd[0]);
 		close(job->fd[1]);
 		check_redirection(job);
-		while (first)
-		{
-			close(first->fd[0]);
-			close(first->fd[1]);
-			first = first->next;
-		}
+		free_fd(first);
 		if (ms_builtins(job->cmd, 1) == 1)
 			execute(job->cmd);
 	}
@@ -85,8 +84,13 @@ void	child_process(t_job *job, t_job	*first)
 	close(job->fd[1]);
 }
 
-int	ms_exec_builtins(t_job *job, int saved_stdin, int saved_stdout)
+int	ms_exec_builtins(t_job *job)
 {
+	int	saved_stdin;
+	int	saved_stdout;
+
+	saved_stdin = dup(0);
+	saved_stdout = dup(1);
 	if (job->next == NULL)
 	{
 		if (check_builtins(job->cmd) == 1)
@@ -103,42 +107,29 @@ int	ms_exec_builtins(t_job *job, int saved_stdin, int saved_stdout)
 
 void	ms_exec(t_job *job)
 {
-	int		saved_stdin;
-	int		saved_stdout;
 	t_job	*first;
-	t_job	*first1;
-	t_job	*first2;
 	int		status;
 
-	saved_stdin = dup(0);
-	saved_stdout = dup(1);
 	first = job;
-	first1 = job;
-	first2 = job;
 	init_pipe(first);
-	if (make_heredocs(job) == 1)
+	if (make_heredocs(job) == 1 || ms_exec_builtins(job) == 1)
 		return ;
-	if (ms_exec_builtins(job, saved_stdin, saved_stdout) == 1)
-		return ;
-	g_msh.switch_signal = 1;
 	if (job->cmd)
 	{
 		while (job->next)
 		{
-			child_process(job, first2);
+			child_process(job, first);
 			job = job->next;
-			first2 = first1;
+			first = ms_head_list_job(first);
 		}
 		parent_process(job);
-		while (first1)
+		while (first)
 		{
 			waitpid(first->pid, &status, 0);
 			if (WIFEXITED(status))
 				g_msh.ret_exit = WEXITSTATUS(status);
-			first1 = first1->next;
+			first = first->next;
 		}
-		/* restore_fd(saved_stdin, saved_stdout); */
 	}
 	g_msh.switch_signal = 0;
-	return ;
 }

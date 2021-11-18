@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/18 14:49:11 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/18 17:12:37 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,13 +146,15 @@ char	**ms_unset_remove(char **env, char *arg);
 void	execute(char **arg);
 void	parent_process(t_job *job);
 void	child_process(t_job *job, t_job	*first);
-int		ms_exec_builtins(t_job *job, int saved_stdin, int saved_stdout);
+int		ms_exec_builtins(t_job *job);
 void	ms_exec(t_job *job);
 
 //exec_utils.c
 void	error(char *arg, int i);
 int		open_file(char *argv, int i);
+int		find_path_env(void);
 char	*find_path(char *cmd);
+void	free_fd(t_job *first);
 
 //exec_redir.c
 void	check_redirection(t_job *job);
@@ -264,9 +266,6 @@ bool	is_dol_zero(char *tab, char *arg, int i, int is_dol);
 char	*replace_tild_w_home(char *token);
 t_token	*ms_expand_tild(t_token *token);
 int	tild_counter(char *str);
-
-
-
 
 //ms_job_list
 void	ms_job_addback(t_job **job, t_job *new_job);

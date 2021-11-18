@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 11:37:01 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/17 12:08:38 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/18 17:12:46 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,26 @@ int	open_file(char *argv, int i)
 	return (file);
 }
 
+int	find_path_env(void)
+{
+	int	i;
+
+	i = 0;
+	while (g_msh.env[i] && ft_strnstr(g_msh.env[i], "PATH", 4) == 0)
+		i++;
+	return (i);
+}
+
 char	*find_path(char *cmd)
 {
 	char	**paths;
 	char	*path;
 	int		i;
 
-	i = 0;
 	path = NULL;
-	while (ft_strnstr(g_msh.env[i], "PATH", 4) == 0)
-		i++;
+	i = find_path_env();
+	if (g_msh.env[i] == NULL)
+		return (NULL);
 	paths = ft_split(g_msh.env[i] + 5, ':');
 	i = -1;
 	while (paths[++i])
@@ -79,4 +89,14 @@ char	*find_path(char *cmd)
 	free(path);
 	ft_free_tab(paths);
 	return (NULL);
+}
+
+void	free_fd(t_job *first)
+{
+	while (first)
+	{
+		close(first->fd[0]);
+		close(first->fd[1]);
+		first = first->next;
+	}
 }
