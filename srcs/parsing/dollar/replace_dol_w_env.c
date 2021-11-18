@@ -6,55 +6,45 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 11:25:46 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/18 14:28:54 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/18 16:47:43 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
 /*remplace le $ENV par sa variable complète et retournes la nouvelle string*/
-char		*replace_dol_w_env(char *token, t_dollar *dol)
+char	*replace_dol_w_env(char *token, t_dollar *dol)
 {
 	char	*temp;
 	int		index;
-	
+
 	index = 0;
 	temp = NULL;
 	temp = ft_strdup(token);
-	dol->str = ft_calloc((dollar_counter(token) + 1 + ft_strlen(token)), sizeof(char*));
+	dol->str = ft_calloc((dollar_counter(token) + 1 + ft_strlen(token)),
+			sizeof(char*));
 	dol->index = 0;
 	while (temp[index])
+	{
+		if (temp[index] == '\'' && dol->d_quote == 0)
+			dol_s_quote(dol);
+		else if (temp[index] == '\"' && dol->s_quote == 0)
+			dol_d_quote(dol);
+		else if (ft_strchr("$", temp[index]) && dol->s_quote == 0)
 		{
-			if (temp[index] == '\'' && dol->d_quote == 0)
-				dol_s_quote(dol);
-			else if (temp[index] == '\"' && dol->s_quote == 0)
-				dol_d_quote(dol);
-			else if (ft_strchr("$", temp[index]) && dol->s_quote == 0)
-			{
-				dol->name_var = get_arg(temp, index);
-				if (!check_dol(dol->name_var))
-					index = check_name_var(dol, index);
-				else
-					check_var_env(dol, temp, index);
-				index += ft_strlen(dol->name_var) + 1;
-				free(dol->name_var);
-				continue ;
-			}
-			dol->str[dol->index++] = temp[index++];
+			dol->name_var = get_arg(temp, index);
+			if (!check_dol(dol->name_var))
+				index = check_name_var(dol, index);
+			else
+				check_var_env(dol, temp, index);
+			index += ft_strlen(dol->name_var) + 1;
+			free(dol->name_var);
+			continue ;
 		}
-		 free(temp);
-		return (dol->str);
-}
-
-void	ms_init_dol_struct(t_dollar *dol)
-{
-	dol->d_quote = 0;
-	dol->s_quote = 0;
-	dol->index = 0;
-	dol->str = NULL;
-	dol->name_var = NULL;
-	dol->var_env = NULL;
+		dol->str[dol->index++] = temp[index++];
+	}
+	free(temp);
+	return (dol->str);
 }
 
 void	dol_s_quote(t_dollar *dol)
@@ -73,26 +63,26 @@ void	dol_d_quote(t_dollar *dol)
 
 int	check_name_var(t_dollar *dol, int i)
 {
-	int j;
+	int	j;
 	int	k;
-	
+
 	k = 0;
-		if (dol_solo(dol->name_var))
-		{
-			j = 0;
-			i--;
-		}
-		else
-			j = 1;
-		while (dol->name_var[k++])
-			dol->str[dol->index++] = dol->name_var[j++];
+	if (dol_solo(dol->name_var))
+	{
+		j = 0;
+		i--;
+	}
+	else
+		j = 1;
+	while (dol->name_var[k++])
+		dol->str[dol->index++] = dol->name_var[j++];
 	return (i);
 }
 
 void	check_var_env(t_dollar *dol, char *temp, int i)
 {
-	int j;
-	
+	int	j;
+
 	dol->var_env = ms_get_dolenv(temp, i);
 	if (dol->var_env)
 	{

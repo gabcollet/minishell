@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 10:40:08 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/18 11:27:36 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/18 16:47:51 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,14 @@ bool	dol_solo(char *str)
 	if (i > 2)
 		return (false);
 	return (true);
+}
+
+void	ms_init_dol_struct(t_dollar *dol)
+{
+	dol->d_quote = 0;
+	dol->s_quote = 0;
+	dol->index = 0;
+	dol->str = NULL;
+	dol->name_var = NULL;
+	dol->var_env = NULL;
 }

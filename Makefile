@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
+#    By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/11/18 14:51:06 by gcollet          ###   ########.fr        #
+#    Updated: 2021/11/18 16:36:49 by jbadia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRCS 	= main.c env.c free_func.c token_utils.c token_list_utils.c parser.c\
 
 OBJFILES = $(SRCS:.c=.o)
 OBJS 	= $(addprefix $(OBJPATH), $(OBJFILES)) 
-VPATH   = srcs srcs/builtins srcs/parsing srcs/exec
+VPATH   = srcs srcs/builtins srcs/parsing srcs/exec  srcs/parsing/dollar srcs/parsing/job\
+		srcs/parsing/parser srcs/parsing/syntax srcs/parsing/tokens
 
 HEADER	= -Iincludes -Ilibft
 

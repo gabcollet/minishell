@@ -1,20 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/18 16:55:40 by jbadia            #+#    #+#             */
+/*   Updated: 2021/11/18 16:58:19 by jbadia           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "syntax.h"
-
-
-t_token	*ms_trim_and_expand(t_token *token);
-void printListjob(t_job *tok, t_token *token);;
-
-void printList(t_token *tok)
-{
-	int i = 0;
-	while(tok)
-	{
-		printf("tok[%d] = %s\nstate = %u\n", i, tok->str_tok, tok->type);
-		tok = tok->next;
-		i++;
-	}
-}
 
 /*Compte le nombre de type string présente dans la struct et le retourne*/
 int	counter_string(t_token *tok)
@@ -26,7 +23,7 @@ int	counter_string(t_token *tok)
 	{
 		if (tok->type == PIPE)
 			tok = tok->next;
-		else if (tok->type == REDIR_L || tok->type == REDIR_R 
+		else if (tok->type == REDIR_L || tok->type == REDIR_R
 			|| tok->type == HERE_DOC_L || tok->type == APPEND)
 			tok = tok->next;
 		else if (tok->type == STRING)
@@ -37,22 +34,22 @@ int	counter_string(t_token *tok)
 }
 
 /*Enregistre les token type string dans une job*/
-void token_to_tab(t_token *token, t_job *job)
+void	token_to_tab(t_token *token, t_job *job)
 {
 	int	i;
 	int	counter;
-	
+
 	if (!job->cmd)
 	{
 		counter = counter_string(token);
-		job->cmd = ft_calloc(counter + 1, sizeof(char*));
+		job->cmd = ft_calloc(counter + 1, sizeof(char *));
 	}
 	i = 0;
 	while (job->cmd[i])
 		i++;
-	job->cmd[i] = ft_calloc((ft_strlen(token->str_tok) + 1), sizeof(char));  
+	job->cmd[i] = ft_calloc((ft_strlen(token->str_tok) + 1), sizeof(char));
 	ft_strcpy(job->cmd[i], token->str_tok);
- }
+}
 
 /*Fonction principale qui parse l'input*/
 t_job	*ms_parsing(char *line, t_job *job_first)
@@ -91,23 +88,24 @@ t_job	*ms_parsing(char *line, t_job *job_first)
 }
 
 /*Vérifie si la chaine est vide*/
-bool empty_str(char *str)
+bool	empty_str(char *str)
 {
 	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 		i++;
 	if (i > 0)
 		return (false);
 	return (true);
 }
 
-/*Trimmes les whitespace de la chaine passée en paramètre et en retourne une nouvelle*/
-char *ms_trim_space(char *str)
+/*Trimmes les whitespace de la chaine passée en paramètre
+et en retourne une nouvelle*/
+char	*ms_trim_space(char *str)
 {
-	char *temp;
-	char *temp1;
+	char	*temp;
+	char	*temp1;
 
 	temp = ft_strdup(str);
 	temp1 = temp;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/18 14:49:11 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/18 17:01:48 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,9 +226,7 @@ bool 	tokenize_string(t_token *token);
 int		ms_find_close_quote(t_parser *parser, char quote);
 int		ms_handle_quote(t_parser *parser);
 int		quote_counter(t_parser *parser, char quote);
-char	*ms_remove_quote(char *str);
 bool	is_quote(char *tab, int i);
-bool	is_quote_next(t_parser *parser, int i);
 t_token	*ms_trim_quotes(t_token *token);
 
 

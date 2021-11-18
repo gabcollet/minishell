@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 10:41:33 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/18 14:04:51 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/18 16:43:02 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ t_token	*expand_dol_sign(t_token *token)
 		token->str_tok = replace_dol_w_env(temp, dol);
 		token = token->next;
 		free(temp);
-		//free (dol->str);
 	}
 	return (head);
 }
@@ -108,4 +107,3 @@ bool	is_dol_zero(char *tab, char *arg, int i, int is_dol)
 	}
 	return (false);
 }
-

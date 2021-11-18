@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/18 10:24:41 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/18 16:37:27 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "syntax.h"
 
 t_msh	g_msh;
 

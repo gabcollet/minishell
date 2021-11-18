@@ -1,36 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ms_job.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/18 16:48:56 by jbadia            #+#    #+#             */
+/*   Updated: 2021/11/18 16:52:12 by jbadia           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void printListjob(t_job *tok)
-{
-	
-	int j = 0;
-	int k;
-	k = 0;
-	int i = 0;
-	while (tok)
-	{
-		printf("\n------- JOB %d -------\n", j);
-		j++;
-		while(tok->cmd && tok->cmd[i])
-		{
-			printf("cmd[%d] = %s\n", i, tok->cmd[i]);
-			i++;
-		}
-	
-		 while (tok->file /*&& tok->file[k]*/)
-		{
-			printf("redir[%d] = %s\n", k, tok->file[k]);
-			if (tok->file[k] == NULL)
-				return ;
-			k++;
-		}
-		tok = tok->next;
-		i = 0;
-	}
-}
-
 /*Retournes vrai si le token est de type redirection, sinon faux*/
-bool is_redirection(t_token *token)
+bool	is_redirection(t_token *token)
 {
 	if (token->type == REDIR_L || token->type == REDIR_R
 		|| token->type == HERE_DOC_L || token->type == APPEND)
@@ -56,7 +39,7 @@ t_job	*ms_job(t_job *job, t_token *token)
 			ms_job_addback(&job, ms_job_newlst());
 			job = job->next;
 		}
-		else if (token->type == STRING)	
+		else if (token->type == STRING)
 			token_to_tab(token, job);
 		else if (is_redirection(token))
 		{
@@ -68,15 +51,17 @@ t_job	*ms_job(t_job *job, t_token *token)
 	return (job_first);
 }
 
-/*Enregistre les redirections et leur fichier depuis la struct token vers la struct job*/
+/*Enregistre les redirections et leur fichier 
+depuis la struct token vers la struct job*/
 t_job	*redirection_to_tab(t_token *token, t_job *job)
 {
 	int	counter;
 	int	i;
+
 	if (!job->file)
 	{
 		counter = redir_counter(token);
-		job->file = (char**)ft_calloc((counter * 2) + 1, sizeof(char*));
+		job->file = (char **)ft_calloc((counter * 2) + 1, sizeof(char *));
 	}
 	i = 0;
 	while (job->file[i])

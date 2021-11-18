@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 14:52:32 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/18 14:54:12 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/18 16:37:08 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,9 @@
 # define ERR_UNEX_NEWLINE "minishell : syntax error near unexpected token 'newline'"
 # define SYNTAX_ERROR 258
 
-//error
+
 void	ms_error_quote(t_parser *parser);
 bool 	is_only_space(char *str);
-
-
-
-//syntax
 bool	valid_syntax(t_token *token);
 bool	valid_redir_l(t_token *token);
 bool	valid_redir_r(t_token *token);
