@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 11:37:01 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/12 11:01:17 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/17 12:08:38 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ void	error(char *arg, int i)
 	}
 	else if (i == 1)
 		printf("minishell: %s: No such file or directory\n", arg);
+	else if (i == 2)
+	{
+		printf("minishell: %s: is a directory\n", arg);
+		exit(126);
+	}
 	exit (127);
 }
 
@@ -30,18 +35,18 @@ int	open_file(char *argv, int i)
 	int	file;
 
 	file = 0;
-	/* write and append (>>) */
 	if (i == 0)
 		file = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0777);
-	/* write and trunc (>) */
 	else if (i == 1)
 		file = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	/* read only (<) */
 	else if (i == 2)
 		file = open(argv, O_RDONLY, 0777);
 	if (file == -1)
 	{
-		printf("minishell: no such file or directory: %s\n", argv);
+		if (access(argv, F_OK) == 0)
+			printf("minishell: %s Is a directory\n", argv);
+		else
+			printf("minishell: no such file or directory: %s\n", argv);
 		exit(1);
 	}
 	return (file);
@@ -54,12 +59,15 @@ char	*find_path(char *cmd)
 	int		i;
 
 	i = 0;
+	path = NULL;
 	while (ft_strnstr(g_msh.env[i], "PATH", 4) == 0)
 		i++;
 	paths = ft_split(g_msh.env[i] + 5, ':');
-	i = 0;
-	while (paths[i])
+	i = -1;
+	while (paths[++i])
 	{
+		if (path)
+			free(path);
 		path = ft_strjoin(paths[i], "/");
 		path = ft_strjoin_free_s1(path, cmd);
 		if (access(path, F_OK) == 0)
@@ -67,8 +75,8 @@ char	*find_path(char *cmd)
 			ft_free_tab(paths);
 			return (path);
 		}
-		i++;
 	}
+	free(path);
 	ft_free_tab(paths);
 	return (NULL);
 }

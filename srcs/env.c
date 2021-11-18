@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/12 14:14:55 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/16 12:05:38 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ char	*ms_get_varenv(char **env, char *arg)
 		return (NULL);
 	return (var_env);
 }
-
 
 /* Remplace une ligne dans env par le nouveau contenue. Si la ligne n'existe
 pas en cree une nouvelle. Arg devrait etre ex: HOME= et new content devrait 

@@ -6,36 +6,35 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 11:56:37 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/05 14:41:37 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/17 11:27:34 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* 
--	juste "export" affiche l'env en ordre ascii avec "declare -x " avant
--	sans = (export test1) | declare -x test1
--	avec un = (export test2=) (export test3=coucou) | declare -x test2="" 
-	declare -x test3="coucou"
--	plusieurs arguments (export test= o) | declare -x o declare -x test=""
--	peux pas commencer par un chiffre, ou signe qui n'est pas _
--	tu peux faire export de plusieurs variables sur une seule ligne et si 
-	une est pas bonne tu arrete 
-*/
-
-/* valide que l'argument donné à export est valide */
 int	ms_check_export_arg(char *arg)
 {
-	if (ft_isalpha(arg[0]) == 0 && arg[0] != 95)
+	int	i;
+
+	i = 0;
+	if (ft_isalpha(arg[i]) == 0 && arg[i] != '_')
 	{
 		printf("export: '%s': not a valid identifier\n", arg);
-		return (-1);
+		return (1);
 	}
-	else
-		return (0);
+	i++;
+	while (arg[i] && arg[i] != '=')
+	{
+		if (ft_isalnum(arg[i]) == 0 && arg[i] != '_')
+		{
+			printf("export: '%s': not a valid identifier\n", arg);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
 
-/* crée la ligne qui va être envoyer dans env_export */
 char	*ms_make_string(char *arg)
 {
 	char	**strings;
@@ -57,7 +56,6 @@ char	*ms_make_string(char *arg)
 	return (string);
 }
 
-/* trie le env_export dans l'ordre ascii */
 void	ms_export_sort(void)
 {
 	int	i;
@@ -68,7 +66,6 @@ void	ms_export_sort(void)
 		printf("%s\n", g_msh.env_export[i++]);
 }
 
-/* gere l'intégration des arguments valide dans env et env_export */
 void	ms_export_valid_arg(char *arg, char *strings)
 {
 	char	*string;
@@ -97,7 +94,6 @@ void	ms_export_valid_arg(char *arg, char *strings)
 	}
 }
 
-/* fonction principale de export */
 int	ms_export(char **arg)
 {
 	char	**strings;
@@ -111,7 +107,7 @@ int	ms_export(char **arg)
 		if (ms_check_export_arg(arg[i]) != 0)
 		{
 			i++;
-			continue;
+			continue ;
 			ret = 1;
 		}
 		strings = ft_split(arg[i], '=');

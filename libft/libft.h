@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 10:38:52 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/02 13:49:51 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/16 10:10:02 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int			ft_isalpha(int c);
 int			ft_isascii(int c);
 int			ft_isdigit(int c);
 int			ft_isint(char *str);
+int			ft_isllong(char *str);
 int			ft_isprint(int c);
 
 /* conversion data type */
