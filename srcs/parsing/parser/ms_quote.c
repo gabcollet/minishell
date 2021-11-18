@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:58:34 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/18 17:02:40 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/18 17:11:29 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,7 @@ t_token	*ms_trim_quotes(t_token *token)
 					check++;
 				}
 				if (token->str_tok[i] != '\0' && token->str_tok[i] != quote)
-				{
-					temp[j] = token->str_tok[i];
-					j++;
-					i++;
-				}
+					temp[j++] = token->str_tok[i++];
 			}
 			free(token->str_tok);
 			token->str_tok = ft_strdup(temp);
