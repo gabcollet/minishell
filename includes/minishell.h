@@ -30,13 +30,13 @@
 # include <fcntl.h>
 # include "libft.h"
 
+
+
 /* include pour linux */
 /* # include <linux/limits.h> */
 
 # define WHITESPACE "\t\n\v\f\r "
 # define REDIRECTION "|<>"
-# define ERR_QUOTE_S "invalid single quote"
-# define ERR_QUOTE_D "invalid double quote"
 
 typedef struct s_msh
 {
@@ -65,7 +65,6 @@ typedef enum e_state
 	TEXT,
 	S_QUOTE,
 	D_QUOTE,
-	NO_DOL,
 	KEEP_IT,
 }				t_state;
 
@@ -97,6 +96,17 @@ typedef struct s_job
 	pid_t			pid;
 	struct s_job	*next;
 }				t_job;
+
+typedef struct s_dollar
+{
+	int		d_quote;
+	int		s_quote;
+	int		index;
+	char	*str;
+	char	*name_var;
+	char	*var_env;
+}				t_dollar;
+
 
 //ms_builtins.c
 int		check_builtins(char **arg);
@@ -193,7 +203,10 @@ void	token_to_tab(t_token *token, t_job *job);
 t_token	*ms_token_last(t_token	*token);
 t_token	*ms_token_newlst(void	*token);
 void	ms_token_addback(t_token **token, t_token *new_tok);
-int		counter_string(t_token *tok);
+
+int	counter_string(t_token *tok);
+t_token	*ms_head_list(t_token *token);
+
 
 //token_utils
 bool	ms_get_token(t_parser *parser, t_token *token);
@@ -205,7 +218,9 @@ void	ft_free_struct(t_msh *g_msh);
 //parser_utils
 bool	tokenize_redir(t_parser *parser, t_token *token);
 void	change_state(t_parser *parser, t_token *token);
-bool	tokenize_string(t_token *token);
+void	change_state_2(t_parser *parser, t_token *token, int i);
+bool 	tokenize_string(t_token *token);
+
 
 //ms_quote.c
 int		ms_find_close_quote(t_parser *parser, char quote);
@@ -216,9 +231,6 @@ bool	is_quote(char *tab, int i);
 bool	is_quote_next(t_parser *parser, int i);
 t_token	*ms_trim_quotes(t_token *token);
 
-//error
-void	ms_error_quote(t_parser *parser);
-bool	is_only_space(char *str);
 
 //syntax
 t_token	*ms_check_quote(t_token *token);
@@ -235,18 +247,32 @@ void	init_shell(void);
 //int		main(int argc, char *argv[], char **env);
 void	loop(void);
 
+
 //dollar_sign
-char	*replace_dol_w_env(char *token);
+char	*replace_dol_w_env(char *token, t_dollar *dol);
 bool	is_dolsign(char *str);
 char	*ms_get_dolenv(char *tab, int i);
 char	*get_arg(char *tab, int i);
 int		dollar_counter(char *token);
 bool	check_dol(char *tab);
+t_token	*expand_dol_sign(t_token *token);
+bool	dol_solo(char *str);
+bool	is_to_expend(char *tab, int i);
+bool	is_dol_zero(char *tab, char *arg, int i, int is_dol);
+
+//replace_tild_w_home
+char	*replace_tild_w_home(char *token);
+t_token	*ms_expand_tild(t_token *token);
+int	tild_counter(char *str);
+
+
+
 
 //ms_job_list
 void	ms_job_addback(t_job **job, t_job *new_job);
 t_job	*ms_job_last(t_job *job);
 t_job	*ms_job_newlst(void);
+t_job	*ms_head_list_job(t_job *job);
 
 //ms_job
 t_job	*ms_job(t_job *job, t_token *token);
@@ -255,5 +281,15 @@ t_job	*redirection_to_tab(t_token *token, t_job *job);
 int		redir_counter(t_token *tok);
 
 char	*ms_get_varenv(char **env, char *arg);
+
+
+
+
+void	ms_init_dol_struct(t_dollar *dol);
+void	dol_s_quote(t_dollar *dol);
+void	dol_d_quote(t_dollar *dol);
+int		check_name_var(t_dollar *dol, int i);
+void	check_var_env(t_dollar *dol, char *temp, int i);
+
 
 #endif

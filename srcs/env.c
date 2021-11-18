@@ -28,6 +28,8 @@ char	*ms_get_env(char **env, char *arg)
 	return (env[i]);
 }
 
+/*Va chercher la variable d'env selon le nom de arg et retournes 
+l'expansion de la variable sans son nom ou retournes NULL*/
 char	*ms_get_varenv(char **env, char *arg)
 {
 	int	i;

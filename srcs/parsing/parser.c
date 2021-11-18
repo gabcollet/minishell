@@ -1,7 +1,8 @@
 #include "minishell.h"
+#include "syntax.h"
 
 
-
+t_token	*ms_trim_and_expand(t_token *token);
 void printListjob(t_job *tok, t_token *token);;
 
 void printList(t_token *tok)
@@ -9,12 +10,13 @@ void printList(t_token *tok)
 	int i = 0;
 	while(tok)
 	{
-		printf("tok[%d] = %s\nstate = %u\n", i, tok->str_tok, tok->state);
+		printf("tok[%d] = %s\nstate = %u\n", i, tok->str_tok, tok->type);
 		tok = tok->next;
 		i++;
 	}
 }
 
+/*Compte le nombre de type string présente dans la struct et le retourne*/
 int	counter_string(t_token *tok)
 {
 	int	i;
@@ -34,11 +36,11 @@ int	counter_string(t_token *tok)
 	return (i);
 }
 
+/*Enregistre les token type string dans une job*/
 void token_to_tab(t_token *token, t_job *job)
 {
 	int	i;
 	int	counter;
-	char	*temp;
 	
 	if (!job->cmd)
 	{
@@ -48,31 +50,21 @@ void token_to_tab(t_token *token, t_job *job)
 	i = 0;
 	while (job->cmd[i])
 		i++;
-	if (is_dolsign(token->str_tok) && (token->state == TEXT))
-	{
-		temp = ft_strdup(token->str_tok);
-		free(token->str_tok);
-		token->str_tok = replace_dol_w_env(temp);
-		free(temp);
-	}
-	if (token->str_tok == NULL) // TODO une fonction qui check s'il y a qqch dans la str
-		return ;
 	job->cmd[i] = ft_calloc((ft_strlen(token->str_tok) + 1), sizeof(char));  
 	ft_strcpy(job->cmd[i], token->str_tok);
  }
-	
+
+/*Fonction principale qui parse l'input*/
 t_job	*ms_parsing(char *line, t_job *job_first)
 {
-	char	*temp;
-	t_parser *parser;
-	t_token *first;
-	t_token *first2;
-	t_token *token;
+	char		*temp;
+	t_parser	*parser;
+	t_token		*first;
+	t_token		*token;
 
 	token = ms_token_newlst(NULL);
 	parser = malloc(sizeof(t_parser) * 1);
 	first = token;
-	first2 = token;
 	temp = ms_trim_space(line);
 	while (!empty_str(temp))
 	{
@@ -86,13 +78,19 @@ t_job	*ms_parsing(char *line, t_job *job_first)
 	}
 	free(temp);
 	free(parser);
+	if (!valid_syntax(first))
+		return (NULL);
+	token = ms_expand_tild(first);
+	token = expand_dol_sign(first);
 	token = ms_trim_quotes(first);
-	job_first = ms_job(job_first, first2);
-	//printList(first);
-	 free_token_lst(first);
+	ms_head_list(first);
+	printList(first);
+	job_first = ms_job(job_first, first);
+	free_token_lst(first);
 	return (job_first);
 }
 
+/*Vérifie si la chaine est vide*/
 bool empty_str(char *str)
 {
 	int	i;
@@ -105,6 +103,7 @@ bool empty_str(char *str)
 	return (true);
 }
 
+/*Trimmes les whitespace de la chaine passée en paramètre et en retourne une nouvelle*/
 char *ms_trim_space(char *str)
 {
 	char *temp;

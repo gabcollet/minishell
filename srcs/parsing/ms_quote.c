@@ -1,6 +1,7 @@
 #include "minishell.h"
+#include "syntax.h"
 
-
+/*Renvoie l'index de la quote fermante ou renvoi -1*/
 int ms_find_close_quote(t_parser *parser, char quote)
 {
 	int	i;
@@ -15,6 +16,7 @@ int ms_find_close_quote(t_parser *parser, char quote)
 	return (-1);
 }
 
+/*Renvoi l'index de la quote fermante ou print un message d'erreur*/
 int	ms_handle_quote(t_parser *parser)
 {
 	int i;
@@ -39,6 +41,7 @@ int	ms_handle_quote(t_parser *parser)
 	return (i);
 }
 
+/*Trimme la sring de ses quotes et renvoie la string remalloc sans quotes*/
 t_token	*ms_trim_quotes(t_token *token)
 {
 	char *temp;
@@ -47,7 +50,7 @@ t_token	*ms_trim_quotes(t_token *token)
 	int	j;
 	int	check;
 
-	while (token)
+	while (token && token->str_tok)
 	{
 		if (token->type == STRING)
 		{
@@ -63,7 +66,8 @@ t_token	*ms_trim_quotes(t_token *token)
 					check++;	
 					i++;
 				}
-				if ((token->str_tok[i] == '\'' || token->str_tok[i] == '\"') && (check == 2 || check == 0))
+				if ((token->str_tok[i] == '\'' || token->str_tok[i] == '\"') 
+					&& (check == 2 || check == 0))
 				{
 					if (check == 2)
 					{
@@ -79,11 +83,6 @@ t_token	*ms_trim_quotes(t_token *token)
 				}
 				if (token->str_tok[i] != '\0' && token->str_tok[i] != quote)
 				{
-					// if (token->str_tok[i] == '\'' || token->str_tok[i] == '\"')
-					// {
-					// 	quote = token->str_tok[i];
-					// 	i++;
-					// }		
 					temp[j] = token->str_tok[i];
 					j++;
 					i++;
@@ -98,23 +97,7 @@ t_token	*ms_trim_quotes(t_token *token)
 	return (token);
 }
 
-// int	quote_counter(t_parser *parser, char quote)
-// {
-// 	int	i;
-// 	int	quote_counter;
-
-// 	i = parser->index - 1;
-// 	quote_counter = 0;
-// 	while (parser->str_line[i])
-// 	{
-// 		if (parser->str_line[i] == quote)
-// 			quote_counter++;
-// 		i++;
-// 	}
-// 	return (quote_counter);
-// }
-
-
+/*
 char *ms_remove_quote(char *str)
 {
 	int	i;
@@ -132,9 +115,9 @@ char *ms_remove_quote(char *str)
 		i++;
 	}
 	return (temp);
-}
+}*/
 
-
+/*Renvoi vrai si l'index est sur une quote sinon renvoi faux*/
 bool is_quote(char *tab, int i)
 {
 	if (tab[i] == '\'' || tab[i] == '\"')
@@ -142,6 +125,7 @@ bool is_quote(char *tab, int i)
 	return (false);
 }
 
+/*
 bool is_quote_next(t_parser *parser, int i)
 {
 	if ((parser->str_line[i] == '\'' && parser->str_line[i + 1] == '\'') || 
@@ -151,3 +135,4 @@ bool is_quote_next(t_parser *parser, int i)
 		return (true);
 	return (false);
 }
+*/

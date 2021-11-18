@@ -39,3 +39,14 @@ t_token	*ms_token_newlst(void *token)
 	new->previous = NULL;
 	return (new);
 }
+
+t_token	*ms_head_list(t_token *token)
+{
+	while (token)
+	{
+		if (!token->previous)
+			return (token);
+		token = token->previous;
+	}
+	return (token);
+}

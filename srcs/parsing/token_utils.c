@@ -1,15 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/18 10:36:26 by jbadia            #+#    #+#             */
+/*   Updated: 2021/11/18 10:38:42 by jbadia           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-
-bool ms_get_token(t_parser *parser, t_token *token)
+/*tokenize la string et renvoie vers tokenize_redir ou tokeniz_string*/
+bool	ms_get_token(t_parser *parser, t_token *token)
 {
 	if (ft_strchr(REDIRECTION, parser->str_line[parser->index]))
 	{
 		parser->index++;
 		return (tokenize_redir(parser, token));
 	}
-	while ((!ft_strchr(REDIRECTION, parser->str_line[parser->index])) 
-	&& (!ft_strchr(WHITESPACE, parser->str_line[parser->index])))
+	while ((!ft_strchr(REDIRECTION, parser->str_line[parser->index]))
+		&& (!ft_strchr(WHITESPACE, parser->str_line[parser->index])))
 	{
 		change_state(parser, token);
 		if (parser->state != TEXT)
@@ -19,23 +31,27 @@ bool ms_get_token(t_parser *parser, t_token *token)
 		}
 		parser->index++;
 	}
-		return(tokenize_string(token));
+	return (tokenize_string(token));
 }
 
-char *ms_get_next_tok(t_parser *parser, char *temp)
+/*renvoie la string de l'input en retirant le morceau de string
+qui vient d'etre copié dans le token précédent*/
+char	*ms_get_next_tok(t_parser *parser, char *temp)
 {
-	char *str;
+	char	*str;
 
 	if (temp)
 	{
 		str = temp;
-		str = ft_substr(parser->str_line, parser->index, ft_strlen(parser->str_line) - parser->index);
+		str = ft_substr(parser->str_line, parser->index,
+				ft_strlen(parser->str_line) - parser->index);
 		free(temp);
 		return (str);
 	}
 	return (NULL);
 }
 
+/*Copie l'input dans la struct token puis ajoute un token null à la suite*/
 t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token)
 {
 	size_t	i;
