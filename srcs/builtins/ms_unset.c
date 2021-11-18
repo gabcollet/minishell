@@ -6,30 +6,35 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:10:20 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/05 15:49:29 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/17 11:27:52 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* 
-- Annulation d'une variable ou d'une fonction qui n'a pas été précédemment
-définie ne doit pas être considérée comme une erreur et n'entraîne pas un abort.
-- unset test1 test2 |	Peut unset plusieurs variables en même temps 
-*/
-
 int	ms_check_unset_arg(char *arg)
 {
-	if (ft_isalpha(arg[0]) == 0 && arg[0] != 95)
+	int	i;
+
+	i = 0;
+	if (ft_isalpha(arg[i]) == 0 && arg[i] != '_')
 	{
 		printf("unset: '%s': not a valid identifier\n", arg);
-		return (-1);
+		return (1);
 	}
-	else
-		return (0);
+	i++;
+	while (arg[i] && arg[i] != '=')
+	{
+		if (ft_isalnum(arg[i]) == 0 && arg[i] != '_')
+		{
+			printf("unset: '%s': not a valid identifier\n", arg);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
 
-/* valide dans env et env_export si les ligne de unset existe et les enlèves */
 char	**ms_unset_remove(char **env, char *arg)
 {
 	char	*line;
@@ -41,7 +46,6 @@ char	**ms_unset_remove(char **env, char *arg)
 	return (env);
 }
 
-/* fonction principale du builtin unset */
 int	ms_unset(char **arg)
 {
 	int		i;
@@ -56,7 +60,7 @@ int	ms_unset(char **arg)
 		{
 			i++;
 			ret = 1;
-			continue;
+			continue ;
 		}
 		strings = ft_split(arg[i], '=');
 		g_msh.env = ms_unset_remove(g_msh.env, strings[0]);

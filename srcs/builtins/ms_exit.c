@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 10:19:58 by gcollet           #+#    #+#             */
-/*   Updated: 2021/10/26 14:04:03 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/17 11:06:55 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@
 commande exécutée.
 -exit prend seulement des arguments de type entier compris entre 0 et 255
 */
-
 int	ms_check_exit_arg(char *arg)
 {
 	int			i;
 	long long	exit_code;
 
 	i = 0;
-	while (arg[i] && (arg[i] == '+'
-			|| arg[i] == '-' || arg[i] == ' '))
+	while (arg[i] == ' ')
 		i++;
-	if (ft_isdigit(arg[i]) == 0)
+	if (arg[i] && (arg[i] == '+' || arg[i] == '-'))
+		i++;
+	if (ft_isdigit(arg[i]) == 0 || ft_isllong(arg) != 0)
 	{
 		printf("minishell: exit: %s: numeric argument required\n", arg);
 		g_msh.ret_exit = 255;
@@ -57,5 +57,9 @@ void	ms_exit(char **arg)
 			return ;
 		}
 	}
+	free (g_msh.user);
+	ft_free_tab(g_msh.env);
+	ft_free_tab(g_msh.env_export);
+	rl_clear_history();
 	exit(g_msh.ret_exit);
 }

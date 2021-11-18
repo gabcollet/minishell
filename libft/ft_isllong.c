@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isint.c                                         :+:      :+:    :+:   */
+/*   ft_isllong.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/13 10:53:33 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/15 18:04:35 by gcollet          ###   ########.fr       */
+/*   Created: 2021/11/16 10:09:10 by gcollet           #+#    #+#             */
+/*   Updated: 2021/11/16 10:20:59 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isint(char *str)
+int	ft_isllong(char *str)
 {
 	int		i;
-	long	temp;
 
 	i = 0;
-	temp = ft_atol(str);
-	if (temp < INT_MIN || temp > INT_MAX)
+	if (str[0] == '-' && ft_strlen(str) >= 20
+		&& ft_strcmp(&str[1], "9223372036854775808") > 0)
 		return (1);
-	if (str[0] == '-')
-		i++;
-	while (str[i])
-	{
-		if (ft_isdigit(str[i++]) == 0)
-			return (1);
-	}
+	else if (ft_strlen(str) >= 19
+		&& ft_strcmp(str, "9223372036854775807") > 0)
+		return (1);
 	return (0);
 }

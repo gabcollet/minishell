@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+         #
+#    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/11/18 12:19:10 by jbadia           ###   ########.fr        #
+#    Updated: 2021/11/18 14:51:06 by gcollet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,10 @@ PROG	= minishell
 
 OBJPATH = obj/
 
-SRCS 	= test_main.c env.c free_func.c token_utils.c token_list_utils.c parser.c\
+SRCS 	= main.c env.c free_func.c token_utils.c token_list_utils.c parser.c\
 			init.c utils.c ms_env.c ms_export.c ms_cd.c ms_echo.c ms_exit.c\
 			ms_pwd.c ms_unset.c ms_builtins.c  exec_utils.c  error.c\
-      		parser_utils.c ms_quote.c  ms_job.c  ms_job_list.c\
+      parser_utils.c ms_quote.c  ms_job.c  ms_job_list.c\
 			dollar.c exec.c exec_redir.c heredoc.c signal.c \
 			replace_tild_w_home.c syntax.c syntax_2.c dollar_utils.c replace_dol_w_env.c
 

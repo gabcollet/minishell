@@ -12,18 +12,18 @@ void	ms_error_quote(t_parser *parser)
 
 bool is_only_space(char *str)
 {
-	int	i;
-	int space;
+    int    i;
+    int space;
 
-	i = 0;
-	space = 0;
-	while (str[i])
-	{
-		if (ft_strchr(WHITESPACE, str[i]))
-			space++;
-		i++;
-	}
-	if (space == i)
-		return(true);
-	return (false);
+    i = 0;
+    space = 0;
+    while (str[i])
+    {
+        if (ft_strchr(WHITESPACE, str[i]))
+            space++;
+        i++;
+    }
+    if (space == i)
+        return(true);
+    return (false);
 }

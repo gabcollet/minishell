@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 15:07:55 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/05 15:50:11 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/17 11:48:36 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,12 @@ char	**ms_matrix_add_line(char **matrix, char *new_line)
 	while (matrix[i])
 		i++;
 	new_matrix = malloc(sizeof(char *) * (i + 2));
-	i = -1;
-	while (matrix[++i])
+	i = 0;
+	while (matrix[i])
+	{
 		new_matrix[i] = ft_strdup(matrix[i]);
+		i++;		
+	}
 	new_matrix[i] = ft_strdup(new_line);
 	i++;
 	new_matrix[i] = NULL;
