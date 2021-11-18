@@ -5,12 +5,9 @@ t_job	*ms_job_newlst(void)
 {
 	t_job	*new;
 
-	new = malloc(sizeof(t_job) * 1);
+	new = ft_calloc(1, sizeof(t_job));
 	if (!new)
 		return (NULL);
-	new->cmd = NULL;
-	new->next = NULL;
-	new->file = NULL;
 	return (new);
 }
 
@@ -39,4 +36,15 @@ void	ms_job_addback(t_job **job, t_job *new_job)
 		last_job->next = new_job;
 		new_job->previous = last_job;
 	}
+}
+
+t_job	*ms_head_list_job(t_job *job)
+{
+	while (job)
+	{
+		if (!job->previous)
+			return (job);
+		job = job->previous;
+	}
+	return (job);
 }

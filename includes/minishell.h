@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/17 16:08:16 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/18 14:54:41 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <string.h>
 # include <fcntl.h>
 # include "libft.h"
+
 
 
 /* include pour linux */
@@ -64,9 +65,7 @@ typedef enum	e_state
 	TEXT,
 	S_QUOTE,
 	D_QUOTE,
-	NO_DOL,
 	KEEP_IT,
-	PRINT_IT,
 }				t_state;
 
 typedef struct s_token
@@ -98,6 +97,15 @@ typedef	struct s_job
 	
 }				t_job;
 
+typedef struct s_dollar
+{
+	int		d_quote;
+	int		s_quote;
+	int		index;
+	char	*str;
+	char	*name_var;
+	char	*var_env;
+}				t_dollar;
 
 //ms_builtins.c
 int	ms_builtins(char **arg, int i);
@@ -191,6 +199,7 @@ t_token	*ms_token_last(t_token	*token);
 t_token	*ms_token_newlst(void	*token);
 void	ms_token_addback(t_token **token, t_token *new_tok);
 int	counter_string(t_token *tok);
+t_token	*ms_head_list(t_token *token);
 
 //token_utils
 bool 	ms_get_token(t_parser *parser, t_token *token);
@@ -202,7 +211,8 @@ void	ft_free_struct(t_msh *g_msh);
 //parser_utils
 bool	tokenize_redir(t_parser *parser, t_token *token);
 void	change_state(t_parser *parser, t_token *token);
-bool tokenize_string(t_token *token);
+void	change_state_2(t_parser *parser, t_token *token, int i);
+bool 	tokenize_string(t_token *token);
 
 //ms_quote.c
 int ms_find_close_quote(t_parser *parser, char quote);
@@ -224,14 +234,18 @@ void	init_shell();
 //int		main(int argc, char *argv[], char **env);
 void	loop(void);
 
+
 //dollar_sign
-char	*replace_dol_w_env(char *token);
+char	*replace_dol_w_env(char *token, t_dollar *dol);
 bool	is_dolsign(char *str);
 char	*ms_get_dolenv(char *tab, int i);
-char *get_arg(char *tab, int i);
-int	dollar_counter(char *token);
+char 	*get_arg(char *tab, int i);
+int		dollar_counter(char *token);
 bool	check_dol(char *tab);
 t_token	*expand_dol_sign(t_token *token);
+bool	dol_solo(char *str);
+bool	is_to_expend(char *tab, int i);
+bool	is_dol_zero(char *tab, char *arg, int i, int is_dol);
 
 //replace_tild_w_home
 char	*replace_tild_w_home(char *token);
@@ -245,6 +259,7 @@ int	tild_counter(char *str);
 void	ms_job_addback(t_job **job, t_job *new_job);
 t_job	*ms_job_last(t_job *job);
 t_job	*ms_job_newlst(void);
+t_job	*ms_head_list_job(t_job *job);
 
 //ms_job
 t_job	*ms_job(t_job *job, t_token *token);
@@ -255,32 +270,14 @@ int	redir_counter(t_token *tok);
 char	*ms_get_varenv(char **env, char *arg);
 
 
-# define ERR_QUOTE_S "minishell : invalid single quote"
-# define ERR_QUOTE_D "minishell : invalid double quote"
-# define ERR_UNEX_PIPES "minishell : syntax error near unexpected token '||'"
-# define ERR_UNEX_PIPE "minishell : syntax error near unexpected token '|'"
-# define ERR_UNEX_REDIR_L "minishell : syntax error near unexpected token '<'"
-# define ERR_UNEX_REDIR_R "minishell : syntax error near unexpected token '>'"
-# define ERR_UNEX_HEREDOC_L "minishell : syntax error near unexpected token '<<'"
-# define ERR_UNEX_APPEND "minishell : syntax error near unexpected token '>>'"
-# define ERR_UNEX_REDIRS_LR "minishell : syntax error near unexpected token '<>'"
-# define ERR_UNEX_NEWLINE "minishell : syntax error near unexpected token 'newline'"
-# define SYNTAX_ERROR 258
-
-//error
-void	ms_error_quote(t_parser *parser);
-bool is_only_space(char *str);
 
 
+void	ms_init_dol_struct(t_dollar *dol);
+void	dol_s_quote(t_dollar *dol);
+void	dol_d_quote(t_dollar *dol);
+int		check_name_var(t_dollar *dol, int i);
+void	check_var_env(t_dollar *dol, char *temp, int i);
 
-//syntax
-
-bool	valid_syntax(t_token *token);
-bool	valid_redir_l(t_token *token);
-bool	valid_redir_r(t_token *token);
-bool	valid_pipe(t_token *token);
-bool	valid_here_doc(t_token	*token);
-bool	valid_append(t_token	*token);
 
 #endif
 

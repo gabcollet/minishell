@@ -1,94 +1,84 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/18 10:27:40 by jbadia            #+#    #+#             */
+/*   Updated: 2021/11/18 10:35:52 by jbadia           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*Enregistre les credir et les pipes dans leur propre token*/
 bool	tokenize_redir(t_parser *parser, t_token *token)
 {
-	char *temp;
-	size_t	i;
+	char	*temp;
 
-	i = 0;
 	temp = ft_substr(parser->str_line, 0, ft_strlen(parser->str_line));
-	while(temp[i])
+	if (temp[0] == '|')
+		token->type = PIPE;
+	else if (temp[0] == '<' && temp[1] == '<')
 	{
-		if (temp[i] == '|')
-		{
-			token->type = PIPE;
-			break ;
-		}
-		if (temp[i] == '<' && temp[i + 1] == '<')
-		{
-			token->type = HERE_DOC_L;
-			parser->index++;
-			break ;
-		}
-		if (temp[i] == '>' && temp[i + 1] == '>')
-		{
-			token->type = APPEND;
-			parser->index++;
-			break ;
-		}
-		else if (temp[i] == '<')
-		{
-			token->type = REDIR_L;
-			break ;
-		}
-		else if (temp[i] == '>')
-		{
-			token->type = REDIR_R;
-			break ;
-		}
-		i++;
+		token->type = HERE_DOC_L;
+		parser->index++;
 	}
-	free(temp);
-	return(true);
+	else if (temp[0] == '>' && temp[1] == '>')
+	{
+		token->type = APPEND;
+		parser->index++;
+	}
+	else if (temp[0] == '<')
+		token->type = REDIR_L;
+	else if (temp[0] == '>')
+		token->type = REDIR_R;
+	free (temp);
+	return (true);
 }
 
 /*state machine permettant de gérer les quotes et l'expansion du $*/
 void	change_state(t_parser *parser, t_token *token)
 {
 	size_t	i;
-	
+
 	i = parser->index;
 	{
 		if (parser->str_line[i] == '\'')
 		{
 			if (parser->state == D_QUOTE)
-			{
-				parser->quote_state = KEEP_IT;
 				parser->state = D_QUOTE;
-			}
 			if (parser->state == TEXT)
-			{
 				parser->state = S_QUOTE;
-			}
 			else if (parser->state == S_QUOTE)
 			{
 				parser->state = TEXT;
-				token->state = NO_DOL;
+				token->state = KEEP_IT;
 			}
 		}
-		if (parser->str_line[i] == '\"')
+		change_state_2(parser, token, i);
+	}
+}
+
+void	change_state_2(t_parser *parser, t_token *token, int i)
+{
+	if (parser->str_line[i] == '\"')
+	{
+		if (parser->state == S_QUOTE)
+			parser->state = S_QUOTE;
+		if (parser->state == TEXT)
+			parser->state = D_QUOTE;
+		else if (parser->state == D_QUOTE)
 		{
-			if (parser->state == S_QUOTE)
-			{
-				parser->quote_state = KEEP_IT;
-				parser->state = S_QUOTE;
-			}
-			if (parser->state == TEXT)
-			{
-				parser->state = D_QUOTE;
-			}
-			else if (parser->state == D_QUOTE)
-			{
-				parser->state = TEXT;
-				token->state = TEXT;
-			}
+			parser->state = TEXT;
+			token->state = KEEP_IT;
 		}
 	}
 }
 
 /*Donne le type string au token passé en paramètre*/
-bool tokenize_string(t_token *token)
+bool	tokenize_string(t_token *token)
 {
 	token->type = STRING;
 	return (true);

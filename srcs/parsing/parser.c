@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "syntax.h"
 
 
 t_token	*ms_trim_and_expand(t_token *token);
@@ -9,7 +10,7 @@ void printList(t_token *tok)
 	int i = 0;
 	while(tok)
 	{
-		printf("tok[%d] = %s\nstate = %u\n", i, tok->str_tok, tok->state);
+		printf("tok[%d] = %s\nstate = %u\n", i, tok->str_tok, tok->type);
 		tok = tok->next;
 		i++;
 	}
@@ -39,9 +40,7 @@ int	counter_string(t_token *tok)
 void token_to_tab(t_token *token, t_job *job)
 {
 	int	i;
-	int	j;
 	int	counter;
-	// char	*temp;
 	
 	if (!job->cmd)
 	{
@@ -49,7 +48,6 @@ void token_to_tab(t_token *token, t_job *job)
 		job->cmd = ft_calloc(counter + 1, sizeof(char*));
 	}
 	i = 0;
-	j = 0;
 	while (job->cmd[i])
 		i++;
 	job->cmd[i] = ft_calloc((ft_strlen(token->str_tok) + 1), sizeof(char));  
@@ -59,20 +57,14 @@ void token_to_tab(t_token *token, t_job *job)
 /*Fonction principale qui parse l'input*/
 t_job	*ms_parsing(char *line, t_job *job_first)
 {
-	char	*temp;
-	t_parser *parser;
-	t_token *first;
-	t_token *first2;
-	t_token	*first3;
-	t_token	*first4;
-	t_token *token;
+	char		*temp;
+	t_parser	*parser;
+	t_token		*first;
+	t_token		*token;
 
 	token = ms_token_newlst(NULL);
 	parser = malloc(sizeof(t_parser) * 1);
 	first = token;
-	first2 = token;
-	first3 = token;
-	first4 = token;
 	temp = ms_trim_space(line);
 	while (!empty_str(temp))
 	{
@@ -86,13 +78,14 @@ t_job	*ms_parsing(char *line, t_job *job_first)
 	}
 	free(temp);
 	free(parser);
-	if (!valid_syntax(first4))
+	if (!valid_syntax(first))
 		return (NULL);
 	token = ms_expand_tild(first);
-	token = expand_dol_sign(first3);
-	//printList(first);
+	token = expand_dol_sign(first);
 	token = ms_trim_quotes(first);
-	job_first = ms_job(job_first, first2);
+	ms_head_list(first);
+	printList(first);
+	job_first = ms_job(job_first, first);
 	free_token_lst(first);
 	return (job_first);
 }

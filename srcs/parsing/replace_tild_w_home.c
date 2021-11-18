@@ -8,7 +8,7 @@ t_token	*ms_expand_tild(t_token *token)
 
 	head = token;
 	temp = NULL;
-	while (token && token->str_tok)
+	while (token && token->str_tok && (token->state != KEEP_IT))
 	{
 		temp = ft_strdup(token->str_tok);
 		free(token->str_tok);
@@ -16,7 +16,7 @@ t_token	*ms_expand_tild(t_token *token)
 		token = token->next;
 		free(temp);
 	}
-	return(head);
+	return (head);
 }
 
 char	*replace_tild_w_home(char *token)

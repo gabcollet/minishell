@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   syntax.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/18 09:05:06 by jbadia            #+#    #+#             */
+/*   Updated: 2021/11/18 14:56:24 by jbadia           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
+#include "syntax.h"
 
 /*Passe au travers de la liste de tokens et vérifie la syntaxe
 pour les pipes et le redir. Retourne vrai si la syntaxe et correcte.
@@ -9,13 +22,13 @@ bool	valid_syntax(t_token *token)
 	t_token	*head;
 
 	head = token;
-	while (token)
+	while (token && token->next)
 	{
 		if (token->type == STRING)
 			token = token->next;
 		else if (token->type != STRING)
 		{
-			if (valid_redir_r(token) || valid_redir_l(token) 
+			if (valid_redir_r(token) || valid_redir_l(token)
 				|| valid_pipe(token) || valid_here_doc(token)
 				|| valid_append(token))
 				token = token->next;
@@ -42,27 +55,9 @@ bool	valid_redir_l(t_token *token)
 	if (!token->next->next)
 	{
 		ft_putstr_fd(ERR_UNEX_NEWLINE, 2);
-		return(false);
-	}
-	if (token->next->type != STRING)
-	{
-		if (token->next->type == REDIR_R)
-			ft_putstr_fd(ERR_UNEX_REDIR_R, 2);
-		else if (token->next->type == REDIR_L)
-			ft_putstr_fd(ERR_UNEX_REDIR_L, 2);
-		else if (token->next->type == PIPE)
-			ft_putstr_fd(ERR_UNEX_PIPE, 2);
-		else if (token->next->type == HERE_DOC_L)
-			ft_putstr_fd(ERR_UNEX_HEREDOC_L, 2);
-		else if (token->next->type == APPEND)
-			ft_putstr_fd(ERR_UNEX_APPEND, 2);
-		else if (token->next->type == PIPE && token->next->next->type == PIPE)
-			ft_putstr_fd(ERR_UNEX_PIPES, 2);
-		else if (token->next->type == REDIR_L && token->next->next->type == REDIR_R)
-			ft_putstr_fd(ERR_UNEX_REDIRS_LR, 2);
 		return (false);
 	}
-	return (true);
+	return (valid_redir_2(token));
 }
 
 bool	valid_redir_r(t_token *token)
@@ -72,8 +67,13 @@ bool	valid_redir_r(t_token *token)
 	if (!token->next->next)
 	{
 		ft_putstr_fd(ERR_UNEX_NEWLINE, 2);
-		return(false);
+		return (false);
 	}
+	return (valid_redir_2(token));
+}
+
+bool	valid_redir_2(t_token *token)
+{
 	if (token->next->type != STRING)
 	{
 		if (token->next->type == REDIR_R)
@@ -86,9 +86,11 @@ bool	valid_redir_r(t_token *token)
 			ft_putstr_fd(ERR_UNEX_HEREDOC_L, 2);
 		else if (token->next->type == APPEND)
 			ft_putstr_fd(ERR_UNEX_APPEND, 2);
-		else if (token->next->type == PIPE && token->next->next->type == PIPE)
+		else if (token->next->type == PIPE
+			&& token->next->next->type == PIPE)
 			ft_putstr_fd(ERR_UNEX_PIPES, 2);
-		else if (token->next->type == REDIR_L && token->next->next->type == REDIR_R)
+		else if (token->next->type == REDIR_L
+			&& token->next->next->type == REDIR_R)
 			ft_putstr_fd(ERR_UNEX_REDIRS_LR, 2);
 		return (false);
 	}
@@ -123,64 +125,4 @@ bool	valid_pipe(t_token *token)
 		return (false);
 	}
 	return (false);
-}
-
-bool	valid_here_doc(t_token	*token)
-{
-	if (token->type != HERE_DOC_L)
-		return (false);
-	if (!token->next->next)
-	{
-		ft_putstr_fd(ERR_UNEX_NEWLINE, 2);
-		return(false);
-	}
-	if (token->next->type != STRING)
-	{
-		if (token->next->type == REDIR_R)
-			ft_putstr_fd(ERR_UNEX_REDIR_R, 2);
-		else if (token->next->type == REDIR_L)
-			ft_putstr_fd(ERR_UNEX_REDIR_L, 2);
-		else if (token->next->type == PIPE)
-			ft_putstr_fd(ERR_UNEX_PIPE, 2);
-		else if (token->next->type == HERE_DOC_L)
-			ft_putstr_fd(ERR_UNEX_HEREDOC_L, 2);
-		else if (token->next->type == APPEND)
-			ft_putstr_fd(ERR_UNEX_APPEND, 2);
-		else if (token->next->type == PIPE && token->next->next->type == PIPE)
-			ft_putstr_fd(ERR_UNEX_PIPES, 2);
-		else if (token->next->type == REDIR_L && token->next->next->type == REDIR_R)
-			ft_putstr_fd(ERR_UNEX_REDIRS_LR, 2);
-		return (false);
-	}
-	return (true);
-}
-
-bool	valid_append(t_token	*token)
-{
-	if (token->type != APPEND)
-		return (false);
-	if (!token->next->next)
-	{
-		ft_putstr_fd(ERR_UNEX_NEWLINE, 2);
-		return(false);
-	}
-	if (token->next->type != STRING)
-	{
-		if (token->next->type == REDIR_R)
-			ft_putstr_fd(ERR_UNEX_REDIR_R, 2);
-		else if (token->next->type == REDIR_L)
-			ft_putstr_fd(ERR_UNEX_REDIR_L, 2);
-		else if (token->next->type == PIPE)
-			ft_putstr_fd(ERR_UNEX_PIPE, 2);
-		else if (token->next->type == HERE_DOC_L)
-			ft_putstr_fd(ERR_UNEX_HEREDOC_L, 2);
-		else if (token->next->type == APPEND)
-			ft_putstr_fd(ERR_UNEX_APPEND, 2);
-		else if (token->next->type == PIPE && token->next->next->type == PIPE)
-			ft_putstr_fd(ERR_UNEX_PIPES, 2);
-		else if (token->next->type == REDIR_L && token->next->next->type == REDIR_R)
-			ft_putstr_fd(ERR_UNEX_REDIRS_LR, 2);
-		return (false);
-	}
-	return (true);
 }

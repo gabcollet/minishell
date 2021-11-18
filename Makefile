@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+         #
+#    By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/11/17 15:13:00 by jbadia           ###   ########.fr        #
+#    Updated: 2021/11/18 12:19:10 by jbadia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRCS 	= test_main.c env.c free_func.c token_utils.c token_list_utils.c parser.c\
 			ms_pwd.c ms_unset.c ms_builtins.c  exec_utils.c  error.c\
       		parser_utils.c ms_quote.c  ms_job.c  ms_job_list.c\
 			dollar.c exec.c exec_redir.c heredoc.c signal.c \
-			replace_tild_w_home.c syntax.c
+			replace_tild_w_home.c syntax.c syntax_2.c dollar_utils.c replace_dol_w_env.c
 
 OBJFILES = $(SRCS:.c=.o)
 OBJS 	= $(addprefix $(OBJPATH), $(OBJFILES)) 

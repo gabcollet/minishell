@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "syntax.h"
 
 void	ms_error_quote(t_parser *parser)
 {

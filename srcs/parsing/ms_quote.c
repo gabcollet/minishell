@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "syntax.h"
 
 /*Renvoie l'index de la quote fermante ou renvoi -1*/
 int ms_find_close_quote(t_parser *parser, char quote)
@@ -49,7 +50,7 @@ t_token	*ms_trim_quotes(t_token *token)
 	int	j;
 	int	check;
 
-	while (token)
+	while (token && token->str_tok)
 	{
 		if (token->type == STRING)
 		{
