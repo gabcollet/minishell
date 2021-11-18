@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/17 15:40:29 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/18 14:49:11 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ char	**ms_unset_remove(char **env, char *arg);
 //exec.c
 void	execute(char **arg);
 void	parent_process(t_job *job);
-void	child_process(t_job *job);
+void	child_process(t_job *job, t_job	*first);
 int		ms_exec_builtins(t_job *job, int saved_stdin, int saved_stdout);
 void	ms_exec(t_job *job);
 
