@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/19 10:53:13 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/19 11:17:51 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,16 @@ typedef struct s_dollar
 	char	*var_env;
 }				t_dollar;
 
+typedef	struct s_quote
+{
+	char quote;
+	char	*temp;
+	int	i;
+	int	j;
+	int	check;
+}				t_quote;
+
+
 //ms_builtins.c
 int		check_builtins(char **arg);
 int		ms_builtins(char **arg, int i);
@@ -189,10 +199,11 @@ void	ms_set_env(char **env, char *value);
 void	free_token_lst(t_token *tok);
 void	free_struct(t_parser *parser);
 void	free_job_lst(t_job *job);
+void free_dol_struct(t_dollar *dol);
 void	free_exit(void);
 
 //parser
-t_job	*ms_parsing(char *line, t_job *first_job);
+t_job	*ms_parsing(char *line, t_job *first_job, t_parser *parser);
 bool	empty_str(char *str);
 void	printList(t_token *tok);
 char	*ms_trim_space(char *str);
@@ -223,9 +234,7 @@ bool	tokenize_string(t_token *token);
 int		ms_find_close_quote(t_parser *parser, char quote);
 int		ms_handle_quote(t_parser *parser);
 int		quote_counter(t_parser *parser, char quote);
-char	*ms_remove_quote(char *str);
 bool	is_quote(char *tab, int i);
-bool	is_quote_next(t_parser *parser, int i);
 t_token	*ms_trim_quotes(t_token *token);
 
 //syntax
@@ -279,5 +288,11 @@ void	dol_s_quote(t_dollar *dol);
 void	dol_d_quote(t_dollar *dol);
 int		check_name_var(t_dollar *dol, int i);
 void	check_var_env(t_dollar *dol, char *temp, int i);
+
+//ms_quote_utils
+void	ms_init_quote_struct(t_quote *quote);
+void	quote_updater(t_quote *quote);
+void	quote_trimmer(t_quote *quote, t_token *token);
+
 
 #endif

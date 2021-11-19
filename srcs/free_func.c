@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_func.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/19 11:01:06 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/19 11:19:33 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ void	free_token_lst(t_token *tok)
 
 void	free_struct(t_parser *parser)
 {
+	// if (parser->str_line)
+	// 	free(parser->str_line);
 	if (parser)
-		free(parser->str_line);
-	free(parser);
+		free(parser);
 }
 
 void	free_job_lst(t_job *job)
@@ -58,7 +59,18 @@ void	free_job_lst(t_job *job)
 		if (job)
 			free(job);
 	}
-	free(job);
+}
+
+void free_dol_struct(t_dollar *dol)
+{
+	// if (dol->str)
+	// 	free(dol->str);
+	if (dol->name_var)
+		free(dol->name_var);
+	if (dol->var_env)
+		free (dol->var_env);
+	if (dol)
+		free(dol);
 }
 
 void	free_exit(void)

@@ -6,3 +6,5 @@ libft.a
 minishell
 Info.plist
 minishell_tester/
+test_main.c
+test.c
