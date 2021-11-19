@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:55:40 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/19 10:56:35 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/19 11:16:36 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ t_job	*ms_parsing(char *line, t_job *job_first, t_parser *parser)
 	if (!valid_syntax(first))
 		return (NULL);
 	token = ms_expand_tild(first);
+	ms_head_list(first);
 	job_first = ms_job(job_first, first);
 	free_token_lst(first);
 	return (job_first);

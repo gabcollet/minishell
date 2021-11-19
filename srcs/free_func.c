@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/19 11:10:21 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/19 11:19:33 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,12 @@ void free_dol_struct(t_dollar *dol)
 		free (dol->var_env);
 	if (dol)
 		free(dol);
+}
+
+void	free_exit(void)
+{
+	free (g_msh.user);
+	ft_free_tab(g_msh.env);
+	ft_free_tab(g_msh.env_export);
+	rl_clear_history();
 }
