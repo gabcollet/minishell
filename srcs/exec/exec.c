@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/19 10:14:09 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/19 11:03:43 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,6 @@ void	child_process(t_job *job, t_job *first)
 		close(job->fd[0]);
 		close(job->fd[1]);
 		free_fd(first);
-
-		
-		/* free (g_msh.user);
-		ft_free_tab(g_msh.env);
-		ft_free_tab(g_msh.env_export);
-		rl_clear_history(); */
 		if (ms_builtins(job->cmd, 1) == 1)
 			execute(job->cmd);
 	}

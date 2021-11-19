@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/18 20:48:24 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/19 10:55:58 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ char	*ms_get_env(char **env, char *arg)
 l'expansion de la variable sans son nom ou retournes NULL*/
 char	*ms_get_varenv(char **env, char *arg)
 {
-	int	i;
-	char **split;
-	char *var_env;
+	int		i;
+	char	**split;
+	char	*var_env;
 
 	i = 0;
 	var_env = NULL;

@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/18 20:47:32 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/19 11:02:42 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*getcwd_dir(void)
 {
 	char		cwd[PATH_MAX];
 	char		*home;
-	char	*str;
+	char		*str;
 	struct stat	buf;
 
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
@@ -45,7 +45,7 @@ char	*get_prompt(void)
 {
 	char	*prompt;
 	char	*dir;
-	
+
 	prompt = ft_strdup("\001\e[1;91m\002");
 	if (g_msh.user)
 		prompt = ft_strjoin_free_s1(prompt, g_msh.user);
@@ -64,7 +64,7 @@ void	loop(void)
 {
 	char	*line;
 	t_job	*job_first;
-	char *prompt;
+	char	*prompt;
 
 	line = NULL;
 	while (true)
@@ -91,8 +91,9 @@ void	loop(void)
 
 int	main(int argc, char *argv[], char **env)
 {
-	t_job	*job_first = NULL;
+	t_job	*job_first;
 
+	job_first = NULL;
 	(void)argc;
 	init_shell();
 	ms_init_env(env);

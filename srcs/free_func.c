@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/19 10:32:18 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/19 11:01:06 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void	free_job_lst(t_job *job)
 		}
 		if (job)
 			free(job);
-	}free(job);
+	}
+	free(job);
 }
 
 void	free_exit(void)

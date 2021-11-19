@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/19 10:57:23 by gcollet           #+#    #+#             */
+/*   Updated: 2021/11/19 11:00:42 by gcollet          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "syntax.h"
 
@@ -10,20 +22,20 @@ void	ms_error_quote(t_parser *parser)
 	g_msh.ret_exit = 1;
 }
 
-bool is_only_space(char *str)
+bool	is_only_space(char *str)
 {
-    int    i;
-    int space;
+	int	i;
+	int	space;
 
-    i = 0;
-    space = 0;
-    while (str[i])
-    {
-        if (ft_strchr(WHITESPACE, str[i]))
-            space++;
-        i++;
-    }
-    if (space == i)
-        return(true);
-    return (false);
+	i = 0;
+	space = 0;
+	while (str[i])
+	{
+		if (ft_strchr(WHITESPACE, str[i]))
+			space++;
+		i++;
+	}
+	if (space == i)
+		return (true);
+	return (false);
 }

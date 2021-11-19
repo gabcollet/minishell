@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 15:07:55 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/18 15:35:30 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/19 11:03:16 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	**ms_matrix_add_line(char **matrix, char *new_line)
 	while (matrix[i])
 	{
 		new_matrix[i] = ft_strdup(matrix[i]);
-		i++;		
+		i++;
 	}
 	new_matrix[i] = ft_strdup(new_line);
 	i++;

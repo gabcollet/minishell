@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/19 10:23:18 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/19 10:53:13 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@
 # include <string.h>
 # include <fcntl.h>
 # include "libft.h"
-
-
 
 /* include pour linux */
 /* # include <linux/limits.h> */
@@ -106,7 +104,6 @@ typedef struct s_dollar
 	char	*name_var;
 	char	*var_env;
 }				t_dollar;
-
 
 //ms_builtins.c
 int		check_builtins(char **arg);
@@ -206,7 +203,7 @@ t_token	*ms_token_last(t_token	*token);
 t_token	*ms_token_newlst(void	*token);
 void	ms_token_addback(t_token **token, t_token *new_tok);
 
-int	counter_string(t_token *tok);
+int		counter_string(t_token *tok);
 t_token	*ms_head_list(t_token *token);
 
 //token_utils
@@ -220,7 +217,7 @@ void	ft_free_struct(t_msh *g_msh);
 bool	tokenize_redir(t_parser *parser, t_token *token);
 void	change_state(t_parser *parser, t_token *token);
 void	change_state_2(t_parser *parser, t_token *token, int i);
-bool 	tokenize_string(t_token *token);
+bool	tokenize_string(t_token *token);
 
 //ms_quote.c
 int		ms_find_close_quote(t_parser *parser, char quote);
@@ -261,7 +258,7 @@ bool	is_dol_zero(char *tab, char *arg, int i, int is_dol);
 //replace_tild_w_home
 char	*replace_tild_w_home(char *token);
 t_token	*ms_expand_tild(t_token *token);
-int	tild_counter(char *str);
+int		tild_counter(char *str);
 
 //ms_job_list
 void	ms_job_addback(t_job **job, t_job *new_job);
