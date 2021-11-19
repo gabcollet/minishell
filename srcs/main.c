@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/18 15:08:24 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/18 20:47:32 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,10 @@ void	loop(void)
 
 int	main(int argc, char *argv[], char **env)
 {
-	t_token	*token;
 	t_job	*job_first = NULL;
 
 	(void)argc;
 	init_shell();
-	token = NULL;
 	ms_init_env(env);
 	ms_init_export();
 	g_msh.ret_exit = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 10:36:26 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/18 10:38:42 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/18 20:48:56 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,8 @@ char	*ms_get_next_tok(t_parser *parser, char *temp)
 t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token)
 {
 	size_t	i;
-	size_t	j;
 
 	i = 0;
-	j = 0;
 	token->str_tok = ft_calloc(parser->index + 1, sizeof(char));
 	if (!token->str_tok)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/18 17:07:17 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/18 21:44:34 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void	execute(char **cmd)
 		error(cmd[0], 1);
 	}
 	path = find_path(cmd[0]);
-	if (path == NULL)
-		error(cmd[0], 1);
 	if (path && (execve(path, cmd, g_msh.env) == -1))
 		error(cmd[0], 0);
 	error(cmd[0], 0);
@@ -33,9 +31,6 @@ void	execute(char **cmd)
 
 void	parent_process(t_job *job)
 {
-	int		wstatus;
-
-	wstatus = 0;
 	g_msh.switch_signal = 1;
 	job->pid = fork();
 	if (job->pid == -1)
@@ -59,9 +54,6 @@ void	parent_process(t_job *job)
 
 void	child_process(t_job *job, t_job	*first)
 {
-	int		status;
-
-	status = 0;
 	g_msh.switch_signal = 1;
 	job->pid = fork();
 	if (job->pid == -1)

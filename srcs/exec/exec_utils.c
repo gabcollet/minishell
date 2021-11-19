@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 11:37:01 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/18 17:12:46 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/18 21:16:23 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*find_path(char *cmd)
 	path = NULL;
 	i = find_path_env();
 	if (g_msh.env[i] == NULL)
-		return (NULL);
+		error(cmd, 1);
 	paths = ft_split(g_msh.env[i] + 5, ':');
 	i = -1;
 	while (paths[++i])

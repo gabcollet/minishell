@@ -6,7 +6,7 @@
 #    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/11/18 16:27:00 by gcollet          ###   ########.fr        #
+#    Updated: 2021/11/18 20:59:34 by gcollet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,6 @@ CFLAGS 	= -g -Wall -Wextra -Werror
 
 all:	build-repo ${PROG}
 
-
 ${PROG}:	${OBJS}
 					@make re -C ./libft
 					@stty -echoctl
@@ -42,6 +41,11 @@ ${PROG}:	${OBJS}
 ${OBJPATH}%.o:%.c
 					@gcc ${CFLAGS} ${HEADER} -o $@ -c $<
 
+linux:	${OBJS}
+					@make re -C ./libft
+					@stty -echoctl
+					@$(CC) ${OBJS} -Llibft -l ft -o ${PROG} -lreadline
+					@echo "\n\033[32m\033[1mMinishell ALPHA v-1.1 Compiled!\n\033[0m"
 
 norm:
 		@find . -name "*.c" -o -name "*.h" | sed s'/\.\///g' | awk '{print $$1": OK!"; system("sleep 0.03");};'
