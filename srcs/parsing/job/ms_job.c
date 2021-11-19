@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:48:56 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/18 16:52:12 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/19 14:43:45 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ bool	is_redirection(t_token *token)
 /*Rassemble les tokens pour créer des "jobs" en fonction des pipes*/
 t_job	*ms_job(t_job *job, t_token *token)
 {	
-	t_job	*job_first;
-
 	job = ms_job_newlst();
-	job_first = job;
 	while (token && token->str_tok)
 	{
 		if (token->type == PIPE)
@@ -44,7 +41,8 @@ t_job	*ms_job(t_job *job, t_token *token)
 		}
 		token = token->next;
 	}
-	return (job_first);
+	ms_head_list_job(job);
+	return (job);
 }
 
 /*Enregistre les redirections et leur fichier 
@@ -57,7 +55,7 @@ t_job	*redirection_to_tab(t_token *token, t_job *job)
 	if (!job->file)
 	{
 		counter = redir_counter(token);
-		job->file = (char **)ft_calloc((counter * 2) + 1, sizeof(char *));
+		job->file = ft_calloc((counter * 2) + 2, sizeof(char *));
 	}
 	i = 0;
 	while (job->file[i])

@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:55:40 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/19 11:16:36 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/19 14:43:38 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_job	*ms_parsing(char *line, t_job *job_first, t_parser *parser)
 		}
 	}
 	free(temp);
-	free_struct(parser);
+	//free_struct(parser);
 	if (!valid_syntax(first))
 		return (NULL);
 	token = ms_expand_tild(first);

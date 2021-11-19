@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 11:25:46 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/18 16:47:43 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/19 11:55:52 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char	*replace_dol_w_env(char *token, t_dollar *dol)
 			else
 				check_var_env(dol, temp, index);
 			index += ft_strlen(dol->name_var) + 1;
-			free(dol->name_var);
+			if (dol->name_var)
+				free(dol->name_var);
 			continue ;
 		}
 		dol->str[dol->index++] = temp[index++];

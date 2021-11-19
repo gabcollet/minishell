@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/19 11:18:32 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/19 11:46:54 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,5 @@ int	main(int argc, char *argv[], char **env)
 		return (0);
 	}
 	loop();
+	free_job_lst(job_first);
 }

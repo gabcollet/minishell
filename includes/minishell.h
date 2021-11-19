@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/19 11:17:51 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/19 14:16:58 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ typedef	struct s_quote
 
 //ms_builtins.c
 int		check_builtins(char **arg);
-int		ms_builtins(char **arg, int i);
+int		ms_builtins(char **arg, int i, t_job *job);
 
 //ms_cd.c
 void	set_pwd(char *arg, char	*c);
@@ -130,7 +130,7 @@ void	ms_env(void);
 int		ms_pwd(void);
 
 //ms_exit.c
-void	ms_exit(char **arg);
+void	ms_exit(char **arg, t_job *job);
 int		ms_check_exit_arg(char *arg);
 
 //ms_echo.c
@@ -167,10 +167,10 @@ void	check_redirection(t_job *job);
 void	restore_fd(int saved_stdin, int saved_stdout);
 
 //heredoc.c
-int		check_heredoc(char **redir, int stdin_fd);
+int		check_heredoc(char **redir, int stdin_fd, t_job *job);
 void	init_pipe(t_job *job);
 int		make_heredocs(t_job *job);
-int		redir_heredoc(char *limiter, int fd);
+int		redir_heredoc(char *limiter, int fd, t_job *job);
 void	heredoc(char *limiter, int *fd);
 
 //signal.c
@@ -199,8 +199,8 @@ void	ms_set_env(char **env, char *value);
 void	free_token_lst(t_token *tok);
 void	free_struct(t_parser *parser);
 void	free_job_lst(t_job *job);
-void free_dol_struct(t_dollar *dol);
-void	free_exit(void);
+void 	free_dol_struct(t_dollar *dol);
+void	free_exit(t_job *job);
 
 //parser
 t_job	*ms_parsing(char *line, t_job *first_job, t_parser *parser);
@@ -213,7 +213,6 @@ void	token_to_tab(t_token *token, t_job *job);
 t_token	*ms_token_last(t_token	*token);
 t_token	*ms_token_newlst(void	*token);
 void	ms_token_addback(t_token **token, t_token *new_tok);
-
 int		counter_string(t_token *tok);
 t_token	*ms_head_list(t_token *token);
 

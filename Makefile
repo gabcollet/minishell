@@ -6,7 +6,7 @@
 #    By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/11/19 11:16:49 by jbadia           ###   ########.fr        #
+#    Updated: 2021/11/19 11:41:21 by jbadia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ PROG	= minishell
 
 OBJPATH = obj/
 
-SRCS 	= test_main.c env.c free_func.c token_utils.c token_list_utils.c parser.c\
+SRCS 	= main.c env.c free_func.c token_utils.c token_list_utils.c parser.c\
 			init.c utils.c ms_env.c ms_export.c ms_cd.c ms_echo.c ms_exit.c\
 			ms_pwd.c ms_unset.c ms_builtins.c  exec_utils.c  error.c\
       		parser_utils.c ms_quote.c  ms_job.c  ms_job_list.c\

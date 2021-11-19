@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:15:25 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/19 10:23:38 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/19 14:15:37 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ int	make_heredocs(t_job *job)
 {
 	while (job)
 	{
-		if (check_heredoc(job->file, job->fd[0]) == 1)
+		if (check_heredoc(job->file, job->fd[0], job) == 1)
 			return (1);
 		job = job->next;
 	}
 	return (0);
 }
 
-int	check_heredoc(char **redir, int stdin_fd)
+int	check_heredoc(char **redir, int stdin_fd, t_job *job)
 {
 	int	i;
 
@@ -32,7 +32,7 @@ int	check_heredoc(char **redir, int stdin_fd)
 	{
 		if (ft_strcmp(redir[i], "<<") == 0)
 		{
-			if (redir_heredoc(redir[++i], stdin_fd) == 1)
+			if (redir_heredoc(redir[++i], stdin_fd, job) == 1)
 				return (1);
 		}
 		i++;
@@ -40,7 +40,7 @@ int	check_heredoc(char **redir, int stdin_fd)
 	return (0);
 }
 
-int	redir_heredoc(char *limiter, int fd)
+int	redir_heredoc(char *limiter, int fd, t_job *job)
 {
 	int		new_fd[2];
 	pid_t	pid;
@@ -51,7 +51,7 @@ int	redir_heredoc(char *limiter, int fd)
 	pid = fork();
 	if (pid == 0)
 	{
-		free_exit();
+		free_exit(job);
 		heredoc(limiter, new_fd);
 	}
 	waitpid(pid, &wstatus, 0);
