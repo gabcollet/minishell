@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/18 16:37:27 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/19 10:59:24 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,11 @@ void	loop(void)
 {
 	char	*line;
 	t_job	*job_first;
-	char *prompt;
+	t_parser	*parser;
+	char 	*prompt;
 
 	line = NULL;
+	parser = ft_calloc(1, sizeof(t_parser));
 	while (true)
 	{
 		prompt = get_prompt();
@@ -82,7 +84,7 @@ void	loop(void)
 		if (*line)
 		{
 			add_history(line);
-			job_first = ms_parsing(line, job_first);
+			job_first = ms_parsing(line, job_first, parser);
 			free(line);
 			ms_exec(job_first);
 		}
@@ -91,12 +93,12 @@ void	loop(void)
 
 int	main(int argc, char *argv[], char **env)
 {
-	t_token	*token;
 	t_job	*job_first = NULL;
+	t_parser	*parser;
 
 	(void)argc;
+	parser =  ft_calloc(1, sizeof(t_parser));
 	init_shell();
-	token = NULL;
 	ms_init_env(env);
 	ms_init_export();
 	g_msh.ret_exit = 0;
@@ -104,7 +106,7 @@ int	main(int argc, char *argv[], char **env)
 	signal(SIGQUIT, SIG_IGN);
 	if (argv[1] && ft_strcmp(argv[1], "-c") == 0)
 	{
-		job_first = ms_parsing(argv[2], job_first);
+		job_first = ms_parsing(argv[2], job_first, parser);
 		ms_exec(job_first);
 		return (0);
 	}

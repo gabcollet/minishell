@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:55:40 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/18 16:58:19 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/19 10:56:35 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,13 @@ void	token_to_tab(t_token *token, t_job *job)
 }
 
 /*Fonction principale qui parse l'input*/
-t_job	*ms_parsing(char *line, t_job *job_first)
+t_job	*ms_parsing(char *line, t_job *job_first, t_parser *parser)
 {
 	char		*temp;
-	t_parser	*parser;
 	t_token		*first;
 	t_token		*token;
 
 	token = ms_token_newlst(NULL);
-	parser = malloc(sizeof(t_parser) * 1);
 	first = token;
 	temp = ms_trim_space(line);
 	while (!empty_str(temp))
@@ -74,14 +72,10 @@ t_job	*ms_parsing(char *line, t_job *job_first)
 		}
 	}
 	free(temp);
-	free(parser);
+	free_struct(parser);
 	if (!valid_syntax(first))
 		return (NULL);
 	token = ms_expand_tild(first);
-	token = expand_dol_sign(first);
-	token = ms_trim_quotes(first);
-	ms_head_list(first);
-	printList(first);
 	job_first = ms_job(job_first, first);
 	free_token_lst(first);
 	return (job_first);

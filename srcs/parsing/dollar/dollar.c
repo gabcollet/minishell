@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 10:41:33 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/18 16:43:02 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/19 11:08:47 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,11 @@ t_token	*expand_dol_sign(t_token *token)
 {
 	char		*temp;
 	t_token		*head;
+	t_token		*first;
 	t_dollar	*dol;
 
 	head = token;
+	first = token;
 	temp = NULL;
 	dol = ft_calloc(1, sizeof(t_dollar));
 	ms_init_dol_struct(dol);
@@ -85,6 +87,8 @@ t_token	*expand_dol_sign(t_token *token)
 		token = token->next;
 		free(temp);
 	}
+	first = ms_trim_quotes(first);
+	free_dol_struct(dol);
 	return (head);
 }
 

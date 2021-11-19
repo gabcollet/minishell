@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:58:34 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/18 17:11:29 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/19 10:31:54 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,52 +56,24 @@ int	ms_handle_quote(t_parser *parser)
 /*Trimme la sring de ses quotes et renvoie la string remalloc sans quotes*/
 t_token	*ms_trim_quotes(t_token *token)
 {
-	char	*temp;
-	char	quote;
-	int		i;
-	int		j;
-	int		check;
+	t_quote	*quote;
 
+	quote = ft_calloc(1, sizeof(t_quote));
 	while (token && token->str_tok)
 	{
 		if (token->type == STRING)
 		{
-			check = 0;
-			i = 0;
-			j = 0;
-			quote = '\0';
-			temp = ft_calloc(ft_strlen(token->str_tok) + 1, sizeof(char *));
-			while (token && token->str_tok[i])
-			{
-				if (token->str_tok[i] == quote)
-				{
-					check++;
-					i++;
-				}
-				if ((token->str_tok[i] == '\'' || token->str_tok[i] == '\"')
-					&& (check == 2 || check == 0))
-				{
-					if (check == 2)
-					{
-						quote = '\0';
-						check = 0;
-					}
-					quote = token->str_tok[i];
-				}
-				if (token->str_tok[i] == quote)
-				{
-					i++;
-					check++;
-				}
-				if (token->str_tok[i] != '\0' && token->str_tok[i] != quote)
-					temp[j++] = token->str_tok[i++];
-			}
+			ms_init_quote_struct(quote);
+			quote->temp = ft_calloc(ft_strlen(token->str_tok) + 1,
+					sizeof(char *));
+			quote_trimmer(quote, token);
 			free(token->str_tok);
-			token->str_tok = ft_strdup(temp);
-			free(temp);
+			token->str_tok = ft_strdup(quote->temp);
+			free(quote->temp);
 		}
 		token = token->next;
 	}
+	free(quote);
 	return (token);
 }
 

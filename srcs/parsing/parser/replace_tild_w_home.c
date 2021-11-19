@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:53:28 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/18 16:55:23 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/19 11:04:10 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ t_token	*ms_expand_tild(t_token *token)
 {
 	char	*temp;
 	t_token	*head;
+	t_token	*first;
 
 	head = token;
+	first = token;
 	temp = NULL;
 	while (token && token->str_tok && (token->state != KEEP_IT))
 	{
@@ -27,6 +29,7 @@ t_token	*ms_expand_tild(t_token *token)
 		token = token->next;
 		free(temp);
 	}
+	first = expand_dol_sign(first);
 	return (head);
 }
 
@@ -53,6 +56,7 @@ char	*replace_tild_w_home(char *token)
 		}
 		temp[i++] = token[index++];
 	}
+	free(home);
 	return (temp);
 }
 
