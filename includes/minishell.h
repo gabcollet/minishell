@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/18 17:12:37 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/19 10:23:18 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ char	**ms_unset_remove(char **env, char *arg);
 
 //exec.c
 void	execute(char **arg);
-void	parent_process(t_job *job);
 void	child_process(t_job *job, t_job	*first);
 int		ms_exec_builtins(t_job *job);
 void	ms_exec(t_job *job);
@@ -193,6 +192,7 @@ void	ms_set_env(char **env, char *value);
 void	free_token_lst(t_token *tok);
 void	free_struct(t_parser *parser);
 void	free_job_lst(t_job *job);
+void	free_exit(void);
 
 //parser
 t_job	*ms_parsing(char *line, t_job *first_job);
@@ -209,7 +209,6 @@ void	ms_token_addback(t_token **token, t_token *new_tok);
 int	counter_string(t_token *tok);
 t_token	*ms_head_list(t_token *token);
 
-
 //token_utils
 bool	ms_get_token(t_parser *parser, t_token *token);
 char	*ms_get_next_tok(t_parser *parser, char *temp);
@@ -223,7 +222,6 @@ void	change_state(t_parser *parser, t_token *token);
 void	change_state_2(t_parser *parser, t_token *token, int i);
 bool 	tokenize_string(t_token *token);
 
-
 //ms_quote.c
 int		ms_find_close_quote(t_parser *parser, char quote);
 int		ms_handle_quote(t_parser *parser);
@@ -232,7 +230,6 @@ char	*ms_remove_quote(char *str);
 bool	is_quote(char *tab, int i);
 bool	is_quote_next(t_parser *parser, int i);
 t_token	*ms_trim_quotes(t_token *token);
-
 
 //syntax
 t_token	*ms_check_quote(t_token *token);
@@ -248,7 +245,6 @@ void	init_shell(void);
 //main.c
 //int		main(int argc, char *argv[], char **env);
 void	loop(void);
-
 
 //dollar_sign
 char	*replace_dol_w_env(char *token, t_dollar *dol);
@@ -281,14 +277,10 @@ int		redir_counter(t_token *tok);
 
 char	*ms_get_varenv(char **env, char *arg);
 
-
-
-
 void	ms_init_dol_struct(t_dollar *dol);
 void	dol_s_quote(t_dollar *dol);
 void	dol_d_quote(t_dollar *dol);
 int		check_name_var(t_dollar *dol, int i);
 void	check_var_env(t_dollar *dol, char *temp, int i);
-
 
 #endif

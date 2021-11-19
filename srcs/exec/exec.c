@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/18 21:44:34 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/19 10:14:09 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,30 +29,7 @@ void	execute(char **cmd)
 	error(cmd[0], 0);
 }
 
-void	parent_process(t_job *job)
-{
-	g_msh.switch_signal = 1;
-	job->pid = fork();
-	if (job->pid == -1)
-		printf("Dang! This fork didn't work!");
-	if (job->pid == 0)
-	{
-		if (job->previous != NULL)
-			dup2(job->previous->fd[0], STDIN_FILENO);
-		close(job->fd[0]);
-		close(job->fd[1]);
-		signal(SIGQUIT, SIG_DFL);
-		check_redirection(job);
-		if (ms_builtins(job->cmd, 1) == 1)
-			execute(job->cmd);
-	}
-	if (job->previous != NULL)
-		close(job->previous->fd[0]);
-	close(job->fd[1]);
-	close(job->fd[0]);
-}
-
-void	child_process(t_job *job, t_job	*first)
+void	child_process(t_job *job, t_job *first)
 {
 	g_msh.switch_signal = 1;
 	job->pid = fork();
@@ -63,17 +40,26 @@ void	child_process(t_job *job, t_job	*first)
 		signal(SIGQUIT, SIG_DFL);
 		if (job->previous != NULL)
 			dup2(job->previous->fd[0], STDIN_FILENO);
-		dup2(job->fd[1], STDOUT_FILENO);
+		if (job->next != NULL)
+			dup2(job->fd[1], STDOUT_FILENO);
+		check_redirection(job);
 		close(job->fd[0]);
 		close(job->fd[1]);
-		check_redirection(job);
 		free_fd(first);
+
+		
+		/* free (g_msh.user);
+		ft_free_tab(g_msh.env);
+		ft_free_tab(g_msh.env_export);
+		rl_clear_history(); */
 		if (ms_builtins(job->cmd, 1) == 1)
 			execute(job->cmd);
 	}
 	if (job->previous != NULL)
 		close(job->previous->fd[0]);
 	close(job->fd[1]);
+	if (job->next != NULL)
+		close(job->fd[0]);
 }
 
 int	ms_exec_builtins(t_job *job)
@@ -108,13 +94,12 @@ void	ms_exec(t_job *job)
 		return ;
 	if (job->cmd)
 	{
-		while (job->next)
+		while (job)
 		{
 			child_process(job, first);
 			job = job->next;
 			first = ms_head_list_job(first);
 		}
-		parent_process(job);
 		while (first)
 		{
 			waitpid(first->pid, &status, 0);
