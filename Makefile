@@ -6,7 +6,7 @@
 #    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/11/18 14:51:06 by gcollet          ###   ########.fr        #
+#    Updated: 2021/11/18 20:59:34 by gcollet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ OBJPATH = obj/
 SRCS 	= main.c env.c free_func.c token_utils.c token_list_utils.c parser.c\
 			init.c utils.c ms_env.c ms_export.c ms_cd.c ms_echo.c ms_exit.c\
 			ms_pwd.c ms_unset.c ms_builtins.c  exec_utils.c  error.c\
-      parser_utils.c ms_quote.c  ms_job.c  ms_job_list.c\
+      		parser_utils.c ms_quote.c  ms_job.c  ms_job_list.c\
 			dollar.c exec.c exec_redir.c heredoc.c signal.c \
 			replace_tild_w_home.c syntax.c syntax_2.c dollar_utils.c replace_dol_w_env.c
 
@@ -32,7 +32,6 @@ CFLAGS 	= -g -Wall -Wextra -Werror
 
 all:	build-repo ${PROG}
 
-
 ${PROG}:	${OBJS}
 					@make re -C ./libft
 					@stty -echoctl
@@ -42,8 +41,14 @@ ${PROG}:	${OBJS}
 ${OBJPATH}%.o:%.c
 					@gcc ${CFLAGS} ${HEADER} -o $@ -c $<
 
+linux:	${OBJS}
+					@make re -C ./libft
+					@stty -echoctl
+					@$(CC) ${OBJS} -Llibft -l ft -o ${PROG} -lreadline
+					@echo "\n\033[32m\033[1mMinishell ALPHA v-1.1 Compiled!\n\033[0m"
 
-	
+norm:
+		@find . -name "*.c" -o -name "*.h" | sed s'/\.\///g' | awk '{print $$1": OK!"; system("sleep 0.03");};'
 	
 clean:
 					@make clean -C ./libft

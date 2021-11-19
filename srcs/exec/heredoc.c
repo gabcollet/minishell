@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:15:25 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/18 13:17:04 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/19 10:23:38 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ int	redir_heredoc(char *limiter, int fd)
 	pipe(new_fd);
 	pid = fork();
 	if (pid == 0)
+	{
+		free_exit();
 		heredoc(limiter, new_fd);
+	}
 	waitpid(pid, &wstatus, 0);
 	signal(SIGINT, newline);
 	if (WIFEXITED(wstatus))

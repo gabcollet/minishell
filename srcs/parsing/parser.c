@@ -84,7 +84,7 @@ t_job	*ms_parsing(char *line, t_job *job_first)
 	token = expand_dol_sign(first);
 	token = ms_trim_quotes(first);
 	ms_head_list(first);
-	printList(first);
+	/* printList(first); */
 	job_first = ms_job(job_first, first);
 	free_token_lst(first);
 	return (job_first);
