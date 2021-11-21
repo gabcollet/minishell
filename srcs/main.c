@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/19 11:46:54 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/21 16:58:56 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	main(int argc, char *argv[], char **env)
 	t_job		*job_first;
 
 	job_first = NULL;
+	g_msh.job = job_first;
 	(void)argc;
 	parser =  ft_calloc(1, sizeof(t_parser));
 	init_shell();

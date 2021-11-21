@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:55:40 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/19 14:43:38 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/21 17:26:47 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_job	*ms_parsing(char *line, t_job *job_first, t_parser *parser)
 		}
 	}
 	free(temp);
-	//free_struct(parser);
+	printList(first);//free_struct(parser);
 	if (!valid_syntax(first))
 		return (NULL);
 	token = ms_expand_tild(first);

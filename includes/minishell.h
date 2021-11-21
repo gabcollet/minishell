@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/19 14:16:58 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/21 17:00:31 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,16 @@
 # define WHITESPACE "\t\n\v\f\r "
 # define REDIRECTION "|<>"
 
+typedef struct s_job
+{
+	struct s_job	*previous;
+	char			**cmd;
+	char			**file;
+	int				fd[2];
+	pid_t			pid;
+	struct s_job	*next;
+}				t_job;
+
 typedef struct s_msh
 {
 	char	**env;
@@ -45,6 +55,7 @@ typedef struct s_msh
 	int		switch_signal;
 	int		cmd_i;
 	char	*user;
+	t_job 	*job;
 }				t_msh;
 
 typedef enum e_type
@@ -85,16 +96,6 @@ typedef struct s_parser
 
 t_msh	g_msh;
 
-typedef struct s_job
-{
-	struct s_job	*previous;
-	char			**cmd;
-	char			**file;
-	int				fd[2];
-	pid_t			pid;
-	struct s_job	*next;
-}				t_job;
-
 typedef struct s_dollar
 {
 	int		d_quote;
@@ -130,7 +131,7 @@ void	ms_env(void);
 int		ms_pwd(void);
 
 //ms_exit.c
-void	ms_exit(char **arg, t_job *job);
+void	ms_exit(char **arg);
 int		ms_check_exit_arg(char *arg);
 
 //ms_echo.c
