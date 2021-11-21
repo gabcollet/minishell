@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 11:25:46 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/21 18:11:32 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/21 18:12:57 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,5 @@ void	check_var_env(t_dollar *dol, char *temp, int i)
 			dol->str[dol->index++] = dol->var_env[j++];
 	}
 	free(dol->var_env);
+	ft_free_tab(space);
 }
