@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/19 11:18:32 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 09:28:31 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,10 @@ void	loop(void)
 			add_history(line);
 			job_first = ms_parsing(line, job_first, parser);
 			free(line);
+			ms_head_list_job(job_first);
 			ms_exec(job_first);
 		}
+		free_job_lst(job_first);
 	}
 }
 
@@ -97,6 +99,7 @@ int	main(int argc, char *argv[], char **env)
 	t_job		*job_first;
 
 	job_first = NULL;
+	g_msh.job = job_first;
 	(void)argc;
 	parser =  ft_calloc(1, sizeof(t_parser));
 	init_shell();

@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 11:25:46 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/18 16:47:43 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 10:21:56 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char	*replace_dol_w_env(char *token, t_dollar *dol)
 			else
 				check_var_env(dol, temp, index);
 			index += ft_strlen(dol->name_var) + 1;
-			free(dol->name_var);
+			if (dol->name_var)
+				free(dol->name_var);
 			continue ;
 		}
 		dol->str[dol->index++] = temp[index++];
@@ -81,14 +82,21 @@ int	check_name_var(t_dollar *dol, int i)
 
 void	check_var_env(t_dollar *dol, char *temp, int i)
 {
-	int	j;
+	int		j;
+	char **space;
 
+	j = 0;
 	dol->var_env = ms_get_dolenv(temp, i);
-	if (dol->var_env)
+	if (dol->var_env && dol->s_quote == 0 && dol->d_quote == 0)
 	{
-		j = 0;
+		space = copy_arr_tab(dol);
+		ft_free_tab(space);
+	}
+	else
+	{
 		while (dol->var_env[j])
 			dol->str[dol->index++] = dol->var_env[j++];
 	}
 	free(dol->var_env);
 }
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 10:19:58 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/19 10:23:28 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/22 09:18:45 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ms_check_exit_arg(char *arg)
 	return (0);
 }
 
-void	ms_exit(char **arg)
+void	ms_exit(char **arg, t_job *job)
 {
 	int	i;
 
@@ -57,6 +57,6 @@ void	ms_exit(char **arg)
 			return ;
 		}
 	}
-	free_exit();
+	free_exit(job);
 	exit(g_msh.ret_exit);
 }
