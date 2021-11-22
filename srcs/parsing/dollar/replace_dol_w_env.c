@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 11:25:46 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/22 10:21:56 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 13:24:22 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ char	*replace_dol_w_env(char *token, t_dollar *dol)
 	int		index;
 
 	index = 0;
-	temp = NULL;
 	temp = ft_strdup(token);
-	dol->str = ft_calloc((dollar_counter(token) + 1 + ft_strlen(token)),
-			sizeof(char*));
+	dol->str = ft_calloc((dol_c(token) + 1 + ft_strlen(token)), sizeof(char *));
 	dol->index = 0;
 	while (temp[index])
 	{
@@ -33,13 +31,9 @@ char	*replace_dol_w_env(char *token, t_dollar *dol)
 		else if (ft_strchr("$", temp[index]) && dol->s_quote == 0)
 		{
 			dol->name_var = get_arg(temp, index);
-			if (!check_dol(dol->name_var))
-				index = check_name_var(dol, index);
-			else
-				check_var_env(dol, temp, index);
+			handle_dol_var(dol, temp, index);
 			index += ft_strlen(dol->name_var) + 1;
-			if (dol->name_var)
-				free(dol->name_var);
+			ft_free(dol->name_var);
 			continue ;
 		}
 		dol->str[dol->index++] = temp[index++];
@@ -83,15 +77,11 @@ int	check_name_var(t_dollar *dol, int i)
 void	check_var_env(t_dollar *dol, char *temp, int i)
 {
 	int		j;
-	char **space;
 
 	j = 0;
 	dol->var_env = ms_get_dolenv(temp, i);
 	if (dol->var_env && dol->s_quote == 0 && dol->d_quote == 0)
-	{
-		space = copy_arr_tab(dol);
-		ft_free_tab(space);
-	}
+		copy_arr_tab(dol);
 	else
 	{
 		while (dol->var_env[j])
@@ -99,4 +89,3 @@ void	check_var_env(t_dollar *dol, char *temp, int i)
 	}
 	free(dol->var_env);
 }
-

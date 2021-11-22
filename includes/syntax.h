@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 14:52:32 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/19 15:46:35 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/22 11:41:40 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,18 @@
  unexpected token 'newline'"
 # define SYNTAX_ERROR 258
 
-
+//error.c
 void	ms_error_quote(t_parser *parser);
-bool 	is_only_space(char *str);
+bool	is_only_space(char *str);
+
+//syntax.c
 bool	valid_syntax(t_token *token);
 bool	valid_redir_l(t_token *token);
 bool	valid_redir_r(t_token *token);
 bool	valid_redir_2(t_token *token);
 bool	valid_pipe(t_token *token);
+
+//syntax_2.c
 bool	valid_here_doc(t_token	*token);
 bool	valid_append(t_token *token);
 bool	valid_append_2(t_token *token);

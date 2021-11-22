@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 10:40:08 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/18 16:47:51 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 11:05:27 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool	check_dol(char *tab)
 }
 
 /*retourne la longueur de la variable d'env*/
-int	dollar_counter(char *token)
+int	dol_c(char *token)
 {
 	int		counter;
 	char	*str;

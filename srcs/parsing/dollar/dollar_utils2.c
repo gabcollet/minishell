@@ -6,28 +6,69 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 10:23:08 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/22 10:23:09 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 13:24:06 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char **copy_arr_tab(t_dollar *dol)
+void	copy_arr_tab(t_dollar *dol)
 {
-	int	k;
-	int	j;
-	char **space;
+	int		k;
+	int		j;
+	char	**space;
 
 	k = 0;
 	j = 0;
-	space = ft_split(dol->var_env, ' ');
-	while (space[k])
+	if (is_spaces(dol->var_env))
+	{
+		space = ft_split(dol->var_env, ' ');
+		while (space[k])
+		{
+			j = 0;
+			while (space[k][j])
+				dol->str[dol->index++] = space[k][j++];
+			dol->str[dol->index++] = ' ';
+			k++;
+		}
+		ft_free_tab(space);
+	}
+	else
 	{
 		j = 0;
-		while (space[k][j])
-			dol->str[dol->index++] = space[k][j++];
-		dol->str[dol->index++] = ' ';
-		k++;
+		while (dol->var_env[j])
+			dol->str[dol->index++] = dol->var_env[j++];
 	}
-	return (space);
+}
+
+void	ft_free(char *str)
+{
+	if (str)
+		free(str);
+}
+
+void	handle_dol_var(t_dollar *dol, char *temp, int index)
+{
+	if (!check_dol(dol->name_var))
+		index = check_name_var(dol, index);
+	else
+		check_var_env(dol, temp, index);
+}
+
+bool	is_spaces(char *str)
+{
+	int	i;
+	int	spaces;
+
+	i = 0;
+	spaces = 0;
+	while (str[i])
+	{
+		if (str[i] == ' ' && str[i + 1] == ' ')
+			spaces++;
+		i++;
+	}
+	if (spaces != 0)
+		return (true);
+	return (false);
 }

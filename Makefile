@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
+#    By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/11/22 10:25:21 by jbadia           ###   ########.fr        #
+#    Updated: 2021/11/22 12:04:05 by jbadia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRCS 	= 	main.c env.c free_func.c token_utils.c token_list_utils.c parser.c\
       		parser_utils.c ms_quote.c  ms_job.c  ms_job_list.c\
 			dollar.c exec.c exec_redir.c heredoc.c signal.c \
 			replace_tild_w_home.c syntax.c syntax_2.c dollar_utils.c replace_dol_w_env.c\
-			ms_quote_utils.c dollar_utils2.c test.c
+			ms_quote_utils.c dollar_utils2.c
 
 OBJFILES = $(SRCS:.c=.o)
 OBJS 	= $(addprefix $(OBJPATH), $(OBJFILES)) 

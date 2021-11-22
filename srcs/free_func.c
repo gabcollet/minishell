@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/19 14:53:47 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 12:09:45 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ void	free_token_lst(t_token *tok)
 
 void	free_struct(t_parser *parser)
 {
-	// if (parser->str_line)
-	// 	free(parser->str_line);
 	if (parser)
 		free(parser);
 }
@@ -38,12 +36,12 @@ void	free_struct(t_parser *parser)
 void	free_job_lst(t_job *job)
 {
 	t_job	*temp;
-	
+
 	temp = NULL;
 	while (job)
 	{
 		temp = job->next;
-		if(job->cmd)
+		if (job->cmd)
 			ft_free_tab(job->cmd);
 		if (job->file)
 			ft_free_tab(job->file);
@@ -52,7 +50,7 @@ void	free_job_lst(t_job *job)
 	}
 }
 
-void free_dol_struct(t_dollar *dol)
+void	free_dol_struct(t_dollar *dol)
 {
 	if (dol)
 		free(dol);
