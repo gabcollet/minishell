@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
 /*   Updated: 2021/11/22 13:23:42 by jbadia           ###   ########.fr       */
@@ -180,6 +180,7 @@ void	ctrl_c(int var);
 void	nothing(int signal);
 void	stop_heredoc(int signal);
 void	newline(int signal);
+void	ctrl_d(char *line);
 
 //redir_parsing.c
 void	init_redir(void);
@@ -283,13 +284,18 @@ bool	is_to_expend(char *tab, int i);
 bool	is_dol_zero(char *tab, char *arg, int i, int is_dol);
 
 /*JOB*/
-//ms_job_list
+//replace_tild_w_home.c
+char	*replace_tild_w_home(char *token);
+t_token	*ms_expand_tild(t_token *token, t_parser *parser);
+int		tild_counter(char *str);
+
+//ms_job_list.c
 void	ms_job_addback(t_job **job, t_job *new_job);
 t_job	*ms_job_last(t_job *job);
 t_job	*ms_job_newlst(void);
 t_job	*ms_head_list_job(t_job *job);
 
-//ms_job
+//ms_job.c
 t_job	*ms_job(t_job *job, t_token *token);
 bool	is_redirection(t_token *token);
 t_job	*redirection_to_tab(t_token *token, t_job *job);

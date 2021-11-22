@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   replace_tild_w_home.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:53:28 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/19 11:04:10 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 11:20:32 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*ms_expand_tild(t_token *token)
+t_token	*ms_expand_tild(t_token *token, t_parser *parser)
 {
 	char	*temp;
 	t_token	*head;
@@ -21,6 +21,7 @@ t_token	*ms_expand_tild(t_token *token)
 	head = token;
 	first = token;
 	temp = NULL;
+	free(parser);
 	while (token && token->str_tok && (token->state != KEEP_IT))
 	{
 		temp = ft_strdup(token->str_tok);

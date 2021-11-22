@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:55:40 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/22 10:14:18 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 11:19:07 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,15 @@ void	token_to_tab(t_token *token, t_job *job)
 }
 
 /*Fonction principale qui parse l'input*/
-t_job	*ms_parsing(char *line, t_job *job_first, t_parser *parser)
+t_job	*ms_parsing(char *line, t_job *job_first)
 {
 	char		*temp;
 	t_token		*first;
 	t_token		*token;
+	t_parser	*parser;
 
 	token = ms_token_newlst(NULL);
+	parser = ft_calloc(1, sizeof(t_parser));
 	first = token;
 	temp = ms_trim_space(line);
 	while (!empty_str(temp))
@@ -74,7 +76,7 @@ t_job	*ms_parsing(char *line, t_job *job_first, t_parser *parser)
 	free(temp);
 	if (!valid_syntax(first))
 		return (NULL);
-	token = ms_expand_tild(first);
+	token = ms_expand_tild(first, parser);
 	ms_head_list(first);
 	return (ms_job(job_first, first));
 }

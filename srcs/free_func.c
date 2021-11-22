@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   free_func.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
 /*   Updated: 2021/11/22 12:09:45 by jbadia           ###   ########.fr       */
