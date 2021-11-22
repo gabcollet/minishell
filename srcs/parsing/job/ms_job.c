@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:48:56 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/19 14:43:45 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 10:02:57 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ t_job	*ms_job(t_job *job, t_token *token)
 		}
 		token = token->next;
 	}
-	ms_head_list_job(job);
-	return (job);
+	//ms_head_list_job(job);
+	free_token_lst(ms_head_list(token));
+	return (ms_head_list_job(job));
 }
 
 /*Enregistre les redirections et leur fichier 
@@ -55,7 +56,7 @@ t_job	*redirection_to_tab(t_token *token, t_job *job)
 	if (!job->file)
 	{
 		counter = redir_counter(token);
-		job->file = ft_calloc((counter * 2) + 2, sizeof(char *));
+		job->file = ft_calloc((counter * 2) + 1, sizeof(char *));
 	}
 	i = 0;
 	while (job->file[i])

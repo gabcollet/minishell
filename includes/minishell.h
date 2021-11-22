@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/21 17:00:31 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 10:21:00 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void	ms_env(void);
 int		ms_pwd(void);
 
 //ms_exit.c
-void	ms_exit(char **arg);
+void	ms_exit(char **arg, t_job *job);
 int		ms_check_exit_arg(char *arg);
 
 //ms_echo.c
@@ -263,6 +263,7 @@ t_token	*expand_dol_sign(t_token *token);
 bool	dol_solo(char *str);
 bool	is_to_expend(char *tab, int i);
 bool	is_dol_zero(char *tab, char *arg, int i, int is_dol);
+char 	**copy_arr_tab(t_dollar *dol);
 
 //replace_tild_w_home
 char	*replace_tild_w_home(char *token);

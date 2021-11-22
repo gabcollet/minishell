@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_dol_w_env.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 11:25:46 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/21 18:12:57 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 10:21:56 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,31 +83,20 @@ int	check_name_var(t_dollar *dol, int i)
 void	check_var_env(t_dollar *dol, char *temp, int i)
 {
 	int		j;
-	int 	k;
-	char	**space;
+	char **space;
 
 	j = 0;
-	k = 0;
-	space = NULL;
 	dol->var_env = ms_get_dolenv(temp, i);
 	if (dol->var_env && dol->s_quote == 0 && dol->d_quote == 0)
 	{
-		space = ft_split(dol->var_env, ' ');
-		while (space[k])
-		{
-			j = 0;
-			while (space[k][j])
-				dol->str[dol->index++] = space[k][j++];
-			dol->str[dol->index++] = ' ';
-			k++;
-		}
+		space = copy_arr_tab(dol);
+		ft_free_tab(space);
 	}
-	//if (dol->var_env)
 	else
 	{
 		while (dol->var_env[j])
 			dol->str[dol->index++] = dol->var_env[j++];
 	}
 	free(dol->var_env);
-	ft_free_tab(space);
 }
+

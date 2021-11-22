@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:15:25 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/19 14:15:37 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 10:12:54 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_heredoc(char **redir, int stdin_fd, t_job *job)
 	{
 		if (ft_strcmp(redir[i], "<<") == 0)
 		{
-			if (redir_heredoc(redir[++i], stdin_fd, job) == 1)
+			if (redir_heredoc(redir[i + 1], stdin_fd, job) == 1)
 				return (1);
 		}
 		i++;
@@ -51,8 +51,8 @@ int	redir_heredoc(char *limiter, int fd, t_job *job)
 	pid = fork();
 	if (pid == 0)
 	{
-		free_exit(job);
 		heredoc(limiter, new_fd);
+		free_exit(job);
 	}
 	waitpid(pid, &wstatus, 0);
 	signal(SIGINT, newline);

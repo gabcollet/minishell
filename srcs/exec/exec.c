@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/19 14:55:52 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 10:14:04 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ void	child_process(t_job *job, t_job *first)
 	if (job->previous != NULL)
 		close(job->previous->fd[0]);
 	close(job->fd[1]);
-	/* if (job->next != NULL)
-		close(job->fd[0]); */
 }
 
 int	ms_exec_builtins(t_job *job)
