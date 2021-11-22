@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/22 11:20:18 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/22 13:23:42 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_msh
 	int		switch_signal;
 	int		cmd_i;
 	char	*user;
-	t_job 	*job;
+	t_job	*job;
 }				t_msh;
 
 typedef enum e_type
@@ -106,15 +106,16 @@ typedef struct s_dollar
 	char	*var_env;
 }				t_dollar;
 
-typedef	struct s_quote
+typedef struct s_quote
 {
-	char quote;
+	char	quote;
 	char	*temp;
-	int	i;
-	int	j;
-	int	check;
+	int		i;
+	int		j;
+	int		check;
 }				t_quote;
 
+void	loop(void);
 
 //ms_builtins.c
 int		check_builtins(char **arg);
@@ -196,51 +197,14 @@ size_t	ms_line_counter(char **env);
 char	*ms_get_path(void);
 char	*ms_get_env(char **env, char *arg);
 void	ms_set_env(char **env, char *value);
+char	*ms_get_varenv(char **env, char *arg);
 
 //free_func.c
 void	free_token_lst(t_token *tok);
 void	free_struct(t_parser *parser);
 void	free_job_lst(t_job *job);
-void 	free_dol_struct(t_dollar *dol);
+void	free_dol_struct(t_dollar *dol);
 void	free_exit(t_job *job);
-
-//parser
-t_job	*ms_parsing(char *line, t_job *first_job);
-bool	empty_str(char *str);
-void	printList(t_token *tok);
-char	*ms_trim_space(char *str);
-void	token_to_tab(t_token *token, t_job *job);
-
-//token_lst_utils
-t_token	*ms_token_last(t_token	*token);
-t_token	*ms_token_newlst(void	*token);
-void	ms_token_addback(t_token **token, t_token *new_tok);
-int		counter_string(t_token *tok);
-t_token	*ms_head_list(t_token *token);
-
-//token_utils
-bool	ms_get_token(t_parser *parser, t_token *token);
-char	*ms_get_next_tok(t_parser *parser, char *temp);
-t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token);
-bool	tokenize_string(t_token *token);
-void	ft_free_struct(t_msh *g_msh);
-
-//parser_utils
-bool	tokenize_redir(t_parser *parser, t_token *token);
-void	change_state(t_parser *parser, t_token *token);
-void	change_state_2(t_parser *parser, t_token *token, int i);
-bool	tokenize_string(t_token *token);
-
-//ms_quote.c
-int		ms_find_close_quote(t_parser *parser, char quote);
-int		ms_handle_quote(t_parser *parser);
-int		quote_counter(t_parser *parser, char quote);
-bool	is_quote(char *tab, int i);
-t_token	*ms_trim_quotes(t_token *token);
-
-//syntax
-t_token	*ms_check_quote(t_token *token);
-void	ms_check_syntax(t_token *token);
 
 //init.c
 void	check_shlvl(void);
@@ -249,23 +213,77 @@ void	ms_init_env(char **env);
 void	ms_init_export(void);
 void	init_shell(void);
 
-//main.c
-//int		main(int argc, char *argv[], char **env);
-void	loop(void);
+/*PARSER*/
+//parser.c
+void	token_to_tab(t_token *token, t_job *job);
+int		counter_string(t_token *tok);
+t_job	*ms_parsing(char *line, t_job *first_job, t_parser *parser);
+bool	empty_str(char *str);
+char	*ms_trim_space(char *str);
 
-//dollar_sign
+//parser_utils.c
+bool	tokenize_redir(t_parser *parser, t_token *token);
+void	change_state(t_parser *parser, t_token *token);
+void	change_state_2(t_parser *parser, t_token *token, int i);
+bool	tokenize_string(t_token *token);
+
+//ms_quote.c
+int		ms_find_close_quote(t_parser *parser, char quote);
+int		ms_handle_quote(t_parser *parser);
+bool	is_quote(char *tab, int i);
+t_token	*ms_trim_quotes(t_token *token);
+
+//ms_quote_utils
+void	ms_init_quote_struct(t_quote *quote);
+void	quote_updater(t_quote *quote);
+void	quote_trimmer(t_quote *quote, t_token *token);
+
+//replace_tild_w_home
+char	*replace_tild_w_home(char *token);
+t_token	*ms_expand_tild(t_token *token);
+int		tild_counter(char *str);
+
+/*TOKENS*/
+//token_lst_utils.c
+t_token	*ms_token_last(t_token	*token);
+t_token	*ms_token_newlst(void	*token);
+void	ms_token_addback(t_token **token, t_token *new_tok);
+t_token	*ms_head_list(t_token *token);
+
+//token_utils
+bool	ms_get_token(t_parser *parser, t_token *token);
+char	*ms_get_next_tok(t_parser *parser, char *temp);
+t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token);
+
+/*DOLLAR*/
+//replace_dol_w_env.c
 char	*replace_dol_w_env(char *token, t_dollar *dol);
+void	dol_s_quote(t_dollar *dol);
+void	dol_d_quote(t_dollar *dol);
+int		check_name_var(t_dollar *dol, int i);
+void	check_var_env(t_dollar *dol, char *temp, int i);
+
+//dollar_utils.c
 bool	is_dolsign(char *str);
+int		dol_c(char *token);
+bool	check_dol(char *tab);
+void	ms_init_dol_struct(t_dollar *dol);
+bool	dol_solo(char *str);
+
+//dolars_utils2.c
+void	copy_arr_tab(t_dollar *dol);
+void	handle_dol_var(t_dollar *dol, char *temp, int index);
+void	ft_free(char *str);
+bool	is_spaces(char *str);
+
+//dollar.c
+t_token	*expand_dol_sign(t_token *token);
 char	*ms_get_dolenv(char *tab, int i);
 char	*get_arg(char *tab, int i);
-int		dollar_counter(char *token);
-bool	check_dol(char *tab);
-t_token	*expand_dol_sign(t_token *token);
-bool	dol_solo(char *str);
 bool	is_to_expend(char *tab, int i);
 bool	is_dol_zero(char *tab, char *arg, int i, int is_dol);
-char 	**copy_arr_tab(t_dollar *dol);
 
+/*JOB*/
 //replace_tild_w_home.c
 char	*replace_tild_w_home(char *token);
 t_token	*ms_expand_tild(t_token *token, t_parser *parser);
@@ -282,20 +300,5 @@ t_job	*ms_job(t_job *job, t_token *token);
 bool	is_redirection(t_token *token);
 t_job	*redirection_to_tab(t_token *token, t_job *job);
 int		redir_counter(t_token *tok);
-
-char	*ms_get_varenv(char **env, char *arg);
-
-
-void	ms_init_dol_struct(t_dollar *dol);
-void	dol_s_quote(t_dollar *dol);
-void	dol_d_quote(t_dollar *dol);
-int		check_name_var(t_dollar *dol, int i);
-void	check_var_env(t_dollar *dol, char *temp, int i);
-
-//ms_quote_utils.c
-void	ms_init_quote_struct(t_quote *quote);
-void	quote_updater(t_quote *quote);
-void	quote_trimmer(t_quote *quote, t_token *token);
-
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 10:41:33 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/22 10:22:54 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 12:08:05 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	*ms_get_dolenv(char *tab, int i)
 	if (arg[i] == '?')
 	{
 		temp = ft_itoa(g_msh.ret_exit);
+		free(arg);
 		return (temp);
 	}
 	if (!check_dol(arg))

@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:48:56 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/22 10:02:57 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 10:40:50 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ t_job	*ms_job(t_job *job, t_token *token)
 		}
 		token = token->next;
 	}
-	//ms_head_list_job(job);
 	free_token_lst(ms_head_list(token));
 	return (ms_head_list_job(job));
 }
