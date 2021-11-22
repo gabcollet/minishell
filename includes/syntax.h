@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 14:52:32 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/19 11:30:16 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/19 15:46:35 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,7 @@
 
 
 void	ms_error_quote(t_parser *parser);
-bool	is_only_space(char *str);
-
-//syntax
+bool 	is_only_space(char *str);
 bool	valid_syntax(t_token *token);
 bool	valid_redir_l(t_token *token);
 bool	valid_redir_r(t_token *token);
