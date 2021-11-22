@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/22 10:21:00 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 10:58:48 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ void	ctrl_c(int var);
 void	nothing(int signal);
 void	stop_heredoc(int signal);
 void	newline(int signal);
+void	ctrl_d(char *line);
 
 //redir_parsing.c
 void	init_redir(void);
@@ -204,7 +205,7 @@ void 	free_dol_struct(t_dollar *dol);
 void	free_exit(t_job *job);
 
 //parser
-t_job	*ms_parsing(char *line, t_job *first_job, t_parser *parser);
+t_job	*ms_parsing(char *line, t_job *first_job);
 bool	empty_str(char *str);
 void	printList(t_token *tok);
 char	*ms_trim_space(char *str);
@@ -265,18 +266,18 @@ bool	is_to_expend(char *tab, int i);
 bool	is_dol_zero(char *tab, char *arg, int i, int is_dol);
 char 	**copy_arr_tab(t_dollar *dol);
 
-//replace_tild_w_home
+//replace_tild_w_home.c
 char	*replace_tild_w_home(char *token);
 t_token	*ms_expand_tild(t_token *token);
 int		tild_counter(char *str);
 
-//ms_job_list
+//ms_job_list.c
 void	ms_job_addback(t_job **job, t_job *new_job);
 t_job	*ms_job_last(t_job *job);
 t_job	*ms_job_newlst(void);
 t_job	*ms_head_list_job(t_job *job);
 
-//ms_job
+//ms_job.c
 t_job	*ms_job(t_job *job, t_token *token);
 bool	is_redirection(t_token *token);
 t_job	*redirection_to_tab(t_token *token, t_job *job);
@@ -284,13 +285,14 @@ int		redir_counter(t_token *tok);
 
 char	*ms_get_varenv(char **env, char *arg);
 
+
 void	ms_init_dol_struct(t_dollar *dol);
 void	dol_s_quote(t_dollar *dol);
 void	dol_d_quote(t_dollar *dol);
 int		check_name_var(t_dollar *dol, int i);
 void	check_var_env(t_dollar *dol, char *temp, int i);
 
-//ms_quote_utils
+//ms_quote_utils.c
 void	ms_init_quote_struct(t_quote *quote);
 void	quote_updater(t_quote *quote);
 void	quote_trimmer(t_quote *quote, t_token *token);
