@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/22 10:58:48 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/22 11:20:18 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,7 +268,7 @@ char 	**copy_arr_tab(t_dollar *dol);
 
 //replace_tild_w_home.c
 char	*replace_tild_w_home(char *token);
-t_token	*ms_expand_tild(t_token *token);
+t_token	*ms_expand_tild(t_token *token, t_parser *parser);
 int		tild_counter(char *str);
 
 //ms_job_list.c
