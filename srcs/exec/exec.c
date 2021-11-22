@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/22 10:14:04 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 13:46:51 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ms_exec_builtins(t_job *job)
 
 	saved_stdin = dup(0);
 	saved_stdout = dup(1);
-	if (job->next == NULL)
+	if (job && job->next == NULL)
 	{
 		if (check_builtins(job->cmd) == 1)
 			return (0);
@@ -84,7 +84,7 @@ void	ms_exec(t_job *job)
 	init_pipe(first);
 	if (make_heredocs(job) == 1 || ms_exec_builtins(job) == 1)
 		return ;
-	if (job->cmd)
+	if (job && job->cmd)
 	{
 		while (job)
 		{

@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/22 13:34:24 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 15:01:15 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,7 +272,7 @@ bool	dol_solo(char *str);
 
 //dolars_utils2.c
 void	copy_arr_tab(t_dollar *dol);
-void	handle_dol_var(t_dollar *dol, char *temp, int index);
+int		handle_dol_var(t_dollar *dol, char *temp, int index);
 void	ft_free(char *str);
 bool	is_spaces(char *str);
 

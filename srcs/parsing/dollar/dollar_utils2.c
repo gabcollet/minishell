@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 10:23:08 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/22 13:24:06 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 15:02:43 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,13 @@ void	ft_free(char *str)
 		free(str);
 }
 
-void	handle_dol_var(t_dollar *dol, char *temp, int index)
+int	handle_dol_var(t_dollar *dol, char *temp, int index)
 {
 	if (!check_dol(dol->name_var))
 		index = check_name_var(dol, index);
 	else
 		check_var_env(dol, temp, index);
+	return (index);
 }
 
 bool	is_spaces(char *str)
