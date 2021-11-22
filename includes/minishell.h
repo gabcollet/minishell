@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/22 13:23:42 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 13:34:24 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ void	init_shell(void);
 //parser.c
 void	token_to_tab(t_token *token, t_job *job);
 int		counter_string(t_token *tok);
-t_job	*ms_parsing(char *line, t_job *first_job, t_parser *parser);
+t_job	*ms_parsing(char *line, t_job *first_job);
 bool	empty_str(char *str);
 char	*ms_trim_space(char *str);
 
@@ -240,7 +240,7 @@ void	quote_trimmer(t_quote *quote, t_token *token);
 
 //replace_tild_w_home
 char	*replace_tild_w_home(char *token);
-t_token	*ms_expand_tild(t_token *token);
+t_token	*ms_expand_tild(t_token *token, t_parser *parser);
 int		tild_counter(char *str);
 
 /*TOKENS*/
