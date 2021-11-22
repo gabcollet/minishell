@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:55:40 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/22 10:48:16 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/22 11:19:07 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_job	*ms_parsing(char *line, t_job *job_first)
 	free(temp);
 	if (!valid_syntax(first))
 		return (NULL);
-	token = ms_expand_tild(first);
+	token = ms_expand_tild(first, parser);
 	ms_head_list(first);
 	return (ms_job(job_first, first));
 }
