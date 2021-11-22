@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/12 14:50:24 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/22 10:53:04 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,10 @@ void	newline(int signal)
 	rl_replace_line("", 0);
 	rl_redisplay();
 	g_msh.ret_exit = 130;
+}
+
+void	ctrl_d(char *line)
+{
+	free(line);
+	exit(0);
 }

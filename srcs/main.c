@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/22 09:28:31 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 11:01:04 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,27 +64,22 @@ void	loop(void)
 {
 	char	*line;
 	t_job	*job_first;
-	t_parser	*parser;
-	char 	*prompt;
+	char	*prompt;
 
 	line = NULL;
-	parser = ft_calloc(1, sizeof(t_parser));
 	while (true)
 	{
 		prompt = get_prompt();
 		line = readline(prompt);
 		free(prompt);
 		if (!line)
-		{
-			free(line);
-			exit(0);
-		}
+			ctrl_d(line);
 		if (is_only_space(line))
 			continue ;
 		if (*line)
 		{
 			add_history(line);
-			job_first = ms_parsing(line, job_first, parser);
+			job_first = ms_parsing(line, job_first);
 			free(line);
 			ms_head_list_job(job_first);
 			ms_exec(job_first);
@@ -95,13 +90,11 @@ void	loop(void)
 
 int	main(int argc, char *argv[], char **env)
 {
-	t_parser	*parser;
 	t_job		*job_first;
 
 	job_first = NULL;
 	g_msh.job = job_first;
 	(void)argc;
-	parser =  ft_calloc(1, sizeof(t_parser));
 	init_shell();
 	ms_init_env(env);
 	ms_init_export();
@@ -110,7 +103,7 @@ int	main(int argc, char *argv[], char **env)
 	signal(SIGQUIT, SIG_IGN);
 	if (argv[1] && ft_strcmp(argv[1], "-c") == 0)
 	{
-		job_first = ms_parsing(argv[2], job_first, parser);
+		job_first = ms_parsing(argv[2], job_first);
 		ms_exec(job_first);
 		return (0);
 	}
