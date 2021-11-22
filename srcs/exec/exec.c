@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/22 13:46:51 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/22 16:07:29 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	child_process(t_job *job, t_job *first)
 		close(job->fd[0]);
 		close(job->fd[1]);
 		free_fd(first);
-		if (ms_builtins(job->cmd, 1, job) == 1)
+		if (job->cmd && ms_builtins(job->cmd, 1, job) == 1)
 			execute(job->cmd);
 	}
 	if (job->previous != NULL)
@@ -63,7 +63,7 @@ int	ms_exec_builtins(t_job *job)
 	saved_stdout = dup(1);
 	if (job && job->next == NULL)
 	{
-		if (check_builtins(job->cmd) == 1)
+		if (job->cmd && check_builtins(job->cmd) == 1)
 			return (0);
 		check_redirection(job);
 		if (ms_builtins(job->cmd, 0, job) == 0)
