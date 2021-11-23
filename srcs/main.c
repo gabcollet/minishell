@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/22 11:01:04 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/23 14:14:09 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*getcwd_dir(void)
 
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		return (ft_strdup(""));
-	home = ms_get_env(g_msh.env, "HOME=") + 5;
+	home = ms_get_env(g_msh.env, "HOME") + 5;
 	if (home - 5 && ft_strnstr(cwd, home, ft_strlen(home)))
 	{
 		if (home[ft_strlen(home) - 1] == '/')

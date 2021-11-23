@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:53:28 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/22 11:20:32 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/23 15:09:18 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char	*replace_tild_w_home(char *token)
 	index = 0;
 	i = 0;
 	home = ms_get_varenv(g_msh.env, "HOME");
+	if (home == NULL)
+		home = ft_strdup("~");
 	temp = ft_calloc(tild_counter(token) * ft_strlen(home) + 1, sizeof(char));
 	while (token[index])
 	{

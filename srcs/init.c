@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 14:05:15 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/16 16:48:17 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/23 14:14:40 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	check_shlvl(void)
 	int		num;
 	char	**arg;
 
-	var = ms_get_env(g_msh.env, "SHLVL=");
+	var = ms_get_env(g_msh.env, "SHLVL");
 	if (var == NULL)
 	{
 		g_msh.env = ms_matrix_add_line(g_msh.env, "SHLVL=1");
