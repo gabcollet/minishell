@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:34:34 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/17 11:26:32 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/23 14:14:48 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ms_cd(char *arg)
 
 	if (arg == NULL)
 	{
-		arg = ms_get_env(g_msh.env, "HOME=") + 5;
+		arg = ms_get_env(g_msh.env, "HOME") + 5;
 		if ((arg - 5) == NULL)
 		{
 			printf("cd: HOME not set\n");

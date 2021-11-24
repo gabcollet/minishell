@@ -30,7 +30,7 @@ void	error(char *arg, int i)
 	exit (127);
 }
 
-int	open_file(char *argv, int i)
+int	open_file(char *argv, int i, int quit)
 {
 	int	file;
 
@@ -47,7 +47,8 @@ int	open_file(char *argv, int i)
 			printf("minishell: %s Is a directory\n", argv);
 		else
 			printf("minishell: no such file or directory: %s\n", argv);
-		exit(1);
+		if (quit == 0)
+			exit(1);
 	}
 	return (file);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/22 15:01:15 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/24 11:47:03 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,13 +159,13 @@ void	ms_exec(t_job *job);
 
 //exec_utils.c
 void	error(char *arg, int i);
-int		open_file(char *argv, int i);
+int		open_file(char *argv, int i, int quit);
 int		find_path_env(void);
 char	*find_path(char *cmd);
 void	free_fd(t_job *first);
 
 //exec_redir.c
-void	check_redirection(t_job *job);
+int		check_redirection(t_job *job, int quit);
 void	restore_fd(int saved_stdin, int saved_stdout);
 
 //heredoc.c

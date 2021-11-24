@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/22 16:07:29 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/24 11:45:51 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	child_process(t_job *job, t_job *first)
 			dup2(job->previous->fd[0], STDIN_FILENO);
 		if (job->next != NULL)
 			dup2(job->fd[1], STDOUT_FILENO);
-		check_redirection(job);
+		check_redirection(job, 0);
 		close(job->fd[0]);
 		close(job->fd[1]);
 		free_fd(first);
@@ -65,7 +65,8 @@ int	ms_exec_builtins(t_job *job)
 	{
 		if (job->cmd && check_builtins(job->cmd) == 1)
 			return (0);
-		check_redirection(job);
+		if (check_redirection(job, 1) == 1)
+			return (1);
 		if (ms_builtins(job->cmd, 0, job) == 0)
 		{
 			restore_fd(saved_stdin, saved_stdout);
