@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:16:55 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/22 13:51:33 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/24 10:43:15 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,11 @@ bool	valid_append_2(t_token *token)
 		return (false);
 	}
 	return (true);
+}
+
+void	pipe_first(t_token *token)
+{
+	g_msh.ret_exit = SYNTAX_ERROR;
+	ft_putendl_fd(ERR_UNEX_PIPE, 2);
+	free_token_lst(token);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:05:06 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/22 13:50:17 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/24 10:42:50 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ bool	valid_syntax(t_token *token)
 	t_token	*head;
 
 	head = token;
+	if (token->type == PIPE)
+	{
+		pipe_first(token);
+		return (false);
+	}
 	while (token && token->next)
 	{
 		if (token->type == STRING)
@@ -107,7 +112,7 @@ bool	valid_pipe(t_token *token)
 {
 	if (token->type != PIPE)
 		return (false);
-	if (!token->next->next)
+	if (!token->next)
 	{
 		ft_putendl_fd(ERR_UNEX_PIPE, 2);
 		return (false);
@@ -117,7 +122,7 @@ bool	valid_pipe(t_token *token)
 		ft_putendl_fd(ERR_UNEX_PIPE, 2);
 		return (false);
 	}
-	if (token->next->type == STRING || is_redirection(token->next))
+	else if (token->next->type == STRING || is_redirection(token->next))
 		return (true);
 	else if (!token->next->next)
 	{
