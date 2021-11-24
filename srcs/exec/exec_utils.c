@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 11:37:01 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/18 21:16:23 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/24 11:42:34 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	error(char *arg, int i)
 	exit (127);
 }
 
-int	open_file(char *argv, int i)
+int	open_file(char *argv, int i, int quit)
 {
 	int	file;
 
@@ -47,7 +47,8 @@ int	open_file(char *argv, int i)
 			printf("minishell: %s Is a directory\n", argv);
 		else
 			printf("minishell: no such file or directory: %s\n", argv);
-		exit(1);
+		if (quit == 0)
+			exit(1);
 	}
 	return (file);
 }
