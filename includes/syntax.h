@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 14:52:32 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/24 10:43:11 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/25 14:03:31 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ bool	valid_pipe(t_token *token);
 bool	valid_here_doc(t_token	*token);
 bool	valid_append(t_token *token);
 bool	valid_append_2(t_token *token);
-void 	pipe_first(t_token *token);
+void	pipe_first(t_token *token);
+void	exit_syntax(t_token *token);
 
 #endif

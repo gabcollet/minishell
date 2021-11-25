@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_builtins.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 16:09:22 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/22 16:07:08 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/25 13:52:19 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,6 @@ int	ms_builtins(char **arg, int i, t_job *job)
 			ms_env();
 		else if (ft_strcmp(arg[0], "exit") == 0)
 			ms_exit(arg + 1, job);
-		else if (ft_strcmp(arg[0], "mafortin") == 0)
-		{
-			printf("\e[91mThis is a very illegal function! (•̀o•́)ง\n");
-			exit(69);
-		}
 		else
 			return (1);
 	}

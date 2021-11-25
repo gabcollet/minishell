@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:05:06 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/24 10:42:50 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/25 14:03:48 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,28 @@
 pour les pipes et le redir. Retourne vrai si la syntaxe et correcte.
 Si problème de syntaxe, donne à ret_exit la valeur 258, free la liste
 et retourne faux.*/
-bool	valid_syntax(t_token *token)
+bool	valid_syntax(t_token *t)
 {
 	t_token	*head;
 
-	head = token;
-	if (token->type == PIPE)
+	head = t;
+	if (t->type == PIPE)
 	{
-		pipe_first(token);
+		pipe_first(t);
 		return (false);
 	}
-	while (token && token->next)
+	while (t && t->next)
 	{
-		if (token->type == STRING)
-			token = token->next;
-		else if (token->type != STRING)
+		if (t->type == STRING)
+			t = t->next;
+		else if (t->type != STRING)
 		{
-			if (valid_redir_r(token) || valid_redir_l(token)
-				|| valid_pipe(token) || valid_here_doc(token)
-				|| valid_append(token))
-				token = token->next;
+			if (valid_redir_r(t) || valid_redir_l(t) || valid_pipe(t)
+				|| valid_here_doc(t) || valid_append(t))
+				t = t->next;
 			else
 			{
-				g_msh.ret_exit = SYNTAX_ERROR;
-				free_token_lst(head);
+				exit_syntax(head);
 				return (false);
 			}
 		}
