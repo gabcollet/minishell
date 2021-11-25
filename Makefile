@@ -3,12 +3,20 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+         #
+#    By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/11/22 12:04:05 by jbadia           ###   ########.fr        #
+#    Updated: 2021/11/25 12:17:32 by jbadia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+CWHITEBG  = \033[47m
+CBLUE2   = \033[34m
+CEND      = \033[0m
+CBOLD     = \033[1m
+CYELLOW = \033[33m
+COLOR = $(CBLUE2)$(CBOLD)
+TALK = $(CBOLD) $(CYELLOW)
 
 PROG	= minishell
 
@@ -34,6 +42,41 @@ CC 		= gcc
 CFLAGS 	= -g -Wall -Wextra -Werror
 
 all:	build-repo ${PROG}
+
+	@echo "$(COLOR)	             xxxxx"
+	@echo "                  xXXXXXXXXXx"
+	@echo "                 XXXXXXXXXXXXX"
+	@echo "                xXXXXXXXX  XXXx"
+	@echo "                XXXXXXXXX 0XXXX___"
+	@echo "               xXXXXXXXXXxxXXXX____\\   $(TALK) MINISHELL COMPILED$(CEND)$(COLOR)	"
+	@echo "               XXXXXXXXXXXXXXXX____/"
+	@echo "               XXXXXXXXXXXXXXXXX"
+	@echo "               XXXXX|\XXX/|XXXXX"
+	@echo "               XXXXX| \-/ |XXXXX"
+	@echo "              xXXXXX| [ ] |XXXXXx"
+	@echo "            xXXXX   | /-\ |   XXXXx"
+	@echo "         xXXXXX     |/   \|     XXXXXx"
+	@echo "       xXXXXXX                   XXXXXXx"
+	@echo "      xXXXXXXX                   XXXXXXXx"
+	@echo "     xXXXXXXXX                   XXXXXXXXx"
+	@echo "    xXXXXXXXXX                   XXXXXXXXXx"
+	@echo "   xXXXXXXXXXX                   XXXXXXXXXXx"
+	@echo "  xXXXXXXXXXXX                   XXXXXXXXXXXx"
+	@echo " xXXXXXXXX XXX                   XXX XXXXXXXXx"
+	@echo " XXXXXXXX  XXX                   XXX  XXXXXXXX"
+	@echo "xXXXXXXX   XXX                   XXX   XXXXXXXx"
+	@echo "XXXXXX     XXX                   XXX     XXXXXX"
+	@echo "XXXX       XXX                   XXX       XXXX"
+	@echo " XX        XXX                   XXX        XX"
+	@echo "           XXX                   XXX"
+	@echo "           XXX                   XXX"
+	@echo "           XXX                   XXX"
+	@echo "           XXX                   XXX"
+	@echo "           XXXx                 xXXX"
+	@echo "           XXXXXXXXXXXXXXXXXXXXXXXXX"
+	@echo "           XXXXXXX           XXXXXXX"
+	@echo "       ____XXXXXX             XXXXXX____"
+	@echo "      /________/               \________\\ $(CEND)"
 
 ${PROG}:	${OBJS}
 					@make re -C ./libft
