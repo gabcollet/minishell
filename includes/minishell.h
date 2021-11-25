@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/24 11:47:03 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/25 16:18:07 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	set_pwd(char *arg, char	*c);
 int		ms_cd(char *arg);
 
 //ms_env.c
-void	ms_env(void);
+int		ms_env(void);
 
 //ms_pwd.c
 int		ms_pwd(void);

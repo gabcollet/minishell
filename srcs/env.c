@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/23 14:21:04 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/25 16:12:52 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	*ms_get_env(char **env, char *arg)
 			i++;
 		ft_free_tab(split);
 	}
+	ft_free_tab(split);
 	if (env[i] == NULL)
 		return (NULL);
 	return (env[i]);
@@ -74,10 +75,10 @@ void	ms_set_env(char **env, char *value)
 		split = ft_split(env[i], '=');
 		if (ft_strcmp(split[0], arg[0]) == 0)
 			break ;
-		else
-			i++;
+		i++;
 		ft_free_tab(split);
 	}
+	ft_free_tab(split);
 	if (env[i] == NULL)
 	{
 		g_msh.env = ms_matrix_add_line(env, value);
