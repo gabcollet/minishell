@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/23 14:14:09 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/26 10:55:15 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,6 @@ int	main(int argc, char *argv[], char **env)
 		return (0);
 	}
 	loop();
+	free_exit(job_first);
+	return (g_msh.ret_exit);
 }

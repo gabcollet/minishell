@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/22 10:53:04 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/26 10:55:06 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,9 @@ void	newline(int signal)
 void	ctrl_d(char *line)
 {
 	free(line);
+	free (g_msh.user);
+	ft_free_tab(g_msh.env);
+	ft_free_tab(g_msh.env_export);
+	rl_clear_history();
 	exit(0);
 }

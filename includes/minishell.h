@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/25 16:18:07 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/26 10:54:59 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ typedef struct s_quote
 
 void	loop(void);
 
+/* BUILTINS */
 //ms_builtins.c
 int		check_builtins(char **arg);
 int		ms_builtins(char **arg, int i, t_job *job);
