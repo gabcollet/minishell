@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/26 14:32:45 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/26 15:39:23 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	child_process(t_job *job, t_job *first)
 		close(job->fd[0]);
 		close(job->fd[1]);
 		free_fd(first);
-		if (job->cmd && ms_builtins(job->cmd, 1, job) == 1)
+		if (job->cmd && ms_builtins(job->cmd, 1, first) == 1)
 			execute(job->cmd, first);
 	}
 	if (job->previous != NULL)

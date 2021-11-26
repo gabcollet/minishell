@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/26 14:41:29 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/26 15:14:10 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,7 @@ size_t	ms_line_counter(char **env);
 char	*ms_get_path(void);
 char	*ms_get_env(char **env, char *arg);
 void	ms_set_env(char **env, char *value);
+int		env_compare(char **env, char **arg, int i);
 char	*ms_get_varenv(char **env, char *arg);
 
 //free_func.c
