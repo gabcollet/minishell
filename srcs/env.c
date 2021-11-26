@@ -61,6 +61,24 @@ char	*ms_get_varenv(char **env, char *arg)
 	return (var_env);
 }
 
+int	env_compare(char **env, char **arg, int i)
+{
+	char	**split;
+
+	while (env[i])
+	{
+		split = ft_split(env[i], '=');
+		if (ft_strcmp(split[0], arg[0]) == 0)
+		{
+			ft_free_tab(split);
+			break ;
+		}
+		i++;
+		ft_free_tab(split);
+	}
+	return (i);
+}
+
 /* Remplace une ligne dans env par le nouveau contenue. Si la ligne n'existe
 pas en cree une nouvelle. Arg devrait etre ex: HOME= et new content devrait 
 etre ce qui va etre remplacer dedans. */
@@ -68,19 +86,10 @@ void	ms_set_env(char **env, char *value)
 {
 	int		i;
 	char	**arg;
-	char	**split;
 
 	i = 0;
 	arg = ft_split(value, '=');
-	while (env[i])
-	{
-		split = ft_split(env[i], '=');
-		if (ft_strcmp(split[0], arg[0]) == 0)
-			break ;
-		i++;
-		ft_free_tab(split);
-	}
-	ft_free_tab(split);
+	i = env_compare(env, arg, i);
 	if (env[i] == NULL)
 	{
 		g_msh.env = ms_matrix_add_line(env, value);

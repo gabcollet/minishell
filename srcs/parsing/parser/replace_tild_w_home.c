@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:53:28 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/23 15:09:18 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/26 15:25:55 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,27 +37,26 @@ t_token	*ms_expand_tild(t_token *token, t_parser *parser)
 char	*replace_tild_w_home(char *token)
 {
 	char	*temp;
-	int		index;
 	char	*home;
 	int		i;
 	int		j;
 
-	index = 0;
 	i = 0;
 	home = ms_get_varenv(g_msh.env, "HOME");
 	if (home == NULL)
 		home = ft_strdup("~");
 	temp = ft_calloc(tild_counter(token) * ft_strlen(home) + 1, sizeof(char));
-	while (token[index])
+	while (*token)
 	{
 		j = 0;
-		if (token[index] == '~')
+		if (*token == '~')
 		{
 			while (home[j])
 				temp[i++] = home[j++];
-			index ++;
+			token++;
 		}
-		temp[i++] = token[index++];
+		else
+			temp[i++] = *(token++);
 	}
 	free(home);
 	return (temp);

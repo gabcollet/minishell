@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 16:09:22 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/25 16:16:05 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/26 15:31:44 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ int	ms_builtins(char **arg, int i, t_job *job)
 	}
 	if (i == 0)
 		return (0);
+	free_exit(job);
 	exit(0);
 }
