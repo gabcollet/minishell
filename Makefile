@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+         #
+#    By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/17 19:56:08 by gcollet           #+#    #+#              #
-#    Updated: 2021/11/25 12:17:32 by jbadia           ###   ########.fr        #
+#    Updated: 2021/11/26 15:49:16 by gcollet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,7 +87,7 @@ ${PROG}:	${OBJS}
 ${OBJPATH}%.o:%.c
 					@gcc ${CFLAGS} ${HEADER} -o $@ -c $<
 
-linux:	${OBJS}
+linux:	build-repo ${OBJS}
 					@make re -C ./libft
 					@stty -echoctl
 					@$(CC) ${OBJS} -Llibft -l ft -o ${PROG} -lreadline
