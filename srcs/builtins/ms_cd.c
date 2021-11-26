@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 14:34:34 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/23 14:14:48 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/26 14:57:40 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	ms_cd(char *arg)
 	getcwd(c, sizeof(c));
 	if (chdir(arg) == -1)
 	{
+		if (arg[0] == '\0')
+			return (1);
 		ft_putstr_fd("cd: ", 2);
 		ft_putstr_fd(arg, 2);
 		ft_putendl_fd(": No such file or directory", 2);
