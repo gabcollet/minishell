@@ -6,13 +6,13 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/24 11:45:51 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/26 14:32:45 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute(char **cmd)
+void	execute(char **cmd, t_job *job)
 {
 	char	*path;
 
@@ -20,13 +20,13 @@ void	execute(char **cmd)
 	if (ft_strchr(cmd[0], '/') != NULL)
 	{
 		if (access(cmd[0], F_OK) == 0)
-			error(cmd[0], 2);
-		error(cmd[0], 1);
+			error(cmd[0], 2, job);
+		error(cmd[0], 1, job);
 	}
-	path = find_path(cmd[0]);
+	path = find_path(cmd[0], job);
 	if (path && (execve(path, cmd, g_msh.env) == -1))
-		error(cmd[0], 0);
-	error(cmd[0], 0);
+		error(cmd[0], 0, job);
+	error(cmd[0], 0, job);
 }
 
 void	child_process(t_job *job, t_job *first)
@@ -47,7 +47,7 @@ void	child_process(t_job *job, t_job *first)
 		close(job->fd[1]);
 		free_fd(first);
 		if (job->cmd && ms_builtins(job->cmd, 1, job) == 1)
-			execute(job->cmd);
+			execute(job->cmd, first);
 	}
 	if (job->previous != NULL)
 		close(job->previous->fd[0]);

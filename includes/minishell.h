@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/26 10:54:59 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/26 14:41:29 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,16 +153,16 @@ int		ms_unset(char **arg);
 char	**ms_unset_remove(char **env, char *arg);
 
 //exec.c
-void	execute(char **arg);
+void	execute(char **arg, t_job *job);
 void	child_process(t_job *job, t_job	*first);
 int		ms_exec_builtins(t_job *job);
 void	ms_exec(t_job *job);
 
 //exec_utils.c
-void	error(char *arg, int i);
+void	error(char *arg, int i, t_job *job);
 int		open_file(char *argv, int i, int quit);
 int		find_path_env(void);
-char	*find_path(char *cmd);
+char	*find_path(char *cmd, t_job *job);
 void	free_fd(t_job *first);
 
 //exec_redir.c
@@ -174,7 +174,7 @@ int		check_heredoc(char **redir, int stdin_fd, t_job *job);
 void	init_pipe(t_job *job);
 int		make_heredocs(t_job *job);
 int		redir_heredoc(char *limiter, int fd, t_job *job);
-void	heredoc(char *limiter, int *fd);
+void	heredoc(char *limiter, int *fd, t_job *job);
 
 //signal.c
 void	ctrl_c(int var);

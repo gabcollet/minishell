@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 10:15:25 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/22 10:12:54 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/26 14:41:14 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,7 @@ int	redir_heredoc(char *limiter, int fd, t_job *job)
 	pipe(new_fd);
 	pid = fork();
 	if (pid == 0)
-	{
-		heredoc(limiter, new_fd);
-		free_exit(job);
-	}
+	heredoc(limiter, new_fd, job);
 	waitpid(pid, &wstatus, 0);
 	signal(SIGINT, newline);
 	if (WIFEXITED(wstatus))
@@ -66,7 +63,7 @@ int	redir_heredoc(char *limiter, int fd, t_job *job)
 	return (0);
 }
 
-void	heredoc(char *limiter, int *fd)
+void	heredoc(char *limiter, int *fd, t_job *job)
 {
 	char	*line;
 
@@ -85,6 +82,7 @@ void	heredoc(char *limiter, int *fd)
 		line = readline("> ");
 	}
 	free(line);
+	free_exit(job);
 	exit(EXIT_SUCCESS);
 }
 

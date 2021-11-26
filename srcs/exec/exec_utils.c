@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 11:37:01 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/24 11:09:29 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/26 14:33:15 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	error(char *arg, int i)
+void	error(char *arg, int i, t_job *job)
 {
 	if (i == 0)
 	{
@@ -25,8 +25,10 @@ void	error(char *arg, int i)
 	else if (i == 2)
 	{
 		printf("minishell: %s: is a directory\n", arg);
+		free_exit(job);
 		exit(126);
 	}
+	free_exit(job);
 	exit (127);
 }
 
@@ -63,7 +65,7 @@ int	find_path_env(void)
 	return (i);
 }
 
-char	*find_path(char *cmd)
+char	*find_path(char *cmd, t_job *job)
 {
 	char	**paths;
 	char	*path;
@@ -72,7 +74,7 @@ char	*find_path(char *cmd)
 	path = NULL;
 	i = find_path_env();
 	if (g_msh.env[i] == NULL)
-		error(cmd, 1);
+		error(cmd, 1, job);
 	paths = ft_split(g_msh.env[i] + 5, ':');
 	i = -1;
 	while (paths[++i])
