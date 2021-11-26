@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:08:24 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/25 16:12:52 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/26 14:18:32 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,14 @@ char	*ms_get_env(char **env, char *arg)
 	{
 		split = ft_split(env[i], '=');
 		if (ft_strcmp(split[0], arg) == 0)
+		{
+			ft_free_tab(split);
 			break ;
+		}
 		else
 			i++;
 		ft_free_tab(split);
 	}
-	ft_free_tab(split);
 	if (env[i] == NULL)
 		return (NULL);
 	return (env[i]);
