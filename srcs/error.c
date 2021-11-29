@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 10:57:23 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/19 11:00:42 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/29 12:31:33 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 void	ms_error_quote(t_parser *parser)
 {
 	if (parser->state == S_QUOTE)
-		ft_putstr_fd(ERR_QUOTE_S, 1);
+		ft_putendl_fd(ERR_QUOTE_S, 1);
 	else
-		ft_putstr_fd(ERR_QUOTE_D, 1);
+		ft_putendl_fd(ERR_QUOTE_D, 1);
 	g_msh.ret_exit = 1;
 }
 
