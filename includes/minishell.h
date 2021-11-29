@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/26 15:14:10 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/29 12:25:28 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ typedef struct s_token
 typedef struct s_parser
 {
 	char	*str_line;
-	size_t	index;
+	int	index;
 	t_state	state;
 	t_state	quote_state;
 }				t_parser;
@@ -224,10 +224,10 @@ bool	empty_str(char *str);
 char	*ms_trim_space(char *str);
 
 //parser_utils.c
-bool	tokenize_redir(t_parser *parser, t_token *token);
+t_token	*tokenize_redir(t_parser *parser, t_token *token);
 void	change_state(t_parser *parser, t_token *token);
 void	change_state_2(t_parser *parser, t_token *token, int i);
-bool	tokenize_string(t_token *token);
+t_token	*tokenize_string(t_token *token);
 
 //ms_quote.c
 int		ms_find_close_quote(t_parser *parser, char quote);
@@ -253,7 +253,7 @@ void	ms_token_addback(t_token **token, t_token *new_tok);
 t_token	*ms_head_list(t_token *token);
 
 //token_utils
-bool	ms_get_token(t_parser *parser, t_token *token);
+t_token	*ms_get_token(t_parser *parser, t_token *token);
 char	*ms_get_next_tok(t_parser *parser, char *temp);
 t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token);
 

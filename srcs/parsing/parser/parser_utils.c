@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 10:27:40 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/18 10:35:52 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/29 12:23:27 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*Enregistre les credir et les pipes dans leur propre token*/
-bool	tokenize_redir(t_parser *parser, t_token *token)
+t_token	*tokenize_redir(t_parser *parser, t_token *token)
 {
 	char	*temp;
 
@@ -35,7 +35,7 @@ bool	tokenize_redir(t_parser *parser, t_token *token)
 	else if (temp[0] == '>')
 		token->type = REDIR_R;
 	free (temp);
-	return (true);
+	return (token);
 }
 
 /*state machine permettant de gérer les quotes et l'expansion du $*/
@@ -78,8 +78,8 @@ void	change_state_2(t_parser *parser, t_token *token, int i)
 }
 
 /*Donne le type string au token passé en paramètre*/
-bool	tokenize_string(t_token *token)
+t_token	*tokenize_string(t_token *token)
 {
 	token->type = STRING;
-	return (true);
+	return (token);
 }

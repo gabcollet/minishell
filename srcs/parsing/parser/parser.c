@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:55:40 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/22 11:19:07 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/29 13:16:52 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,11 @@ void	token_to_tab(t_token *token, t_job *job)
 t_job	*ms_parsing(char *line, t_job *job_first)
 {
 	char		*temp;
-	t_token		*first;
 	t_token		*token;
 	t_parser	*parser;
 
 	token = ms_token_newlst(NULL);
 	parser = ft_calloc(1, sizeof(t_parser));
-	first = token;
 	temp = ms_trim_space(line);
 	while (!empty_str(temp))
 	{
@@ -71,14 +69,16 @@ t_job	*ms_parsing(char *line, t_job *job_first)
 			ms_add_tok_to_lst(parser, token);
 			token = token->next;
 			temp = ms_get_next_tok(parser, temp);
+			continue ;
 		}
+		free(temp);
+		return (NULL);
 	}
 	free(temp);
-	if (!valid_syntax(first))
+	if (!valid_syntax(ms_head_list(token)))
 		return (NULL);
-	token = ms_expand_tild(first, parser);
-	ms_head_list(first);
-	return (ms_job(job_first, first));
+	token = ms_expand_tild(ms_head_list(token), parser);
+	return (ms_job(job_first, ms_head_list(token)));
 }
 
 /*Vérifie si la chaine est vide*/

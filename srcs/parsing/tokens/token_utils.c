@@ -6,14 +6,14 @@
 /*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 10:36:26 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/24 10:23:58 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/29 12:28:58 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*tokenize la string et renvoie vers tokenize_redir ou tokeniz_string*/
-bool	ms_get_token(t_parser *parser, t_token *token)
+t_token	*ms_get_token(t_parser *parser, t_token *token)
 {
 	if (ft_strchr(REDIRECTION, parser->str_line[parser->index]))
 	{
@@ -27,6 +27,11 @@ bool	ms_get_token(t_parser *parser, t_token *token)
 		if (parser->state != TEXT)
 		{
 			parser->index = ms_handle_quote(parser);
+			if (parser->index < 0)
+			{
+			 	free_token_lst(ms_head_list(token));
+			 	return (NULL);
+			}
 			change_state(parser, token);
 		}
 		parser->index++;
@@ -54,7 +59,7 @@ char	*ms_get_next_tok(t_parser *parser, char *temp)
 /*Copie l'input dans la struct token puis ajoute un token null à la suite*/
 t_token	*ms_add_tok_to_lst(t_parser *parser, t_token *token)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	token->str_tok = ft_calloc(parser->index + 1, sizeof(char));

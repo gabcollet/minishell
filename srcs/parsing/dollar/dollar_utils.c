@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 10:40:08 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/22 11:05:27 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/29 13:45:31 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ bool	dol_solo(char *str)
 	i = 0;
 	while (str && str[i])
 		i++;
-	if (i > 2)
-		return (false);
-	return (true);
+	if (i == 1 && str[0] == '$')
+		return (true);
+	return (false);
 }
 
 void	ms_init_dol_struct(t_dollar *dol)

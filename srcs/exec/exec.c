@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 11:33:18 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/26 15:39:23 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/29 11:01:10 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	execute(char **cmd, t_job *job)
 void	child_process(t_job *job, t_job *first)
 {
 	g_msh.switch_signal = 1;
+	signal(SIGINT, nothing);
 	job->pid = fork();
 	if (job->pid == -1)
 		printf("Dang! This fork didn't work!");

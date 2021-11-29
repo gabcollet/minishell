@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:49:24 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/26 10:55:15 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/11/29 12:34:27 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void	loop(void)
 			add_history(line);
 			job_first = ms_parsing(line, job_first);
 			free(line);
-			ms_head_list_job(job_first);
-			ms_exec(job_first);
+			if (job_first)
+				ms_exec(ms_head_list_job(job_first));
 		}
 		free_job_lst(job_first);
 	}
