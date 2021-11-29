@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/29 12:25:28 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/29 14:46:07 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ typedef struct s_token
 typedef struct s_parser
 {
 	char	*str_line;
-	int	index;
+	int		index;
 	t_state	state;
 	t_state	quote_state;
 }				t_parser;

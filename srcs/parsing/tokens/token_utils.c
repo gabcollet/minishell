@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 10:36:26 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/29 12:28:58 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/11/29 14:42:53 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ t_token	*ms_get_token(t_parser *parser, t_token *token)
 			parser->index = ms_handle_quote(parser);
 			if (parser->index < 0)
 			{
-			 	free_token_lst(ms_head_list(token));
-			 	return (NULL);
+				free_token_lst(ms_head_list(token));
+				return (NULL);
 			}
 			change_state(parser, token);
 		}
