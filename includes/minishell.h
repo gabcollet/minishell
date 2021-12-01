@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/29 14:46:07 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/12/01 10:44:30 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,7 +275,7 @@ bool	dol_solo(char *str);
 //dolars_utils2.c
 void	copy_arr_tab(t_dollar *dol);
 int		handle_dol_var(t_dollar *dol, char *temp, int index);
-void	ft_free(char *str);
+char	*ft_free(char *str);
 bool	is_spaces(char *str);
 
 //dollar.c

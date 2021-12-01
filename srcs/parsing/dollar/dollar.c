@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 10:41:33 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/25 15:59:12 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/12/01 10:49:04 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ char	*ms_get_dolenv(char *tab, int i)
 		return (temp);
 	}
 	if (!check_dol(arg))
-		return (NULL);
+		return (ft_free(arg));
 	str = ms_get_varenv(g_msh.env, arg);
 	if (!str)
-		return (NULL);
+		return (ft_free(arg));
 	temp = ft_substr(str, 0, ft_strlen(str));
 	free(arg);
 	free(str);

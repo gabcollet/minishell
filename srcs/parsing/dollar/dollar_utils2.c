@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 10:23:08 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/22 15:02:43 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/12/01 10:45:40 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,11 @@ void	copy_arr_tab(t_dollar *dol)
 	}
 }
 
-void	ft_free(char *str)
+char	*ft_free(char *str)
 {
 	if (str)
 		free(str);
+	return (NULL);
 }
 
 int	handle_dol_var(t_dollar *dol, char *temp, int index)
