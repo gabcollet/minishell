@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/12/01 10:44:30 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/12/01 14:08:57 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,9 @@ typedef struct s_msh
 {
 	char	**env;
 	char	**env_export;
-	char	**tok_tab;
 	int		ret_exit;
 	int		switch_signal;
-	int		cmd_i;
 	char	*user;
-	t_job	*job;
 }				t_msh;
 
 typedef enum e_type
@@ -275,7 +272,7 @@ bool	dol_solo(char *str);
 //dolars_utils2.c
 void	copy_arr_tab(t_dollar *dol);
 int		handle_dol_var(t_dollar *dol, char *temp, int index);
-char	*ft_free(char *str);
+void	*ft_free(void *str);
 bool	is_spaces(char *str);
 
 //dollar.c

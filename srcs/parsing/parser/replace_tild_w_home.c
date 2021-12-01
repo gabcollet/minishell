@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_tild_w_home.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:53:28 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/26 15:25:55 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/12/01 14:26:04 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,16 @@ t_token	*ms_expand_tild(t_token *token, t_parser *parser)
 	first = token;
 	temp = NULL;
 	free(parser);
-	while (token && token->str_tok && (token->state != KEEP_IT))
+	while (token && token->str_tok)
 	{
-		temp = ft_strdup(token->str_tok);
-		free(token->str_tok);
-		token->str_tok = replace_tild_w_home(temp);
+		if (token->state != KEEP_IT)
+		{
+			temp = ft_strdup(token->str_tok);
+			free(token->str_tok);
+			token->str_tok = replace_tild_w_home(temp);
+			free(temp);
+		}
 		token = token->next;
-		free(temp);
 	}
 	first = expand_dol_sign(first);
 	return (head);
