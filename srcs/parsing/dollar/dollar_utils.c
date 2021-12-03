@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 10:40:08 by jbadia            #+#    #+#             */
-/*   Updated: 2021/12/03 11:49:43 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/12/03 12:06:37 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	dol_c(char *token, t_dollar *dol)
 	int		counter;
 	char	*str;
 	int		i;
-	
+
 	i = 0;
 	while (token && token[i])
 	{
@@ -54,7 +54,7 @@ int	dol_c(char *token, t_dollar *dol)
 			{
 				counter = 0;
 				while (str[counter++])
-					dol->count++;	
+					dol->count++;
 			}
 			if (str)
 				free(str);

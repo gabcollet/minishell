@@ -6,21 +6,21 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 11:25:46 by jbadia            #+#    #+#             */
-/*   Updated: 2021/12/03 11:15:17 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/12/03 12:13:45 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*remplace le $ENV par sa variable complète et retournes la nouvelle string*/
-char	*replace_dol_w_env(char *token, t_dollar *dol)
+char	*replace_dol_w_env(char *tok, t_dollar *dol)
 {
 	char	*temp;
 	int		index;
 
 	index = 0;
-	temp = ft_strdup(token);
-	dol->str = ft_calloc((dol_c(token, dol) + ft_strlen(token + 1)), sizeof(char *));
+	temp = ft_strdup(tok);
+	dol->str = ft_calloc((dol_c(tok, dol) + ft_strlen(tok + 1)), sizeof(char));
 	dol->index = 0;
 	while (temp[index])
 	{
