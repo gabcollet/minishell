@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/12/01 14:08:57 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/12/03 11:15:51 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ typedef struct s_dollar
 	int		d_quote;
 	int		s_quote;
 	int		index;
+	int		count;
 	char	*str;
 	char	*name_var;
 	char	*var_env;
@@ -264,7 +265,7 @@ void	check_var_env(t_dollar *dol, char *temp, int i);
 
 //dollar_utils.c
 bool	is_dolsign(char *str);
-int		dol_c(char *token);
+int		dol_c(char *token, t_dollar *dol);
 bool	check_dol(char *tab);
 void	ms_init_dol_struct(t_dollar *dol);
 bool	dol_solo(char *str);

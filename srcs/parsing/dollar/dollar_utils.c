@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 10:40:08 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/29 13:45:31 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/12/03 11:49:43 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,32 @@ bool	check_dol(char *tab)
 }
 
 /*retourne la longueur de la variable d'env*/
-int	dol_c(char *token)
+int	dol_c(char *token, t_dollar *dol)
 {
 	int		counter;
 	char	*str;
 	int		i;
-
+	
 	i = 0;
-	counter = 0;
 	while (token && token[i])
 	{
 		if (ft_strchr("$", token[i]))
 		{
 			str = ms_get_dolenv(token, i);
 			if (!str)
-				return (1);
-			while (str[counter])
-				counter++;
+				dol->count++;
+			else
+			{
+				counter = 0;
+				while (str[counter++])
+					dol->count++;	
+			}
 			if (str)
 				free(str);
 		}
 		i++;
 	}
-	return (counter + i);
+	return (dol->count + i);
 }
 
 /*vérifie si la string contient un dollar sign*/
@@ -95,6 +98,7 @@ void	ms_init_dol_struct(t_dollar *dol)
 	dol->d_quote = 0;
 	dol->s_quote = 0;
 	dol->index = 0;
+	dol->count = 0;
 	dol->str = NULL;
 	dol->name_var = NULL;
 	dol->var_env = NULL;
