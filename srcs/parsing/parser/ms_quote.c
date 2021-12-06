@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_quote.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:58:34 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/29 12:04:38 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/12/06 11:22:50 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_token	*ms_trim_quotes(t_token *token)
 		{
 			ms_init_quote_struct(quote);
 			quote->temp = ft_calloc(ft_strlen(token->str_tok) + 1,
-					sizeof(char *));
+					sizeof(char*));
 			quote_trimmer(quote, token);
 			free(token->str_tok);
 			token->str_tok = ft_strdup(quote->temp);

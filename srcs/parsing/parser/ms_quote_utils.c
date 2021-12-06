@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 09:43:54 by jbadia            #+#    #+#             */
-/*   Updated: 2021/11/19 10:35:34 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/12/06 11:24:01 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ms_init_quote_struct(t_quote *quote)
 	quote->i = 0;
 	quote->j = 0;
 	quote->check = 0;
+	quote->temp = NULL;
 }
 
 void	quote_updater(t_quote *quote)

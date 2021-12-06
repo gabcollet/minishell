@@ -6,7 +6,7 @@
 /*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 11:25:46 by jbadia            #+#    #+#             */
-/*   Updated: 2021/12/03 12:13:45 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/12/06 11:21:41 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*replace_dol_w_env(char *tok, t_dollar *dol)
 
 	index = 0;
 	temp = ft_strdup(tok);
-	dol->str = ft_calloc((dol_c(tok, dol) + ft_strlen(tok + 1)), sizeof(char));
+	dol->str = ft_calloc((dol_c(tok, dol) + ft_strlen(tok)), sizeof(char));
 	dol->index = 0;
 	while (temp[index])
 	{
