@@ -6,7 +6,7 @@
 /*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:10:20 by gcollet           #+#    #+#             */
-/*   Updated: 2021/11/17 11:27:52 by gcollet          ###   ########.fr       */
+/*   Updated: 2021/12/06 16:16:31 by gcollet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	ms_check_unset_arg(char *arg)
 		return (1);
 	}
 	i++;
-	while (arg[i] && arg[i] != '=')
-	{
-		if (ft_isalnum(arg[i]) == 0 && arg[i] != '_')
+	while (arg[i])
+	{	
+		if ((ft_isalnum(arg[i]) == 0 && arg[i] != '_') || arg[i] == '=')
 		{
 			printf("unset: '%s': not a valid identifier\n", arg);
 			return (1);
