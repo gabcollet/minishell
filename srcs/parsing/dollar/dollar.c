@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 10:41:33 by jbadia            #+#    #+#             */
-/*   Updated: 2021/12/06 11:25:00 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/12/08 10:51:44 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*get_arg(char *tab, int i)
 
 	k = 0;
 	is_dol = 0;
-	arg = ft_calloc(100, sizeof(char *));
+	arg = ft_calloc(arg_len(tab, i) + 1, sizeof(char *));
 	while (tab[i] && is_dol < 1)
 	{
 		if (ft_strchr("$", tab[i]))
@@ -85,7 +85,10 @@ t_token	*expand_dol_sign(t_token *token)
 		temp = ft_strdup(token->str_tok);
 		free(token->str_tok);
 		token->str_tok = replace_dol_w_env(temp, dol);
+		if (dol->type == VOID)
+			token->dol = LOSE_IT;
 		token = token->next;
+		dol->type = STATE;
 		free(temp);
 	}
 	first = ms_trim_quotes(first);

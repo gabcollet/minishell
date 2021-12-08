@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 14:48:36 by gcollet           #+#    #+#             */
-/*   Updated: 2021/12/03 11:15:51 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/12/08 10:47:08 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef enum e_type
 	REDIR_R,
 	HERE_DOC_L,
 	APPEND,
+	STATE,
 }				t_type;
 
 typedef enum e_state
@@ -72,6 +73,7 @@ typedef enum e_state
 	S_QUOTE,
 	D_QUOTE,
 	KEEP_IT,
+	LOSE_IT,
 }				t_state;
 
 typedef struct s_token
@@ -79,6 +81,7 @@ typedef struct s_token
 	struct s_token	*previous;
 	t_type			type;
 	t_state			state;
+	t_state			dol;
 	char			*str_tok;
 	struct s_token	*next;
 }				t_token;
@@ -99,6 +102,7 @@ typedef struct s_dollar
 	int		s_quote;
 	int		index;
 	int		count;
+	t_type	type;
 	char	*str;
 	char	*name_var;
 	char	*var_env;
@@ -275,6 +279,7 @@ void	copy_arr_tab(t_dollar *dol);
 int		handle_dol_var(t_dollar *dol, char *temp, int index);
 void	*ft_free(void *str);
 bool	is_spaces(char *str);
+int		arg_len(char *tab, int i);
 
 //dollar.c
 t_token	*expand_dol_sign(t_token *token);

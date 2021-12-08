@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 16:55:40 by jbadia            #+#    #+#             */
-/*   Updated: 2021/12/01 14:02:20 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/12/08 10:25:11 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	token_to_tab(t_token *token, t_job *job)
 	int	i;
 	int	counter;
 
+	if (token->dol == LOSE_IT)
+		return ;
 	if (!job->cmd)
 	{
 		counter = counter_string(token);

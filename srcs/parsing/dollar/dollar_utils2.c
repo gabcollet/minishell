@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 10:23:08 by jbadia            #+#    #+#             */
-/*   Updated: 2021/12/01 13:59:06 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/12/08 11:04:32 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,27 @@ bool	is_spaces(char *str)
 	if (spaces != 0)
 		return (true);
 	return (false);
+}
+
+int	arg_len(char *tab, int i)
+{
+	int	k;
+	int	is_dol;
+
+	k = 0;
+	is_dol = 0;
+	while (tab[i] && is_dol < 1)
+	{
+		if (ft_strchr("$", tab[i]))
+		{
+			while (is_to_expend(tab, i))
+			{
+				k++;
+				i++;
+			}
+			is_dol = 1;
+		}
+		i++;
+	}
+	return (k);
 }

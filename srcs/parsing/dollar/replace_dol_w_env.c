@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replace_dol_w_env.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbadia <jbadia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jbadia <jbadia@student.42quebec.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 11:25:46 by jbadia            #+#    #+#             */
-/*   Updated: 2021/12/06 11:21:41 by jbadia           ###   ########.fr       */
+/*   Updated: 2021/12/08 10:03:52 by jbadia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,17 @@ void	check_var_env(t_dollar *dol, char *temp, int i)
 	j = 0;
 	dol->var_env = ms_get_dolenv(temp, i);
 	if (dol->var_env && dol->s_quote == 0 && dol->d_quote == 0)
+	{
 		copy_arr_tab(dol);
+		dol->type = STRING;
+	}	
 	else if (dol->var_env)
 	{
 		while (dol->var_env[j])
 			dol->str[dol->index++] = dol->var_env[j++];
+		dol->type = STRING;
 	}
+	if (!dol->var_env && dol->type != STRING)
+		dol->type = VOID;
 	free(dol->var_env);
 }
