@@ -2,6 +2,8 @@
 My own shell made in C!<br/>
 I made this little shell based on bash in partnership with Justine Badia.<br/>
 
+![Alt Text](https://s10.gifyu.com/images/minishell_gif.gif)
+
 # What can it do? :
 - Show a prompt when waiting for a new command.<br/>
 - Have a working History.<br/>
